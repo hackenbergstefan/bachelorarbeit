@@ -1,0 +1,35 @@
+\BOOKMARK [0][-]{chapter*.1}{Einleitung}{}% 1
+\BOOKMARK [-1][-]{part.1}{Elliptische Kurven \205 Theoretische Resultate}{}% 2
+\BOOKMARK [0][-]{chapter.1}{Grundlegendes \374ber affine und projektive Variet\344ten}{part.1}% 3
+\BOOKMARK [1][-]{section.1.1}{\334ber affine Variet\344ten}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.2}{\334ber projektive Variet\344ten}{chapter.1}% 5
+\BOOKMARK [0][-]{chapter.2}{Divisoren}{part.1}% 6
+\BOOKMARK [1][-]{section.2.1}{Grundlegendes}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.2}{Der Satz von Riemann-Roch}{chapter.2}% 8
+\BOOKMARK [0][-]{chapter.3}{Elliptische Kurven}{part.1}% 9
+\BOOKMARK [1][-]{section.3.1}{Elliptische Kurven und Weierstra\337-Gleichungen}{chapter.3}% 10
+\BOOKMARK [1][-]{section.3.2}{Gruppenstruktur}{chapter.3}% 11
+\BOOKMARK [2][-]{subsection.3.2.1}{Beweis der Gruppenstruktur}{section.3.2}% 12
+\BOOKMARK [1][-]{section.3.3}{Divisoren auf elliptischen Kurven}{chapter.3}% 13
+\BOOKMARK [0][-]{chapter.4}{Die Weil-Paarung}{part.1}% 14
+\BOOKMARK [1][-]{section.4.1}{Konstruktion der Weil-Paarung}{chapter.4}% 15
+\BOOKMARK [1][-]{section.4.2}{Alternative Definition und Konstruktion der Weil-Paarung}{chapter.4}% 16
+\BOOKMARK [1][-]{section.4.3}{Vertr\344glichkeit der Definitionen}{chapter.4}% 17
+\BOOKMARK [1][-]{section.4.4}{Beweis der Eigenschaften der Weil-Paarung}{chapter.4}% 18
+\BOOKMARK [0][-]{chapter.5}{Elliptische Kurven \374ber Fq}{part.1}% 19
+\BOOKMARK [1][-]{section.5.1}{Schoofs Idee}{chapter.5}% 20
+\BOOKMARK [1][-]{section.5.2}{Divisions-Polynome}{chapter.5}% 21
+\BOOKMARK [1][-]{section.5.3}{Schoofs Algorithmus}{chapter.5}% 22
+\BOOKMARK [-1][-]{part.2}{Elliptische Kurven \205 Anwendungen in der Kryptographie}{}% 23
+\BOOKMARK [0][-]{chapter.6}{Effiziente Berechnung der Weil-Paarung}{part.2}% 24
+\BOOKMARK [0][-]{chapter.7}{Elliptic Curve Cryptography \(ECC\)}{part.2}% 25
+\BOOKMARK [1][-]{section.7.1}{Public-Key-Kryptographie}{chapter.7}% 26
+\BOOKMARK [1][-]{section.7.2}{ECC}{chapter.7}% 27
+\BOOKMARK [0][-]{chapter.8}{Algorithmen f\374r das \(EC\)DLP und deren Komplexit\344t}{part.2}% 28
+\BOOKMARK [1][-]{section.8.1}{Pollards -Algorithmus}{chapter.8}% 29
+\BOOKMARK [1][-]{section.8.2}{Die Index-Calculus Methode}{chapter.8}% 30
+\BOOKMARK [0][-]{chapter.9}{Der MOV-Angriff}{part.2}% 31
+\BOOKMARK [1][-]{section.9.1}{Reduktion des ECDLP auf das DLP in einem endlichen K\366rper}{chapter.9}% 32
+\BOOKMARK [1][-]{section.9.2}{Anwendung auf supersingul\344re elliptische Kurven}{chapter.9}% 33
+\BOOKMARK [0][-]{chapter.10}{Fazit / Ausblicke}{part.2}% 34
+\BOOKMARK [0][-]{appendix.A}{Quellcodes}{part.2}% 35

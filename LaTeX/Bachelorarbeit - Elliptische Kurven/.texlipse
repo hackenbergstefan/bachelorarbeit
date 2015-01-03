@@ -1,0 +1,14 @@
+#TeXlipse project settings
+#Fri Nov 02 17:25:57 CET 2012
+markTmpDer=true
+builderNum=2
+outputDir=
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=tmp
+mainTexFile=document.tex
+outputFile=Bachelorarbeit - Weil-Paarung und Kryptographie.pdf
+langSpell=de
+markDer=true
+srcDir=

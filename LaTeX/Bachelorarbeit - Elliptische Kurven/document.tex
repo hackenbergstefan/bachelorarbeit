@@ -1,0 +1,3576 @@
+%% Basierend auf einer TeXnicCenter-Vorlage von Mark Müller
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Wählen Sie die Optionen aus, indem Sie % vor der Option entfernen  
+% Dokumentation des KOMA-Script-Packets: scrguide
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Optionen zum Layout des Artikels                                  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[%
+%a5paper,							% alle weiteren Papierformat einstellbar
+%landscape,						% Querformat
+%10pt,								% Schriftgröße (12pt, 11pt (Standard))
+%BCOR1cm,							% Bindekorrektur, bspw. 1 cm
+%DIVcalc,							% führt die Satzspiegelberechnung neu aus
+%											  s. scrguide 2.4
+%twoside,							% Doppelseiten
+%twocolumn,						% zweispaltiger Satz
+halfparskip*,				% Absatzformatierung s. scrguide 3.1
+%headsepline,					% Trennline zum Seitenkopf	
+%footsepline,					% Trennline zum Seitenfuß
+titlepage,						% Titelei auf eigener Seite
+%normalheadings,			% Überschriften etwas kleiner (smallheadings)
+%idxtotoc,						% Index im Inhaltsverzeichnis
+%liststotoc,					% Abb.- und Tab.verzeichnis im Inhalt
+bibtotoc,						% Literaturverzeichnis im Inhalt
+%abstracton,					% Überschrift über der Zusammenfassung an	
+%leqno,   						% Nummerierung von Gleichungen links
+%fleqn,								% Ausgabe von Gleichungen linksbündig
+%draft								% überlangen Zeilen in Ausgabe gekennzeichnet
+DIV = 15,
+headsepline,
+openany,
+BCOR=0.8cm,
+pointlessnumbers				%keine Punkte nach Überschriften
+]
+{scrbook}
+
+
+
+%% Deutsche Anpassungen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[ansinew]{inputenc}
+
+\usepackage{lmodern} %Type1-Schriftart für nicht-englische Texte
+
+\usepackage{amsmath,amssymb,amsthm}
+
+\usepackage{enumitem,listliketab}
+\setlist[enumerate]{label=(\arabic*)}
+
+
+%% Packages für Grafiken & Abbildungen %%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx} %%Zum Laden von Grafiken
+%\usepackage{subfig} %%Teilabbildungen in einer Abbildung
+\usepackage{tikz-cd} %%PSTricks - nicht verwendbar mit pdfLaTeX
+\usepackage[colorlinks=false, pdfborder={0 0 0}]{hyperref}
+\usepackage[nameinlink,german]{cleveref}
+
+\usepackage{listings}
+\usepackage[automark]{scrpage2} % Headline styles 
+\usepackage[square,numbers]{natbib}
+
+
+%% Listings setup %%%%%%%%%%%%%%%%
+\lstset{
+	mathescape = true,
+	basicstyle = \small\normalfont\sffamily,
+	frame = tb,
+	framexleftmargin = 15pt,
+%	numbers = left,
+	numberstyle = \tiny,
+%	numbersep = 5pt,
+	breaklines = true,
+	xleftmargin = 0.1\linewidth,
+	xrightmargin = 0.1\linewidth,
+	escapeinside = {(*}{*)},
+	tabsize=3,
+	morekeywords={if, and, or, is, then, else, endif, while, endwhile, for, from,
+	to, do, endfor, Input, Output, Algorithmus, return},
+	morecomment=[l]{//},
+	columns=flexible
+}
+
+
+
+
+%% Theorems %%%%%%%%%%%%%%%%%%%%%%
+
+\newtheoremstyle{plain}% name
+  {\parskip}%      Space above
+  {0.5\parskip}%      Space below
+  {\itshape}%         Body font
+  {}%         Indent amount (empty = no indent, \parindent = para indent)
+  {\sffamily\bfseries}% Thm head font
+  {.}%        Punctuation after thm head
+  {.5em}%     Space after thm head: " " = normal interword space;
+        %       \newline = linebreak
+  {}%         Thm head spec (can be left empty, meaning `normal')
+  
+\newtheoremstyle{remark}% name
+  {\parskip}%      Space above
+  {0.5\parskip}%      Space below
+  {}%         Body font
+  {}%         Indent amount (empty = no indent, \parindent = para indent)
+  {\sffamily\itshape}% Thm head font
+  {.}%        Punctuation after thm head
+  {.5em}%     Space after thm head: " " = normal interword space;
+        %       \newline = linebreak
+  {}%         Thm head spec (can be left empty, meaning `normal')
+  
+\newtheoremstyle{definition}% name
+  {\parskip}%      Space above
+  {0.5\parskip}%      Space below
+  {}%         Body font
+  {}%         Indent amount (empty = no indent, \parindent = para indent)
+  {\sffamily\bfseries}% Thm head font
+  {.}%        Punctuation after thm head
+  {.5em}%     Space after thm head: " " = normal interword space;
+        %       \newline = linebreak
+  {}%         Thm head spec (can be left empty, meaning `normal')
+  
+  
+  
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}[chapter]
+\newtheorem{lemma}[satz]{Lemma}
+\newtheorem{kor}[satz]{Korollar}
+\newtheorem{prop}[satz]{Proposition}
+\newtheorem{algorithmus}[satz]{Algorithmus}
+
+%Custom theorems
+\makeatletter
+\newenvironment{plainthm}[1]{\let\plthm\@undefined
+\newtheorem{plthm}[satz]{#1} \begin{plthm}}{\end{plthm}}
+\makeatother
+
+\theoremstyle{remark}
+\newtheorem{bem}[satz]{Bemerkung}
+\newtheorem{bsp}[satz]{Beispiel}
+
+\theoremstyle{definition}
+\newtheorem{definition}[satz]{Definition}
+\newtheorem{deflemma}[satz]{Definition/Lemma}
+
+
+%% Autoref Names %%%%%%%%%%%%%%%%%
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{equation}{Gleichung}{Gleichungen}
+\crefname{definition}{Definition}{Definitionen}
+\crefname{algorithmus}{Algorithmus}{Algorithmen}
+\crefname{kor}{Korollar}{Korollare}
+
+%% Amsmath options %%%%%%%%%%%%%%%%%
+\numberwithin{equation}{chapter}
+\allowdisplaybreaks
+
+
+%% Makros %%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\A}{\ensuremath \mathbb{A}}
+\newcommand{\R}{\ensuremath \mathbb{R}}
+\newcommand{\N}{\ensuremath \mathbb{N}}
+\newcommand{\Q}{\ensuremath \mathbb{Q}}
+\newcommand{\Z}{\ensuremath \mathbb{Z}}
+\newcommand{\C}{\ensuremath \mathbb{C}}
+\newcommand{\F}{\ensuremath \mathbb{F}}
+\renewcommand{\P}{\ensuremath \mathbb{P}}
+\newcommand{\Kb}{\ensuremath \overline K}
+\renewcommand{\O}{\ensuremath \mathcal{O}}
+\renewcommand{\L}{\ensuremath \mathcal{L}}
+\renewcommand{\l}{\ensuremath \ell}
+\newcommand{\m}{\ensuremath \mathfrak{m}}
+\newcommand{\speq}[1]{\ #1\ }
+\newcommand{\const}{\ensuremath \mathrm{const}}
+\newcommand{\divp}[1]{\ensuremath [#1]} %Divisorpunkt
+\newcommand{\probn}[1]{{\sffamily #1}} %Problem Name
+
+\let\div\undefined
+\DeclareMathOperator{\charak}{char}
+\DeclareMathOperator{\div}{div}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\summ}{sum}
+\DeclareMathOperator{\comp}{\circ}
+\DeclareMathOperator{\ggT}{ggT}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\Div0}{Div^0}
+\DeclareMathOperator{\Divv}{Div}
+\DeclareMathOperator{\Pic0}{Pic^0}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\End}{End}
+
+%% Others  %%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\?}{{\huge \color{red} ?}}
+\newcommand{\TODO}{{\sffamily\bfseries\large \color{red} TODO}}
+
+\newcommand{\overbox}[2]{\ensuremath\begin{array}[b]{c}%
+\makebox[0pt]{\fbox{\scriptsize#2}}\\[-2pt]\text{\small$\downarrow$}\\[-3pt]%
+{\displaystyle#1}\end{array}}%
+
+\let\marginparold\marginpar
+\renewcommand{\marginpar}[1]{\marginparold{\scriptsize\sffamily #1}}
+
+%% Bibliographiestil %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{natbib}
+
+
+
+\pagestyle{scrheadings}
+
+\begin{document}
+
+%% Trennungen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\hyphenation{Grund-idee}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frontmatter
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Ihr Artikel                                                       %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% eigene Titelseitengestaltung %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+\begin{titlepage}
+\thispagestyle{empty}
+\newcommand{\Rule}{\rule{\textwidth}{1mm}}
+\begin{center}\sffamily\bfseries
+\LARGE Bachelorarbeit
+\vfill
+\Rule\vspace{5mm}
+\Huge
+Weil-Paarung \\
+und\\
+Kryptographie
+\vspace{1mm}\Rule
+\vfill
+\normalfont\sffamily\large vorgelegt von\par
+\bfseries\LARGE Stefan Hackenberg
+\vfill
+\normalfont\sffamily\large am\\
+\bfseries\Large Institut für Mathematik\\
+\normalfont\sffamily\large der\\
+\bfseries\Large Universität Augsburg
+\vfill
+\normalfont\sffamily\large betreut durch \\
+\bfseries\Large Prof. Dr. Marco Hien \par
+\vfill
+\normalfont\sffamily\large abgegeben am \\
+\bfseries\Large 7. November 2012
+\end{center}
+\end{titlepage}
+
+
+%% Angaben zur Standardformatierung des Titels %%%%%%%%%%%%%%%%%%%%%%%%
+%\titlehead{Titelkopf }
+\subject{\large Bachelorarbeit}
+\title{\Huge Weil-Paarung und Kryptographie}
+%\subtitle{Grundlegende Resultate zu elliptischen Kurven, Konstruktionen und
+%Eigenschaften der Weil-Paarung, ein
+%algorithmischer Überblick zu elliptischen Kurven in der Kryptographie und die
+%kryptographische Anwendung der Weil-Paarung mit Hilfe des MOV-Algorithmus}
+\author{\vspace*{2cm}\\\normalsize von\\\Large Stefan Hackenberg}
+%\and{Der Name des Co-Autoren}
+%\thanks{Fußnote}			% entspr. \footnote im Fließtext
+%\date{}							% falls anderes, als das aktuelle gewünscht
+\publishers{{\small geschrieben an der} \\ Universität Augsburg}
+
+%% Widmungsseite %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\dedication{Widmung}
+
+%\maketitle 						% Titelei wird erzeugt
+
+%% Zusammenfassung nach Titel, vor Inhaltsverzeichnis %%%%%%%%%%%%%%%%%
+%\begin{abstract}
+% Für eine kurze Zusammenfassung des folgenden Artikels.
+% Für die Überschrift s. \documentclass[abstracton].
+%\end{abstract}
+
+\cleardoubleemptypage
+
+
+
+%% Der Text %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter{Einleitung}
+
+Wir müssen ungefähr ins zweite Jahrhundert nach Christus zurück gehen, um die
+Ursprünge \emph{elliptischer Kurven} festmachen zu können: Nach Alexandrien, zu
+dem wohl bedeutendsten Algebraiker der Antike: Diophant. Er hat unter anderem
+kubische Gleichungen untersucht und zu Tage gebracht, dass man, falls zwei
+Lösungen bekannt sind, eine dritte "`produzieren"' kann, indem er eine Gerade
+durch die beiden bekannten Lösungen legte und herausfand, dass es dann meistens
+einen dritten Schnittpunkt gibt. Doch erst hunderte von Jahren später entdeckte
+man, dass sich durch leichte Veränderung an diesem Verfahren eine
+abelsche Gruppenstruktur offenbart, was wir im Detail in \cref{sec:Gruppenstruktur}
+besprechen werden (Einen ausführlicheren Artikel über die Geschichte von
+elliptischen Kurven findet man in \cite{hewittHistory}). Mit einer immer
+digitaler werdenden Welt haben insbesondere Miller
+\cite{Miller1986EllipticCurvesInCryptography} und Koblitz
+\cite{koblitzElliptic} mitte der 1980er Jahre vorgeschlagen, elliptische Kurven
+in der Kryptographie einzusetzen, da sie im Allgemeinen sicherer sind als
+z.B. Verschlüsselungen über endlichen Körpern $\F_q$, in denen
+Verfahren (\cref{sec:index-calc}) mit "`guter"' Laufzeit, d.h.
+subexponentiell, existieren. Einen gewissen Höhepunkt hat die Bedeutung
+elliptischer Kurven in den 90er Jahren erlebt, als sie eine zentrale Rolle im
+Beweis vom großen Fermatschen Satz (engl. Fermat's last theorem) 1995 durch
+Andrew Wiles und Richard Taylor spielte. Darauf soll in dieser Arbeit jedoch
+nicht eingegangen werden.
+
+Diese Arbeit ist gegliedert in zwei große Teile. Zunächst wollen wir uns
+durch einen eher theoretischen Teil arbeiten und den Begriff \emph{elliptische
+Kurve} im Sinne der algebraischen Geometrie als \emph{nichstsinguläre projektive
+Varietät von Geschlecht eins} kennen lernen. Anschließend werden wir --
+nahezu unabhängig vom ersten Abschnitt -- das Konzept der \emph{Divisoren}
+einführen, welche eine elegante Möglichkeit bieten werden, die oben erwähnte
+Gruppenstruktur auf elliptischen Kurven zu beweisen (\cref{subsec:beweis der
+gruppenstruktur}).
+
+Die Kernidee der Arbeit wird in \cref{chap:weil-paarung}
+vorgestellt, wo wir die \emph{Weil-Paarung} kennen lernen werden, eine
+Abbildung, welche gewisse Punkte auf elliptischen Kurven auf Einheitswurzeln des
+Grundkörpers schickt. Diese Paarung wird auch des Pudels Kern des
+\emph{MOV-Angriffes} (nach \citeauthor*{MOV1993}) in \cref{chap:mov angriff}
+sein, mit dem wir uns zuletzt beschäftigen wollen.
+Sie lässt sich auf zwei verschiedene Wege konstruieren, welche ich
+\emph{beide} vorstellen möchte. Wir werden im zweiten Teil zwar nur die Variante
+von Miller \cite{miller2004WeilPairing} brauchen, jedoch findet sich in vielen
+Büchern die erste wieder. Daher war es meine Intention, an dieser Stelle
+besonders ausführlich zu sein und auch einen Beweis zu geben, dass beide
+Varianten miteinander verträglich sind.
+
+Den letzten Abschnitt des
+ersten Teils (\cref{chap:elliptische kurven über F_q}) möge ein kurzer Überblick
+über elliptische Kurven über endlichen Körpern bilden, wobei wir insbesondere
+auf den \emph{Schoof-Algorithmus} eingehen wollen, welcher in polynomialer Zeit
+in der Lage ist, die Kardinalität der oben erwähnten abelschen Gruppe einer
+elliptischen Kurve zu berechnen.
+
+Sicherlich könnte man an diesem Punkt -- vielleicht mehr als an allen anderen --
+ansetzen und einen anderen Weg wählen, z.B. genauer auf Schoofs Algorithmus
+eingehen oder eine bessere Variante besprechen, den sog. \emph{SEA-Algorithmus}
+(nach Schoof, Elkies und Atkin). Man hätte sich auch genauer mit dem Satz von
+Hasse (\cref{prop:Hasse}) auseinander setzen und das Legendre-Symbol
+einführen können. Ich habe in diesem Abschnitt jedoch bewusst auf
+Ausschweifungen verzichtet. Er soll lediglich dazu dienen, gewissen Aufschluss
+über die Struktur der additiven Gruppe einer elliptischer Kurve über einem
+endlichen Körper zu geben und zu erkennen, dass es möglich ist, in polynomialer
+Zeit die Kardinalität dieser Gruppe zu berechnen. 
+
+Den zweiten Teil bilden Anwendungen von elliptischen Kurven in der
+Kryptographie und die Vorstellung verschiedener Probleme, auf deren
+"`Schwierigkeit"' die Sicherheit der kryptographischen Verfahren liegt. Hier
+gilt es, das \probn{ECDLP} (\emph{Elliptic Curve Discrete Logarithm
+Problem}) und das \probn{DLP} (\emph{Discrete Logarithm Problem}) zu nennen.
+Beide beschreiben das Problem, in einer beliebigen Gruppe (oder eben auf einer
+elliptischen Kurve) den \emph{diskreten Logarithmus} zu berechnen. Daran
+anknüpfend werden wir einen kleinen Ausflug machen und auf das Vorgehen
+beim Verschlüsseln und Entschlüsseln einer "`Nachricht"' eingehen. Es soll dabei
+das \emph{ElGamal Public Key Kryptosystem} vorgestellt werden. In dieser Arbeit
+wird sich eine "`Nachricht"' stets auf einen Punkt auf einer elliptischen Kurve
+beschränken. Man kann beispielsweise in \cite[Abschnitt 5.6]{ruppert} nachlesen,
+wie man normalen Text in Punkte auf einer elliptischen Kurve verwandelt.
+
+Dieses Wissen im Hinterkopf behaltend wollen wir in \cref{chap:algorithmen}
+einen Algorithmus kennen lernen, welcher das \probn{DLP} und damit das
+\probn{ECDLP} lösen kann:
+\emph{Pollards $\rho$-Algorithmus}. Leider haben alle bisher bekannten
+Algorithmen zur Lösung des \probn{ECDLP} exponentielle Laufzeit.
+Der zweite Algorithmus, der in diesem Kapitel vorgestellt werden soll, löst
+lediglich das \probn{DLP} über einem endlichen Körper $\F_q$. Er ist
+jedoch ungleich schneller und hört auf den Namen \emph{Index-Calculus Methode}.
+
+Im letzten Kapitel widmen wir uns dem bereits oben erwähnten MOV-Angriff. Dieser
+reduziert das \probn{ECDLP} polynomial auf ein \probn{DLP} über einem endlichen
+Körper.
+In der Regel ist dieser endliche Körper aber viel größer, was das
+entstehende \probn{DLP} nicht leichter macht, als das ursprüngliche
+\probn{ECDLP}.
+Für \emph{supersinguläre} elliptische Kurven jedoch fällt das Problem nur nach
+$\F_{q^2}$, falls wir die elliptische Kurve über $\F_q$ betrachtet haben. Dort
+kann man dann mit Algorithmen subexponentieller Laufzeit, wie der oben
+beschriebenen Index-Calculus Methode, das \probn{DLP} lösen und so eine Lösung
+in subexponentieller Laufzeit für das ursprüngliche \probn{ECDLP} erhalten.
+
+
+%% Erzeugung von Verzeichnissen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tableofcontents			% Inhaltsverzeichnis
+%\listoftables				% Tabellenverzeichnis
+%\listoffigures				% Abbildungsverzeichnis
+
+
+
+\mainmatter
+
+\part{Elliptische Kurven -- Theoretische Resultate}
+
+\chapter{Grundlegendes über affine und projektive Varietäten}
+\label{chap:varietäten}
+
+Wir treffen in der gesamten Arbeit die folgenden Konventionen:
+\begin{description}
+\item[$K$] sei ein Körper und 
+\item[$\Kb$] ein fest gewählter algebraischer Abschluss von $K$.
+\end{description}
+
+Definieren wir nun anfangs einige Begrifflichkeiten, wobei wir uns an
+\cite[Chapter I]{silverman2009arithmetic} orientieren wollen.
+
+\section{Über affine Varietäten}
+
+\begin{definition}[Affiner Raum]
+	Der $n$-dimensionale \emph{affine Raum} über $K$ für $n \in \N$ wird
+	definiert durch $$\A^n \ := \ \A^n(\Kb) \ := \ \{ (x_1, \dots, x_n):\ x_i
+	\in \Kb \} \,.$$
+	Seine \emph{$K$-rationalen} Punkte sind gegeben durch
+	$$\A^n(K) \ := \ \{ (x_1, \dots, x_n):\ 
+	x_i \in K \} \,.$$
+\end{definition}
+
+\begin{definition}[Affine algebraische Menge, Ideal von $V$]
+	Eine \emph{affine algebraische Menge} $V_I$ ist eine Menge der Form
+	$$V_I \speq{:=} \{P\in \A^n:\ f(P) = 0 \ \forall f\in I\}\,,$$
+	wobei $I \subset \Kb[X_1,\dots, X_n]$ ein Ideal ist. Für $\Kb[X_1,\dots,X_n]$
+	werden wir oft auch nur $\Kb[X]$ schreiben.
+	
+	Jeder affinen algebraischen Menge $V$ ordnen wir das \emph{Ideal von $V$} zu:
+	$$I(V) \speq{:=} \{f\in \Kb[X_1,\dots, X_n]: \ f(P) = 0 \,
+	\forall P\in V\}\,,$$
+	
+	Wir nennen $V$ definiert über $K$, geschrieben $V/K$, falls $I(V)$ nur durch
+	Polynome aus $K[X_1,\dots, X_n]$ erzeugt werden kann.
+\end{definition}
+
+\begin{definition}[Affine Varietät]
+	Eine affine algebraische Menge $V$ wird als \emph{affine Varietät} bezeichnet,
+	falls $I(V)$ ein Primideal in $\Kb[X_1,\dots, X_n]$ ist.
+\end{definition}
+
+
+\begin{definition}[Affiner Koordinatenring von $V$, Funktionenkörper von $V$]
+	Sei $V$ eine affine Varietät. Der \emph{affine Koordinatenring von $V$} ist
+	definiert durch
+	$$\Kb[V] \speq{:=} \Kb[X_1, \dots, X_n] \big/ I(V)\,.$$
+	Da $I(V)$ Primideal ist, ist $\Kb[V]$ ein Integritätsbereich und wir können
+	seinen Quotientenkörper betrachten. Dieser heiße
+	\emph{Funktionenkörper von $V$}, geschrieben $\Kb(V)$.\\
+	Analog definieren wir selbiges, falls $V$ über $K$ definiert ist. Also
+	$$K[V] \speq{:=} K[X_1,\dots, X_n] \big/ I(V/K)$$
+	und $K(V)$ als Quotientenkörper von $K[V]$.
+\end{definition}
+
+
+\begin{definition}[Dimension von $V$]
+	Die \emph{Dimension} einer affinen Varietät $V$, geschrieben $\dim V$, ist der
+	Grad der transzendenten Körpererweiterung $\Kb(V)$ über $\Kb$.
+\end{definition}
+
+\begin{definition}[Lokales Ideal]
+	\label{def:lokales ideal}
+	Sei $V$ eine affine Varietät. Für $P\in V$ definieren wir das \emph{lokale
+	Ideal von $P$}
+	$$\frak m_P \speq{:=} \{f \in \Kb[V]:\ f(P) = 0\}\,.$$
+\end{definition}
+
+
+\begin{definition}[Lokaler Ring]
+	\label{def:lokaler ring}
+	Sei $V$ eine affine Varietät und $P\in V$. Der \emph{lokale Ring} von $V$ an
+	$P$ ist gegeben durch die Lokalisierung von $\Kb[V]$ an $\m_P$:
+	$$\Kb[V]_P \speq{:=} \left\{F \in \Kb(V):\ F = \tfrac{f}{g} \text{ mit } f,g\in
+	\Kb[V],\ g(P) \neq 0\right\}\,.$$
+\end{definition}
+
+% \begin{bem}
+% 	$\Kb[V]_P$ ist auch im klassischen Sinne ein lokaler Ring mit dem maximalen
+% 	Ideal $\m_P$. Dies sieht man, wenn wir den Isomorphismus
+% 	$$\Kb[V]\big/ \m_P \to \Kb,\quad [f] \mapsto f(P)$$
+% 	betrachten. 
+% \end{bem}
+
+
+
+\begin{definition}[Nichtsingulär/Glatt]
+	\label{def:glatt}
+	Sei $V$ eine affine Varität und $f_1,\dots, f_m\in \Kb[X_1,\dots,X_n]$ Erzeuger
+	von $I(V)$.
+	Dann heißt $V$ \emph{nichtsingulär} oder \emph{glatt in} $P$, falls die
+	$m\times n$-Matrix der formalen Ableitungen
+	$$\left(\frac{\partial f_i}{\partial X_j} (P) \right)_{1\leq i\leq m \atop
+	1\leq j\leq n}$$
+	von Rang $n-\dim V$ ist.\\
+	Ist $V$ in jedem Punkt nichtsingulär, so nennen wir $V$ \emph{nichtsingulär}
+	oder \emph{glatt}.
+\end{definition}
+
+
+
+\section{Über projektive Varietäten}
+
+\begin{definition}[Projektiver Raum]
+	Der $n$-dimensionale \emph{projektive} Raum über $K$ für $n\in \N$ ist
+	definiert durch
+	$$ \P^n \speq{:=} \P^n(\Kb) \speq{:=} \{(x_0,\dots,x_n) \in \A^{n+1}\} \big/
+	\sim\,,$$
+	wobei $\sim$ folgende Äquivalenzrelation beschreibt:
+	$$(x_0,\dots,x_n) \sim (x_0', \dots, x_n') \speq\Leftrightarrow \exists
+	i\in \{0,\dots,n\}:\, x_i \neq 0 \speq{:\land} \exists \lambda \in \Kb^\ast:\,
+	x_i = \lambda x_i' \ \forall i\in \{0,\dots,n\}\,.$$
+	
+	Für eine Äquivalenzklasse
+	$$\{(\lambda x_0, \dots, \lambda x_n): \ \lambda \in \Kb^\ast\}$$
+	schreiben wir $[x_0,\dots,x_n]$ und bezeichnen die $x_i$s als \emph{homogene
+	Koordinaten}.
+	
+	Die Menge der \emph{$K$-rationalen Punkte von $\P^n$} ist definiert durch
+	$$\P^n(K) \speq{:=} \{[x_0,\dots,x_n] \in \P^n:\ x_i \in K\ \forall i\}\,.$$
+\end{definition}
+
+
+\begin{definition}[Homogenes Polynom]
+	Ein Polynom $f \in \Kb[X] := \Kb[X_0,\dots,X_n]$ heißt \emph{homogen von Grad
+	$d$}, falls gilt
+	$$f(\lambda X_0, \dots, \lambda X_n) \speq= \lambda^d f(X_0,\dots,X_n)
+	\quad\forall\lambda \in \Kb\,.$$
+	Ein Ideal $I\in \Kb[X]$ heißt \emph{homogen}, falls es von homogenen Polynomen
+	erzeugt wird.
+\end{definition}
+
+\begin{definition}[Projektive Algebraische Menge, Homogenes Ideal von $V$, Menge
+der $K$-rationalen Punkte]\label{def:projektive algebraische menge}
+	Eine \emph{projektive algebraische Menge} $V_I$ ist eine
+	Menge der Form
+	$$V_I \speq{:=} \{P\in \P^n:\ f(P) = 0 \ \forall f\in I, f \text{ homogen}\}\,,$$
+	wobei $I \subset \Kb[X]$ ein homogenes Ideal ist.
+	
+	Jeder projektiven algebraischen Menge $V$ ordnen wir das \emph{(homogene)
+	Ideal von $V$} zu: 
+	$$I(V) \speq{:=} \{f\in \Kb[X]: \ f \text{ homogen} \speq\land f(P) = 0 \,
+	\forall P\in V\}\,,$$
+	
+	Wir nennen $V$ \emph{definiert über $K$}, geschrieben $V/K$, falls $I(V)$ nur
+	von Polynomen aus $K[X]$ erzeugt werden kann.
+	
+	Ist $V$ definiert über $K$, so ist die \emph{Menge der $K$-rationalen Punkte
+	von $V$} gegeben durch
+	$$V(K) \speq{:=} V \cap \P^n(K)\,.$$
+\end{definition}
+
+
+
+\begin{definition}[Projektive Varietät]
+	\label{def:projektive varietät}
+	Eine projektive algebraische Menge wird als \emph{projektive Varietät}
+	bezeichnet, falls
+	$I(V)$ ein Primideal in $\Kb[X]$ ist.
+\end{definition}
+
+
+Da wir gewöhnt sind, mit affinen Koordinaten umzugehen, wollen wir den affinen
+mit dem projektiven Raum in Verbindungen bringen.
+
+Es ist klar, dass wir für $i\in \{1,\dots,n\}$ folgende Inklusionen angeben
+können:
+$$\phi_i:\ \A^n \to \P^n,\quad (x_1,\dots,x_n) \mapsto
+[x_1,\dots,x_{i-1},1,x_{i}, \dots, x_n] \,.$$
+Wir erhalten daraus sogar Bijektionen, falls aus $\P^n$ jeweils eine Hyperebene
+entfernt wird, also
+\begin{align*}
+	\phi_i^{-1}:\ \P^n \setminus \{ [x_0,\dots,x_n] \in \P^n:\ x_i = 0\} &\to
+	\A^n,\\
+	[x_0,\dots,x_n] &\mapsto \left(\tfrac{x_0}{x_i},\dots,
+	\tfrac{x_{i-1}}{x_i}, \tfrac{x_{i+1}}{x_i}, \dots, \tfrac{x_n}{x_i}\right)
+\end{align*}
+
+
+Dies wollen wir auf Polynome und anschließend auf algebraische Mengen
+übertragen:
+
+\begin{definition}[Homogenisierung, Dehomogenisierung]
+	Sei $f \in \Kb[X_0, \dots, X_n]$ ein homogenes Polynom. Die
+	\emph{Dehomogenisierung von $f$ respektive $X_i$} ist das Polynom $f\in
+	\Kb[Y_1,\dots, Y_n]$ definiert durch 
+	$$f(Y_1, \dots, Y_{i-1}, 1, Y_{i+1}, \dots,
+	Y_n)\,.$$
+
+	Sei umgekehrt $f \in \Kb[Y_1,\dots,Y_n]$ ein Polynom, so bezeichne $f^\ast \in
+	\Kb[X_0, \dots, X_n]$ die
+	\emph{Homogenisierung von $f$ respektive $X_i$}, definiert durch
+	$$f^\ast(X_0,\dots,X_n) \speq{:=} X_i^d f\left(\tfrac{X_0}{X_i},\dots,
+	\tfrac{X_{i-1}}{X_i}, \tfrac{X_{i+1}}{X_i}, \dots, \tfrac{X_n}{X_i}\right)\,,$$
+	wobei $d = \deg f$ die kleinste natürliche Zahl ist, sodass $f^\ast$ ein
+	Polynom wird. Bemerke dabei, dass $f^\ast$ ein homogenes Polynom ist.
+\end{definition}
+
+\begin{definition}[Projektiver Abschluss von $V$]
+	Sei $V\in \A^n$ eine affine algebraische Menge mit Ideal $I(V)$. Wählen wir
+	ein $i$ fest, so können wir $V$ via $\phi_i$ als Teilmenge von $\P^n$ auffassen
+	und den \emph{projektiven Abschluss von $V$}, geschrieben $\overline V$, 
+	als
+	projektive algebraische Menge definieren, deren homogenes Ideal erzeugt wird
+	von den homogenisierten Polynomen in $I(V)$, also von
+	$$\{f^\ast(X):\ f\in I(V)\}\,.$$
+\end{definition}
+
+Man kann dann folgende Proposition (\cite[Proposition
+I.2.6]{silverman2009arithmetic}) beweisen. Eine Referenz zu einem Beweis findet
+sich ebenfalls dort.
+\begin{prop}
+\begin{enumerate}
+  \item Sei $V$ eine affine Varietät. Dann ist $\overline V$ eine projektive
+  	Varietät und
+  	$$V \speq= \overline V \cap \A^n\,.$$
+  \item Sei $V$ eine projektive Varietät. Dann ist $V\cap \A^n$ eine affine
+	Varietät und es gilt entweder
+	$$V \cap \A^n \speq= \emptyset \quad\text{oder}\quad V \speq= \overline{V\cap
+	\A^n}\,.$$
+  \item Ist eine affine (projektive) Varietät $V$ definiert über $K$, so ist
+  $\overline V$ ($V\cap \A^n$) ebenfalls definiert über $K$.
+\end{enumerate}
+\end{prop}
+
+\begin{bsp}
+	Mit obiger Proposition können wir uns also weitgehend auf affine Koordinaten
+	beschränken. Wählen wir einmal $K=\Q$ und betrachten beispielsweise die
+	projektive Varietät 
+	\begin{equation} \label{eq:varietät1}
+		V:\ Y^2 + XY \speq= X^3 + 13\,.
+	\end{equation}
+	In der Tat ist dies keine Varietät in Notation von \cref{def:projektive
+	algebraische menge,def:projektive varietät}! Wir meinen damit die Varietät,
+	welche durch das Ideal geben ist, welches von 
+	$$f(\bar X, \bar Y, \bar Z) \speq= 
+	\bar Z \bar Y^2 + \bar Z \bar X \bar Y - \bar
+	X^3 - 13 \bar Z$$
+	erzeugt wird. \cref{eq:varietät1} ist also die Dehomogenisierung
+	respektive $\bar Z$ von
+	\begin{equation}\label{eq:varietät2}
+		\bar Z \bar Y^2 + \bar Z \bar X \bar Y \speq{=} \bar
+		X^3 + 13 \bar Z^3\,.
+	\end{equation}
+	Welche Punkte haben wir außerhalb der affinen Ebene? Setzen wir in
+	\cref{eq:varietät2} einmal $\bar Z = 0$ ein, so sehen wir,
+	dass $\bar X = 0$ und $\bar Y$ beliebig folgt. Ergo liegt für $y \neq 0$ gerade
+	$[0,y,0] = [0,1,0] \in V$ (man beachte $[0,0,0] \notin \P^2$) und
+	wir folgern, dass
+	$$V(\Q) \speq= \{(x,y) \in \A^2(\Q):\ f(x,y,1) = 0\} \cup \{[0,1,0]\}\,.$$
+	Wir werden alle Punkte, die nicht im affinen Teil liegen, als \emph{Punkte im
+	Unendlichen} bezeichnen.
+\end{bsp}
+
+
+
+\begin{definition}[Dimension von $V$]\label{def:projektive dimension}
+	Sei $V/K$ eine projektive Varietät und wähle $\A^n \subset \P^n$ so, dass
+	$V\cap \A^n \neq \emptyset$. Die \emph{Dimension von $V$} ist die Dimension von
+	$V\cap \A^n$ als affine Varietät.
+\end{definition}
+
+
+\begin{definition}[Kurve]
+	Wir nennen eine projektive Varietät der Dimension 1 eine \emph{Kurve}.
+\end{definition}
+
+\begin{bem}
+	Wir wollen auch die Begriffe \emph{lokales Ideal}, \emph{lokaler Ring} und
+	\emph{nichtsingulär} (\cref{def:lokales ideal,def:lokaler ring,def:glatt}) auf
+	projektive Varietäten übertragen, indem wir analog zu
+	\cref{def:projektive dimension} den Schnitt mit $\A^n$ betrachten.
+\end{bem}
+
+
+\begin{definition}
+	\label{def:lokales ideal projektiv}
+	Sei $V$ eine projektive Varietät. Für $P\in V$ wähle $\A^n \subset
+	\P^n$, sodass $P \in \A^n \cap V$. Wir definieren das
+	\emph{lokale Ideal von $P$} als lokales Ideal von $V \cap \A^n$,
+	den \emph{lokalen Ring} als lokalen Ring von $V \cap \A^n$ und
+	$V$ heiße \emph{glatt} in $P$, falls $V\cap \A^n$ glatt in $P$ ist.
+\end{definition}
+
+
+
+% \begin{definition}[Elliptische Kurve] \label{def:elliptische Kurve}
+% 	Eine \emph{elliptische Kurve} ist gegeben durch ein Paar $(E,O)$, wobei $E$
+% 	eine nichtsinguläre Kurve von Geschlecht eins und $O \in E$ ist. \\
+% 	Wir schreiben $E/K$, falls $E$ über $K$ als Kurve definiert und $O\in E(K)$
+% 	ist.
+% \end{definition}
+% 
+% \chapter{Weierstraßsche Normalform}
+% 
+% Ziel dieses Abschnittes besteht darin eine adäquate Beschreibung 
+% elliptischer Kurven durch Formeln zu gewinnen. Dazu definieren wir:
+% 
+% \begin{definition}[Kubische Weierstraßgleichung] \label{def:kubische
+% Weierstraßleichung}
+% 	\cite[III.1, S.42]{silverman2009arithmetic}
+% 	Eine \emph{kubische Weierstraßgleichung} ist eine homogene Gleichung der Form
+% 	$$Y^2 Z + a_1 XYZ + a_3 Y Z ^2 \speq= X^3 + a_2 X^2 Z + a_4 X Z^2 + a_6 Z^3
+% 	$$ mit ausgezeichnetem Basispunkt $O = [0,1,0]$ und $a_1, \dots, a_6 \in
+% 	\Kb$. 
+% 	
+% 	Wir werden jedoch stets die affiniere Variante der Gleichung werden, welche
+% 	sich durch die Substitution $x = X/Z$ und $y = Y/Z$ ergibt:
+% 	$$E:\ y^2 + a_1 xy + a_3 y \speq = x^3 + a_2 x^2 + a_4 x + a6 \,.$$
+% 	Dabei sei der Basispunkt $O = [0,1,0]$ als Punkt im Unendlichen immer im
+% 	Hinterkopf behalten.\\
+% 	Analog definieren wir auch hier $E/K$, falls $a_1,\dots, a_6 \in K$.
+% 	
+% 	Des Weiteren definieren wir folgende Größen:
+% 	\begin{align*}
+% 		b_2 \speq{&=} a_1^2 + 4 a_4, \\
+% 		b_4 \speq{&=} 2 a-4 + a_1 a_3, \\
+% 		b_6 \speq{&=} a_3^2 + 4 a_6, \\
+% 		b_8 \speq{&=} a_1^2 a_6 + 4 a_2 a_6 - a_1 a_3 a_4 + a_2 a_3^2 - a_4^2, \\
+% 		c_4 \speq{&=} b_2^2 - 24 b_4, \\
+% 		c_6 \speq{&=} -b_2^2 + 36 b_2 b_4 - 216 b_6, \\
+% 		\text{die \emph{Diskriminate} }
+% 		\Delta \speq{&=} -b_2^2 b_8 - 8 b_4^3 - 27 b_6^2 + 9 b_2 b_4 b_6, \\
+% 		\text{die \emph{$j$-Invariante} } 
+% 		j \speq{&=} c_4^3 / \Delta \,.
+% 	\end{align*} 
+% \end{definition}
+% 
+% 
+% \begin{lemma} \label{lem:Weierstraßgleichung char neq 2}
+% 	Für $\charak K \neq 2$ vereinfacht sich die kubische Weierstraßgleichung zu:
+% 	$$E:\ y^2 \speq= 4x^3 + b_2 x^2 + 2 b_4 x + b_6 \,.$$ 
+% \end{lemma}
+% \begin{proof}
+% 	Einsetzen des affinen Koordinatenwechsels $y \mapsto \tfrac{1}{2} (y - a_1
+% 	x - a_3)$ liefert das Ergebnis.
+% \end{proof}
+% 
+% \begin{lemma} \label{lem:Weierstraßgleichung char neq 2,3}
+% 	Für $\charak K \neq 2,3$ erhalten wir folgende Form der Weierstraßgleichung:
+% 	$$E:\ y^2 \speq= x^3 - 27 c_4 x - 54 c_6 \,.$$
+% \end{lemma}
+% \begin{proof}
+% 	Mit \cref{lem:Weierstraßgleichung char neq 2} und dem affinen
+% 	Koordinatenwechsel $(x,y) \mapsto (\tfrac{1}{36} (x-3 b_2), \tfrac{1}{108} y)$
+% 	folgt die Behauptung.
+% \end{proof}
+% 
+% 
+% \chapter{Gruppenstruktur}
+% 
+% 
+% \section{Abbildungen von und zwischen Elliptischen Kurven}
+% 
+% \begin{prop}\label{prop:endomorphismen_surjektiv}
+% 	Sei $E/K$ eine Elliptische Kurve und $0\neq \alpha: E\to E$ ein
+% 	Endomorphismus. Dann ist $\alpha$ surjektiv.
+% \end{prop}
+% \begin{proof}
+% 	\cite[Theorem 2.22]{washington2003elliptic}.
+% \end{proof}
+% 
+% \begin{prop}\label{prop:mult_m_nicht_const}
+% 	Sei $E/K$ eine Elliptische Kurve und $m\in\Z$, $m\neq 0$. Dann ist
+% 	$$[m]: E\to E,\ P \mapsto mP$$
+% 	nicht konstant.
+% \end{prop}
+% \begin{proof}
+% 	\cite[Proposition 4.2 (a)]{silverman2009arithmetic}
+% \end{proof}
+% 
+% \begin{kor}\label{kor:mult m surjektiv}
+% 	Sei $E/K$ eine Elliptische Kurve und $m\in\Z$, $m\neq 0$. Dann ist
+% 	$$[m]: E\to E,\ P \mapsto mP$$
+% 	ein surjektiver Endomorphismus.
+% \end{kor}
+% \begin{proof}
+% 	Klar nach \cref{prop:endomorphismen_surjektiv,prop:mult_m_nicht_const}.
+% \end{proof}
+
+\chapter{Divisoren}
+\label{chap:divisoren}
+
+Da \emph{Divisoren} in dieser Arbeit eine zentrale Rolle spielen werden, wollen
+wir besonders auf sie eingehen. In diesem Kapitel werden wir uns an
+\cite[Section II.3]{silverman2009arithmetic} orientieren.
+
+\section{Grundlegendes}
+
+Zunächst jedoch ein paar Vorbereitungen, die wir nur zitieren möchten.
+
+\begin{prop}
+	Sei $C$ eine Kurve und $P\in C$ ein glatter Punkt. Dann ist $\Kb[C]_P$ ein
+	diskreter Bewertungsring.
+\end{prop}
+\begin{proof}
+	\cite[Proposition II.1.1]{silverman2009arithmetic}.
+\end{proof}
+
+\begin{definition}[Ordnung einer Funktion in einem Punkt]
+	Sei $C$ eine Kurve und $P\in C$ ein glatter Punkt. Eine \emph{Bewertung auf
+	$\Kb[C]_P$} ist gegeben durch
+	\begin{align*}
+		\ord_P:\ \Kb[C]_P &\speq\to \N \cup\{\infty\}\,,\\
+		f &\speq\mapsto \sup\{d\in \Z:\ f\in {\m_P}^d\}\,.
+	\end{align*}
+	Wir können $\ord_P$ auf $\Kb(C)$ erweitern, indem wir 
+	$$\ord_P\left(\tfrac{f}{g}\right) \speq{:=} \ord_P(f) - \ord_P(g)$$
+	setzen.\\
+	Wir sagen $f$ hat \emph{in $P$ Ordnung $n$}, falls $n = \ord_P(f)$.
+	Weiter sagen wir, $f$ hat eine \emph{Nullstelle in $P$}, falls $\ord_P(f) > 0$
+	und $f$ hat einen \emph{Pol in $P$}, falls $\ord_P(f) < 0$.
+\end{definition}
+
+\begin{bsp}\label{bsp:ord}
+	Geben wir dazu ein Beispiel. Sei durch
+	$$E:\ F(X,Y) \speq{:=} Y^2 - (X-e_1)(X-e_2)(X-e_3) \speq{=} 0$$
+	eine Kurve in $\P^2$ mit $e_i \in K$ für $i=1,2,3$ gegeben.
+	Wir sehen, dass $P := (e_1,0) \in E$.\\
+	Betrachten wir nun die Funktion 
+	$$f(X,Y) = X-e_1 \in \Kb[E]_P\,.$$
+	Wir wollen nun die Ordnung von $f$ in $P$ bestimmen.
+	Dazu überlegen wir, dass $\m_P$ gerade von $X-e_1$ und $Y$ erzeugt wird, also 
+	$$\m_P \speq= ( X-e_1, Y) \big/ ( F )\,.$$
+	Trivialerweise haben wir also $f\in \m_P$.\\
+	Betrachten wir 
+	$$\m_P^2 \speq= ( (X-e_1)^2,\ (X-e_1)Y,\ Y^2 ) \big/ ( F
+	) \,,$$
+	so können wir auf den ersten Blick nicht erkennen, ob $f \in \m_P^2$. Dazu
+	schreiben wir $f$ um, zu
+	$$f(X,Y) \speq= X- e_1 \speq= \frac{Y^2}{(X-e_2)(X-e_3)}
+	\speq{=:} \frac{f_1(X,Y)}{f_2(X,Y)} \in \Kb[E]_P\,.$$
+	Es lässt sich jetzt schon sehen, dass wohl $\ord_P(f) = 2$. Dies wollen wir
+	verifizieren: Wir müssen, da $\ord_P(f) = \ord_P(f_1) - \ord_P(f_2)$, die
+	Ordnungen von $f_1$ und $f_2$ bestimmen.\\
+	Hier können wir sofort folgern, dass $f_1 = Y^2 \in \m_P^2$, aber $f_1 \notin
+	\m_P^3$, da 
+	$$\m_P^3 \speq= ( (X-e_1)^3,\ (X-e_1)^2 Y,\ (X-e_1) Y^2,\ Y^3)
+	\big/ ( F )$$
+	und sich durch $F$ kein Erzeuger passend umschreiben lässt.
+	Für $f_2$ scheitern wir bereits bei $\m_P^1$: Da $f_2(P) \neq 0$, folgt sofort 
+	$f_2 \notin \m_P$. Wir fassen damit zusammen:
+	$$ \ord_P(f) \speq= \ord_P(f_1) - \ord_P(f_2) \speq= 2-0 \speq= 2\,.$$ 
+	Man sieht sicherlich ein, dass für alle anderen affinen Punkte $P\neq Q \in E$
+	folgt, dass $\ord_Q(f) = 0$. Doch wie sieht es mit dem Punkt $P_\infty =
+	[0,1,0] \in E$ aus? 
+	Betrachten wir einmal die homogenisierte Variante 
+	\begin{align*}
+		E:\ \bar Y^2 \bar Z - (\bar
+		X-e_1 \bar Z)(\bar X-e_2\bar Z)(\bar X-e_3\bar Z) \speq= 0
+	\end{align*}
+	und
+	dehomogenisieren respektive $\bar Y$, so erhalten wir
+	$$E_y:\ G(X,Z) \speq{:=} Z - (X- e_1 Z)(X- e_2Z)(X-e_3Z) \speq= 0\,,$$
+	wobei $P_\infty$ nun die Koordinaten $(0,0)$ hat.
+	Das bedeutet, wir arbeiten nun in $\A_{(x,z)}^2 \cong \P^2 \setminus\{y = 0\}$.
+	Um nun den Koordinatenwechsel richtig zu vollziehen, betrachten wir einmal
+	folgendes Diagramm:
+	\[
+	\begin{tikzcd}
+			& 		\P^2 \setminus( \{ z = 0\} \cup \{y = 0\})		&		\\
+			\A^2_{(x,z)} \setminus \{ y = 0\} \arrow{ru}{(x,z) \mapsto [x,1,z] =
+			[\tfrac{x}{z}, \tfrac{1}{z}, 1]} & & \A^2_{(x,y)}\setminus \{z = 0\}
+			\arrow{lu}[swap]{(x,y) \mapsto [x,y,1]}
+	\end{tikzcd}
+	\]
+	Das bedeutet, ein Punkt $(p_1,p_2) \in E \cap \A^2_{(x,z)}$ mit $p_2 \neq 0$,
+	fällt gerade auf die Koordinaten $(\tfrac{p_1}{p_2}, \tfrac{1}{p_2}) \in E\cap
+	\A^2_{(x,y)}$, da im Schnitt $\P^2\setminus (\{z=0\} \cup \{y=0\})$ ja
+	beides auf den selben Punkt $[p_1,1,p_2] = [\tfrac{p_1}{p_2},
+	\tfrac{1}{p_2},1]$ fallen muss.
+	Dieser Wechsel überträgt sich analog auf die Funktionenkörper und $f \in \Kb(E
+	\cap \A^2_{(x,y)})$ wird zu 
+	$$g(X,Z) \speq= f(\tfrac{X}{Z},\tfrac{1}{Z}) \speq= \frac{X-e_1Z}{Z} \quad 
+		\in \Kb(E \cap \A^2_{(x,z)})\,.$$
+	Wir können in $\Kb[E_y]$ die Funktion $g$ umschreiben zu
+	$$g(X,Z) \speq= \frac{1}{(X-e_2Z)(X-e_3Z)} \speq{=:} \frac{1}{g_2(X,Z)}\,.$$
+	Nun müssen wir die Ordnung von $g_2 \in \Kb[E_y]_{(0,0)}$ bestimmen.
+	Es ist analog zu oben
+	\begin{align*}
+		\m_{(0,0)} &\speq= (X,Z) \big/ (G)\,, \\
+		\m_{(0,0)}^2 &\speq= (X^2,XZ, Z^2)\big/ (G)\,, \\
+		\m_{(0,0)}^3 &\speq= (X^3,X^2Z, XZ^2, Z^3)\big/ (G)
+	\end{align*}
+	und man sieht nach Ausmultiplizieren sofort, dass $g_2$ in $\m_{(0,0)}$ und
+	$\m_{(0,0)}^2$, aber nicht mehr in $\m_{(0,0)}^3$ liegt.
+	Schließlich können wir folgern, dass
+	$$\ord_{P_\infty}(f) \speq= \ord_{(0,0)}(g) \speq= - \ord_{(0,0)}(g_2)
+	\speq= -2\,.$$
+\end{bsp}
+
+Darüber hinaus wollen wir folgendes Resultat zitieren, welches mehr Klarheit
+über die Anzahl von Null- und Polstellen gibt.
+
+\begin{prop}\label{prop:null-polstellen}
+	Sei $C$ eine glatte Kurve und $f\in \Kb(C)^\ast$.
+	\begin{enumerate}
+	  \item $f$ hat nur endlich viele Null- und Polstellen.
+	  \item Hat $f$ keine Polstellen, so ist $f \in \Kb^\ast$.
+	  \item Hat $f$ keine Nullstellen, so ist $f \in \Kb^\ast$.
+	\end{enumerate}
+\end{prop}
+\begin{proof}
+	\cite[Proposition II.1.2]{silverman2009arithmetic}.
+\end{proof}
+
+
+
+\begin{deflemma} \label{def:divisor}
+	Ein \emph{Divisor} auf einer Kurve $C$ ist eine formale Summe
+	$$D \speq{:=} \sum_{P \in C} n_P [P] \,,$$
+	wobei $n_P \in \Z$ und $n_P \neq 0$ für nur endlich viele $P$. \\	
+	Die \emph{Gruppe der Divisoren über $C$} $\Divv(C)$ ist eine freie abelsche
+	Gruppe, die von den Punkten von $C$ erzeugt wird.\\
+	Der \emph{Grad eines Divisors} $D$ ist definiert durch
+	$$\deg(D) \speq{:=} \sum_{P \in C} n_P \,.$$
+	Die Divisoren von Grad 0 bilden eine Untergruppe in $\Divv(C)$ und seien
+	zusammengefasst in $$\Div0(C) \speq{:=} \{ D \text{ Divisor }\mid \deg D = 0\}\,.$$
+	Der \emph{Träger eines Divisors} $D$ ist definiert durch
+	$$\supp(D) \speq{:=} \{P \in C \mid n_P\neq 0\}\,.$$
+	Ist $C$ eine nichtsinguläre Kurve, so können wir für $f \in \Kb(C)^\ast$ den
+	\emph{Divisor von $f$} definieren:
+	$$\div(f) \speq{:=} \sum_{P \in C} \ord_P(f)\ [P] \,.$$
+	Formale Summen dieser Form sind nach \cref{prop:null-polstellen} (a)
+	Divisoren.\\
+	Gibt es für einen gegebenen
+	Divisor $D$ eine Funktion $f$ mit $D = \div(f)$,
+	so heißt dieser \emph{Hauptdivisor}.\\
+	Zwei Divisoren $D_1,D_2$ heißen \emph{linear äquivalent}, geschrieben $D_1
+	\sim D_2$, falls $D_1 - D_2$ ein Hauptdivisor ist.\\
+	Falls $D$ ein Hauptdivisor ist, führen wir noch die verkürzende Notation $D\sim
+	0$ ein.\\
+	Die lineare Äquivalenz definiert eine Äquivalenzrelation und wir können ferner
+	die \emph{Picard-Gruppe von $C$} als Divisoren von Grad 0
+	modulo linearer Äquivalenz angeben:
+	$$\Pic0(C) \speq{:=} \Div0(C) \big/ \sim\,.$$
+\end{deflemma}
+\begin{proof}
+	Alles sehr leicht zu verifizieren.
+\end{proof}
+
+
+\begin{prop} \label{prop:div=0 f const}
+	Sei $C$ eine nichtsinguläre Kurve und $f \in \Kb(C)^\ast$. Dann gilt
+	$$\div(f) = 0 \quad \Leftrightarrow \quad
+	f \in \Kb^\ast \text{, d.h. } f \text{ ist konstant.}$$
+\end{prop}
+\begin{proof}
+	\cite[Proposition II.3.1]{silverman2009arithmetic}
+\end{proof}
+
+\begin{lemma} \label{lemma:gleiche divisoren konstantes vielfaches}
+	Seien $C$ eine nichtsinguläre Kurve und $f,g \in \Kb(C)^\ast$ mit $\div(f) =
+	\div(g)$. Dann gilt $f = c g$ für $c \in \Kb^\ast$.
+\end{lemma}
+\begin{proof}
+	Betrachte $\div(\tfrac{f}{g}) = \div(f) - \div(g) = 0$. Dann ist nach
+	\cref{prop:div=0 f const} $\tfrac{f}{g} \in \Kb^\ast$.
+\end{proof}
+
+\section{Der Satz von Riemann-Roch}
+Sei im Folgenden stets $C$ eine Kurve.
+
+\begin{definition}[Positiver Divisor]
+	Wir nennen einen Divisor $D = \sum n_P \divp P$ über einer Kurve $C$
+	\emph{positiv}, geschrieben $D\geq 0$, falls $n_P \geq 0$ für alle $P\in C$.
+	Für zwei Divisoren $D_1, D_2 \in \Divv(C)$ schreiben wir $D_1 \geq D_2$, falls
+	$D_1-D_2 \geq 0$. 
+\end{definition}
+
+\begin{definition}
+	Sei $D\in \Divv(C)$. Wir definieren
+	$$\L(D) \speq{:=} \{f \in \Kb(C)^\ast:\ \div(f) \geq -D\} \cup \{0\}\,.$$
+\end{definition}
+
+\begin{prop}
+	$\L(D)$ ist ein endlich dimensionaler $\Kb$-Vektorraum. Seine Dimension sei
+	bezeichnet mit
+	$$\l(D) \speq{:=} \dim_{\Kb} \L(D)\,.$$
+\end{prop}
+\begin{proof}
+	\cite[II.5.19]{hartshorne1977algebraic}.
+\end{proof}
+
+\begin{lemma}\label{lemma:deg div f = 0}
+	Sei $f \in \Kb(C)^\ast$. Dann gilt
+	$$\deg \div f \speq= 0\,.$$
+\end{lemma}
+\begin{proof}
+	\cite[Remark II.3.7]{silverman2009arithmetic}.
+\end{proof}
+
+\begin{prop}\label{prop:deg D < 0 => L(D) = 0}
+	Sei $D \in \Divv(C)$ mit $\deg D < 0$. Dann gilt
+	$$\L(D) \speq= \{0\} \quad\text{und}\quad \l(D) \speq= 0\,.$$
+\end{prop}
+\begin{proof}
+	Sei $f \in \L(D)$ mit $f \neq 0$. Dann gilt nach \cref{lemma:deg div f = 0}
+	$$\deg\div f \speq= 0\,.$$
+	Per definitionem ist aber $\div f \geq -D$, also auch 
+	$$\deg \div f \speq\geq \deg(-D) \speq= - \deg D\,,$$
+	woraus folgt, dass $\deg D \geq 0$. Für $\deg D < 0$ folgt dann die
+	Behauptung und es ist klar, dass $\L(D) = \{0\}$ auch $\l(D) = 0$ impliziert.
+\end{proof}
+
+\begin{satz}[Riemann-Roch]
+	\label{satz:riemann-roch}
+	Sei $C$ eine glatte Kurve. Dann existieren ein Divisor $K$ auf $C$ und eine
+	natürliche Zahl $g\geq 0$, genannt \emph{das Geschlecht} der Kurve $C$, sodass
+	für alle $D\in \Divv(C)$ gilt
+	$$\l(D) - \l(K-D) \speq= \deg D - g + 1\,.$$
+\end{satz}
+\begin{proof}
+	Z.B. \cite[IV §1]{hartshorne1977algebraic}.
+\end{proof}
+
+\begin{bem}
+	Eigentlich beinhaltet der Satz von Riemann-Roch nicht die Existenz des
+	Divisors $K$. $K$ ist als \emph{kanonischer Divisor} auf $C$ zu wählen. Was
+	dies ist und dass solche immer existieren, findet man in \cite[Section
+	II.5]{silverman2009arithmetic}.
+\end{bem}
+
+\begin{kor}\label{kor:riemann-roch}
+	Sei Notation gegeben wie im Satz von Riemann-Roch. Dann gilt:
+	\begin{enumerate}
+	  \item $\l(K) = g$.
+	  \item $\deg K = 2g -2$.
+	  \item Falls $\deg D > 2g - 2$, gilt
+	  $$\l(D) = \deg D - g + 1\,.$$ 
+	\end{enumerate}
+\end{kor}
+\begin{proof}
+\begin{enumerate}
+  \item Wähle $D = 0$, so ist nach Riemann-Roch
+  	$$\l(0) - \l(K) = 0 - g + 1\,.$$
+  	In \cref{prop:null-polstellen} (2) haben wir gesehen, dass Funktionen, die
+  	keine Pole haben, bereits konstant sind. Also ist
+  	$$\L(0) \speq= \Kb^\ast \cup \{0\} \speq= \Kb\,.$$
+  	Damit folgt $\l(0) = 1$ und ergo $\l(K) = g$.
+  \item Wähle $D = K$ mit $K$ aus dem Satz von Riemann-Roch. Ferner benutzen wir
+  	(1) und können folgern
+  	$$\l(K) - \l(K-K) \speq= \l(K) - \l(0) \speq= g - 1 \speq= 
+  		\deg K - g + 1\,.$$
+  	Also $\deg K = 2g - 2$.
+  \item Sei $D$ ein Divisor mit $\deg D > 2g - 2$ und $K$ der Divisor wie oben.
+  	Nach Definition des Grades ist klar, dass 
+  	$$\deg(K - D) \speq= \deg(K) - \deg(D) \speq< 0\,,$$
+  	woraus nach \cref{prop:deg D < 0 => L(D) = 0} $\l(K-D) = 0$ folgt.
+  	Setzen wir das in Riemann-Roch ein, erhalten wir
+  	$$\l(D) - \l(K-D) \speq= \l(D) \speq= \deg D - g + 1\,.$$
+\end{enumerate}
+\end{proof}
+
+
+\chapter{Elliptische Kurven}
+\label{chap:elliptische kurven}
+
+\section{Elliptische Kurven und Weierstraß-Gleichungen}
+\label{sec:weierstrass gleichungen}
+
+Wollen wir nun zum eigentlichen Kern dieser Arbeit kommen und (endlich)
+definieren, was eine elliptische Kurve ist.
+
+\begin{definition}[Elliptische Kurve] \label{def:elliptische Kurve}
+	Eine \emph{elliptische Kurve} ist gegeben durch ein Paar $(E,O)$, wobei $E$
+	eine nichtsinguläre Kurve vom Geschlecht eins und $O \in E$ ist. \\
+	Wir schreiben $E/K$, falls $E$ über $K$ als Kurve definiert und $O\in E(K)$
+	ist.
+\end{definition}
+
+Man kann nun zeigen, dass wir uns elliptische Kurven stets auch als
+Nullstellengebilde bestimmter Gleichungen vorstellen können. Diese Gleichungen
+heißen Weierstraß-Gleichungen:
+
+\begin{definition}[Weierstraß-Gleichung]
+	Eine Gleichung der Form
+	$$Y^2 Z + a_1 XYZ + a_3 YZ^2 \speq= X^3 + a_2 X^2 Z + a_4 XZ^2 + a_6 Z^3$$
+	mit $a_1, \dots, a_6 \in \Kb$ heißt \emph{(kubische) Weierstraß-Gleichung}.\\
+	Wir wollen wiederum nur den affinen Teil betrachten, definieren $x =
+	\tfrac{X}{Z}$ und $y = \tfrac{Y}{Z}$ und erhalten die
+	\emph{affine Weierstraß-Gleichung}
+	$$y^2 + a_1 xy + a_3 y \speq= x^3 + a_2 x^2 + a_4 x + a_6$$
+	zusammen mit dem Punkt $[0,1,0]$ im Unendlichen.
+\end{definition}
+
+
+\begin{prop}
+	Sei $E/K$ eine elliptische Kurve mit Basispunkt $O$.
+	\begin{enumerate}
+	  \item Es existieren Funktionen $x,y\in K(E)$, sodass die Abbildung
+	  	$$\phi:\ E\to \P^2,\quad \phi = [x,y,1]\,,$$
+	  	einen Isomorphismus von $E/K$ auf eine Kurve gibt, welche durch die 
+	  	Weierstraß-Gleichung
+	  	$$C:\ Y^2 + a_1 XY + a_3 Y \speq= X^3 + a_2 X^2 + a_4 X + a_6$$
+		geben ist. Dabei gilt $a_1,\dots, a_6 \in K$ und $\phi(O) = [0,1,0]$.
+	  \item Jede glatte kubische Kurve $C$, die durch eine Weierstass-Gleichung
+	  gegeben ist, definiert eine elliptische Kurve über $K$ mit Basispunkt $O =
+	  [0,1,0]$.
+	\end{enumerate}  
+\end{prop}
+\begin{proof}
+	\cite[Proposition III.3.1 (a), (c)]{silverman2009arithmetic}.
+\end{proof}
+
+
+\begin{lemma}\label{lemma:weierstrass äquiv}
+	Zwei Weierstraß-Gleichungen definieren dieselbe elliptische Kurve, falls sie
+	durch einen Koordinatenwechsel der Form
+	$$X \speq= u^2 X' + r,\qquad Y \speq= u^3 Y' + s u^2 X' + t$$
+	mit $u\in K^\ast$ und $r,s,t \in K$ auseinander hervorgehen.
+\end{lemma}
+\begin{proof}
+	\cite[Proposition III.3.1 (b)]{silverman2009arithmetic}.
+\end{proof}
+
+Das bedeutet, wir können uns eine elliptische Kurve $E/K$ 
+immer gegeben durch eine Weierstraß-Gleichung vorstellen. Wir sagen auch, $E/K$
+ist in Weierstraßscher Normalform gegeben.
+
+
+Stellen wir gewisse Anforderungen an den Körper, so können wir die
+Weierstraß-Gleichung noch weiter vereinfachen.
+
+\begin{lemma}
+	Sei $E/K$ eine elliptische Kurve.
+	\begin{enumerate}
+	  \item Ist $\charak K \neq 2$, so lässt sich $E$ durch eine
+	  	Weierstraß-Gleichung der Form
+	  	$$E/K:\ y^2 \speq= 4x^3 + b_2 x^2 + b_4 x + b_6$$
+	  	mit $b_2,b_4,b_6\in K$ beschreiben.
+	  \item Ist $\charak K \neq 2,3$, so lässt sich $E$ durch eine
+	  	Weierstraß-Gleichung der Form
+	 	$$E/K:\ y^2 \speq= x^3 + Ax + B$$
+	 	mit $A,B \in K$ beschreiben.
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	Einfache Substitutionen, sodass die Gleichungen äquivalent bleiben
+	(\cref{lemma:weierstrass äquiv}). Ausführlich findet man das z.B. in
+	\cite[Abschnitt III.1]{silverman2009arithmetic}.
+\end{proof}
+
+\begin{bem}
+	Im Allgemeinen beschränken wir uns darauf, elliptische Kurven in Körpern der
+	Charakteristik ungleich 2,3 zu betrachten, was den arithmetischen Aufwand dank
+	obigem Lemma deutlich vereinfacht. Daher wollen wir beispielsweise die
+	\emph{Diskriminante} nur für elliptische Kurven über Körpern mit $\charak(K)
+	\neq 2,3$ definieren.
+\end{bem} 
+
+\begin{definition}
+	Seien
+	$E/K:\ y^2 \speq= x^3 + Ax + B$ 
+	eine elliptische Kurve und $\charak(K) \neq 2,3$. Dann heißt
+	$$\Delta \speq{:=} - (4A^3 + 27B^2)$$
+	\emph{Diskriminante} der elliptischen Kurve. 
+\end{definition}
+
+\begin{bem}
+	In der Tat ist die Diskriminante der elliptischen Kurve genau die Diskriminante
+	der kubischen Gleichung auf der rechten Seite. Dies ist auch sinnvoll, da wir
+	stets fordern wollen, dass keine Nullstellen höherer Vielfachheit als 1
+	auftreten. Dies hängt insbesondere mit der Nichtsingularität der elliptischen
+	Kurve zusammen, was nachfolgend postuliert wird und auch für Charakteristik 2
+	und 3 richtig ist.
+\end{bem}
+
+\begin{prop}
+	Sei $C$ eine Kurve gegeben durch eine Weierstraß-Gleichung. $C$ ist genau dann
+	nichtsingulär, falls $\Delta \neq 0$.
+\end{prop}
+\begin{proof}
+	\cite[Proposition III.1.4 (a) (i)]{silverman2009arithmetic}.
+\end{proof}
+
+\begin{bem}
+	Wenn wir also von einer elliptischen Kurve sprechen und eine
+	Weierstraß-Gleichung niederschreiben, so gehen wir immer davon aus, dass ihre
+	Diskriminante $\neq 0$ ist.
+\end{bem}
+
+
+\section{Gruppenstruktur}\label{sec:Gruppenstruktur}
+
+Elliptische Kurven sind besonders interessante Kurven, da man auf ihnen die
+Struktur einer abelschen Gruppe wiederfindet, was wir im Folgenden sehen
+werden. Wir beginnen mit einem Resultat aus der algebraischen Geometrie.
+
+\begin{satz}[Satz von Bézout]
+	Seien $C,D$ zwei nicht identische Kurven über $\P^2$. $C$ habe Grad $c$ und $D$
+	Grad $d$ (Gemeint sei der Grad der homogenen Gleichung, die die Kurve definiert).
+	Dann gilt
+	$$\sum_{P \in C\cap D} (C,D)_P \speq= d\cdot e\,,$$
+	wobei $(C,D)_P$ die Vielfachheit des Schnittes von $C$ mit $D$ im Punkt $P$
+	meint.
+\end{satz} 
+\begin{proof}
+	\cite[Corollary I.7.8]{hartshorne1977algebraic}.
+\end{proof}
+
+Für uns bedeutet das, eine \emph{Gerade} in $\P^2$, also eine Kurve der Form
+$$a X + bY + c Z \speq= 0\,,$$
+wobei $a,b,c$ nicht alle gleich 0 sein dürfen, hat mit einer elliptischen Kurve
+stets 3 Schnittpunkte (mit Vielfachheit gezählt). Das erlaubt uns, aus zwei
+bekannten Punkten auf einer elliptischen Kurve einen dritten "`neuen"' zu
+generieren. Wir betrachten wieder alles affin. Also sind Geraden die nicht durch
+$O$ gehen gegeben durch Gleichungen der Form
+$$ y \speq= \lambda x + \nu$$
+und Geraden durch $O$ sind Gleichungen der Form
+$$ x - x_0 \speq = 0\,.$$
+Damit können wir die \emph{geometrische Addition auf elliptischen Kurven}
+formulieren (vgl. \cite[Composition Law III.2.1]{silverman2009arithmetic}).
+
+\begin{plainthm}{Geometrische Addition auf elliptischen Kurven}
+	\label{geometrische addition}
+	Sei $E/K$ eine elliptische Kurve und $P,Q\in E$.
+	Seien $L$ die Gerade durch $P$ und $Q$ (im Falle $P=Q$ die Tangente) und $R$
+	der dritte Schnittpunkt von $L$ und $E$. Weiter sei $L'$ die Gerade durch $R$
+	und $O$. Dann enthält der Schnitt von $L'$ mit $E$ genau drei Punkte: $R$, $O$
+	und einen dritten Punkt, genannt $P+Q$.
+\end{plainthm}
+
+Man erhält daraus die nachstehenden Formeln.
+Sie sind in jedem Lehrbuch über elliptische Kurven zu finden und hier nach
+\cite[Group Law Algorithm III.2.3]{silverman2009arithmetic} notiert.
+
+\begin{plainthm}{Additionsformeln}\label{additionsformeln}
+	Sei
+	$$E:\ y^2 + a_1 xy + a_3 y \speq= x^3 + a_2 x^2 + a_4 x + a_6$$
+	eine elliptische Kurve.
+	\begin{enumerate}
+	  \item Sei $P_0 = (x_0,y_0)$. Dann ist
+	  	$$ -P_0 \speq= (x_0, -y_0 - a_1x_0 - a_3)\,.$$
+	  	Weiter seinen $P_1 + P_2 = P_3$ mit $P_i = (x_i,y_i) \in E$ für $i=1,2,3$.
+	  \item Ist $x_1=x_2$ und $y_1 + y_2 + a_1x_2 + a_3 = 0$, so ist $P_1 + P_2 =
+	  O$.
+	  Andernfalls definiere $\lambda$ und $\nu$ durch
+	  \begin{center}\everymath{\displaystyle}\renewcommand*{\arraystretch}{1.5}
+	  	\begin{tabular}{|c||c|c|}\hline
+	  		 & $\lambda$ & $\nu$ \\\hline\hline
+	  		 $x_1 \neq x_2$ & $\frac{y_2 - y_1}{x_2 -x_1}$&
+	  		 	$\frac{y_1x_2 - y_2 x_1}{x_2 - x_1}$\\\hline
+	  		 $x_1 = x_2$ & $\frac{3x_1^2 + 2a_2 x_1 + a_4 - a_1 y_1}{2y_1 + a_1 x_1 +
+	  		 a_3}$ & $\frac{-x_1^3 + a_4x_1 + 2a_6 - a_3 y_1}{2y_1 + a_1 x_1 +
+	  		 a_3}$\\\hline
+	  	\end{tabular}
+	  \end{center}
+	  Dann ist $y = \lambda x + \nu$ die Gerade durch $P_1$ und $P_2$ oder die
+	  Tangente an $E$ durch $P_1 = P_2$.
+	  \item Damit ist
+	  	\begin{align*}
+	  		x_3 &\speq= \lambda^2 + a_1\lambda - a_2 - x_1 - x_2\,,\\
+	  		y_3 &\speq= -(\lambda+a_1)x_3 - \nu - a_3\,.
+	  	\end{align*}
+	\end{enumerate}
+\end{plainthm}
+
+\subsection{Beweis der Gruppenstruktur}
+\label{subsec:beweis der gruppenstruktur}
+
+Man kann nun mit Hilfe der Formeln, die sich aus dieser geometrischen Idee
+ergeben, zeigen, dass sich in der Tat dadurch eine Gruppenstruktur auf $E$
+definieren lässt. Wir wollen aber einen eleganteren Weg wählen und einen
+Isomorphismus zwischen der Picard-\emph{Gruppe} $\Pic0(E)$ und den Punkten auf
+$E$ herstellen. Dabei halten wir uns an \cite[Abschnitt
+III.3]{silverman2009arithmetic}.
+
+\begin{lemma}\label{lemma:Divisoren äquiv <=> Punkte gleich}
+	Sei $C$ eine Kurve von Geschlecht 1 und $P,Q \in C$. Dann gilt
+	$$\divp P \speq\sim \divp Q \quad\Leftrightarrow\quad P \speq= Q\,.$$
+\end{lemma}
+\begin{proof}
+	\begin{itemize}
+	  \item["`$\Leftarrow$"'] Klar.
+	  \item["`$\Rightarrow$"'] Sei $\divp P \sim \divp Q$ mit $f \in \Kb(C)^\ast$,
+	  	sodass
+	  	$$\div(f) \speq= \divp P - \divp Q\,.$$
+	  	Dann ist $\div(f) \geq -\divp Q$, also $\div(f) \in \L(\divp Q)$.
+	  	Da $\deg \divp Q = 1 > 0$ können wir aus \cref{kor:riemann-roch} (3) 
+	  	$$\dim \L(\divp Q) \speq= \l(\divp Q) \speq= \deg(\divp Q) - g + 1 \speq=
+	  	1-1+1 \speq= 1$$ folgern. Konstante Funktionen, also solche mit Divisor 0, sind in
+	  	$\L(\divp Q)$ per definitionem enthalten. Dies sind aber auch die einzigen,
+	  	da konstante und nicht-konstante Funktionen sicherlich linear unabhängig
+	  	sind. Damit ist $f$ konstant, also $f \in \Kb$, $\div(f) = 0$ und ergo $P =
+	  	Q$.\qedhere
+	\end{itemize}
+\end{proof}
+
+\begin{prop}\label{prop:Pic0 <-> E}
+	Sei $(E,O)$ eine elliptische Kurve.
+	\begin{enumerate}
+	  \item Sei $D \in \Div0(E)$. Dann existiert ein eindeutiger Punkt $P \in E$,
+	  	sodass
+	  	$$D \speq\sim \divp P - \divp O\,.$$
+	  	Damit ist die Abbildung
+	  	$$\sigma:\ \Div0(E) \speq\to E, \qquad
+	  		D \speq\mapsto P$$
+	  	wohldefiniert.
+	  \item $\sigma$ ist surjektiv.
+	  \item Seien $D_1, D_2 \in \Div0(E)$. Dann gilt
+	  	$$\sigma(D_1) \speq= \sigma(D_2) \quad\Leftrightarrow\quad
+	  		D_1 \sim D_2\,.$$
+	  	Also können wir eine wohldefinierte Bijektion angeben, die wir auch $\sigma$
+	  	nennen wollen:
+	  	$$\sigma:\ \Pic0(E) \speq\to E\,.$$
+	  \item Die Umkehrabbildung von $\sigma$ ist gegeben durch
+	  	$$\kappa:\ E \speq\to \Pic0(E),\qquad P \speq\mapsto 
+	  		(\text{Äquivalenzklasse von } \divp P - \divp O)\,.$$
+	  \item Die Addition von Punkten auf $E$, welche durch $\sigma$ induziert
+	  wird, ist identisch mit der geometrischen Addition von
+	  Punkten auf $E$ nach \ref{geometrische addition}.
+	\end{enumerate}
+\end{prop}
+\begin{proof}
+\begin{enumerate}
+  \item Nach \cref{kor:riemann-roch} (c) haben wir
+  $\dim\L(D + \divp O) = 1$. Sei $f \in \L(D + \divp O)$ ungleich 0, so ist
+  $f$ eine Basis dieses $\Kb$-Vektorraums. Weiter haben wir
+  $$\div(f) \speq\geq -D - \divp O \quad\text{und}\quad \deg\div f \speq= 0\,,$$
+  woraus wir folgern können, dass es $P\in E$ gibt, sodass 
+  $$\div(f)  \speq= -D - \divp O - \divp P\,.$$
+  Also
+  $$D \sim \divp P - \divp O\,.$$
+  Nehmen wir weiter an, wir hätten $P' \in E$ mit $D \sim \divp{P'} - \divp O$.
+  So können wir aber folgern
+  $$\divp P \speq\sim D + \divp O \speq\sim \divp{P'}\,,$$
+  woraus mit \cref{lemma:Divisoren äquiv <=> Punkte gleich} $P = P'$ erhalten.
+  \item Für $P \in E$ wähle $D = \divp P - \divp O$. Dann ist $\sigma(D) = P$.
+  \item Seien $D_1, D_2 \in \Div0(E)$ und $P_i = \sigma(D_i)$ für $i=1,2$. 
+  	Damit haben wir
+  	$$D_1 - D_2 \speq\sim \divp{P_1} - \divp O - \divp{P_2} + \divp O \speq=
+  		\divp{P_1} - \divp{P_2}\,.$$
+  	Ist also $P_1 = \sigma(D_1) = \sigma(D_2) = P_2$, folgt sofort $D_1 \sim
+  	D_2$. Ist umgekehrt $D_1 \sim D_2$, folgt $\divp{P_1} \sim \divp{P_2}$ und
+  	wieder mit \cref{lemma:Divisoren äquiv <=> Punkte gleich} $P_1 = P_2$.
+  \item Nichts zu zeigen.
+  \item Sei $E$ eine elliptische Kurve gegeben in Weierstraßscher Normalform und
+  $P,Q \in E$. Wir müssen also zeigen, dass
+  $$\kappa(P+Q) \speq= \kappa(P) + \kappa(Q)\,,$$
+  wobei $P+Q$ wie in der geometrischen Addition \ref{geometrische addition}
+  definiert sein möge.\\
+  Geben wir uns dazu die beiden Geraden
+  $$L:\ f(X,Y,Z) \speq= \alpha X + \beta Y + \gamma Z \speq= 0$$
+  und
+  $$L':\ f'(X,Z,Z) \speq= \alpha' X + \beta' Y + \gamma' Z \speq=0 $$
+  in $\P^2$ vor. $L$ soll dabei die Gerade durch $P$ und $Q$ sein, deren
+  dritter Schnittpunkt mit $E$ mit $R$ bezeichnet sein soll, und $L'$ diejenige,
+  welche durch $R$ und $O$ geht. Da die Gerade $Z=0$ die Kurve $E$ in $O$ mit
+  Vielfachheit $3$ schneidet, können wir mit Hilfe der geometrischen
+  Addition folgern, dass 
+  \begin{align*}
+  	\div(f / Z) &\speq= \divp P + \divp Q + \divp R - 3 \divp O \,,\\
+  	\div(f' / Z) &\speq= \divp R + \divp{R+Q} - 2 \divp O\,.
+  \end{align*} 
+  Also haben wir 
+  $$0 \speq\sim \div(f / f') \speq= \divp{P+Q} -\divp P - \divp Q + \divp O\,,$$
+  was nichts anderes ist, als
+  $$\kappa(P+Q) - \kappa(P) - \kappa(Q) \speq= 0\,.$$
+\end{enumerate}
+\end{proof}
+
+
+\section{Divisoren auf elliptischen Kurven}
+
+
+
+\begin{definition}
+	Sei $E/K$ eine elliptische Kurve und $D = \sum_{P\in E} n_P \divp P$ ein
+	Divisor auf ihr. Wir definieren
+	$$\summ(D) \speq{:=} \sum_{P\in E} n_P P \,. $$
+\end{definition}
+
+\begin{prop} \label{prop:existenz f bei divisoren}
+	Sei $D$ ein Divisor auf einer elliptischen Kurve $E$. Dann
+	gilt:
+	$$\exists f \in \Kb(E) \text{ mit } \div(f) = D \quad \Leftrightarrow \quad
+	\deg(D) = 0 \text{ und } \summ(D) = 0\,. $$
+\end{prop}
+\begin{proof}
+	$\deg(D) = 0$ ist nach \cref{lemma:deg div f =
+	0} eine notwendige Bedingung. Ist also $D = \sum n_P \divp P \in \Div0(E)$, so
+	haben wir 
+	$$D \sim 0 \speq\Leftrightarrow O = \sigma(D) = 
+		\sum_{P \in E} n_P P \ \in E\,,$$
+	was dem Geforderten entspricht.
+\end{proof}
+
+Bevor wir einen kleinen Überblick über Rechenregeln für Divisoren auf
+elliptischen Kurven angeben, brauchen wir ein Resultat über die Multiplikation
+von Punkten auf elliptischen Kurven mit ganzen Zahlen.
+
+\begin{prop}\label{prop:mult m surjektiv}
+	Sei $E$ eine elliptische Kurve und $m\in \Z$, $m \neq 0$. Dann ist die
+	Abbildung
+	\begin{align*}
+		[m]:\ E &\to E \\
+			P &\mapsto mP
+	\end{align*}
+	surjektiv, wobei für $m>0$ 
+	$$mP \speq= \underbrace{P+\dots + P}_{m\text{-mal}}$$
+	und für $m<0$
+	$$m P \speq= (-m)(-P) \speq= \underbrace{(-P) + \dots +(-P)}_{(-m)
+	\text{-mal}}$$ gemeint ist.
+\end{prop}
+\begin{proof}
+	Nach \cite[Proposition 4.2 (a)]{silverman2009arithmetic} ist $[m]$ nicht
+	konstant und nach \cite[Theorem 2.22]{washington2003elliptic} sind nicht
+	konstante Endomorphismen auf elliptischen Kurven surjektiv.
+\end{proof}
+
+
+\begin{bem}[Rechenregeln für Divisoren auf elliptischen
+Kurven]
+\label{bem:Rechenregeln für Divisoren}
+	Später werden wir einige kleine
+	"`Rechenregeln"' für Hauptdivisoren auf elliptischen Kurven brauchen, die
+	hier kurz erläutert werden. Sei also $E$ eine elliptische Kurve und 
+	$f,g\in \Kb(E)^\ast$ gegeben.
+	Weiter seien für $m\in \Z$ $$[m]:
+	E \to E,\ P\mapsto mP$$ die Abbildung "`multipliziere mit $m$"' und für $Q \in
+	E$ $$\tau_Q:
+	E\to E,\ P\mapsto P + Q$$ die Abbildung "`addiere $Q$"'.
+	Dann gilt:
+	\begin{enumerate}
+	  \item \label{bem:Rechenregeln für Divisoren 1} 
+	  	Sei $\div(f) = n_1 \divp{P_1} + \dots + n_r \divp{P_r}$, $r\in
+		\N$ und wähle für $i=1,\dots,r$ jeweils $P_i' \in E$ mit $m
+		P_i' = P_i$. Die Urbilder existieren nach \cref{prop:mult m surjektiv}. Dann
+		ist $$\div(f\comp [m]) = n_1\bigg(\sum_{S\in \ker[m]} \divp{S+P_1'}\bigg) + \dots
+		+ n_r\bigg(\sum_{S\in \ker[m]}\divp{S+P_r'}\bigg)$$
+		\begin{proof}
+			Sei $i=1,\dots, r$, so ist nach Definition des Divisors $\ord_{P_i} f = n_i$.
+			Damit ist $\ord_Q (f\comp[m]) = n_i$ für alle $Q \in [m]^{-1}(P_i)$. Weiter
+			ist $$[m]^{-1}(P_i) \speq= \ker[m] + P_i'\,.$$
+			Die Inklusion $\supset$ ist dabei klar, aber vielleicht sollte man zu
+			$\subset$ ein Wort sagen: Sei also $Q\in [m]^{-1}(P_i)$. Dann ist $Q \in
+			\ker[m] + P_i'$, denn
+			$$Q = Q - P_i' + P_i'$$
+			und $Q-P_i' \in \ker[m]$, wegen
+			$$m(Q-P_i') = mQ - mP_i' = P_i - P_i = O\,.$$
+		\end{proof}
+	  \item \label{bem:Rechenregeln für Divisoren 4}
+	  	Sei $\div(f) = n_1 \divp{P_1} + \dots + n_r \divp{P_r}$, $r\in
+		\N$, dann ist für $Q \in E$
+		$$\div(f\comp\tau_Q) \speq= 
+			n_1 \divp{P_1 - Q} + \dots + n_r \divp{P_r - Q}\,.$$
+		\begin{proof}
+			Es ist $\ord_{P_i}(f) = n_i$ für alle $i=1,\dots,r$ und wegen
+			$(f\comp \tau_Q)(X-Q) = f(X)$ haben wir 
+			$\ord_{P_i-Q}(f\comp \tau_Q) = n_i$.
+		\end{proof}
+	  \item \label{bem:Rechenregeln für Divisoren 2} 
+	  	$\div(f\cdot g) = \div(f) + \div(g)$ und $\div(f/g) = \div(f) -
+	  \div(g)$. Insbesondere haben wir für $m\in\Z$:
+	  $$\div(f^m) \speq= m \div(f)$$
+	  \begin{proof}
+	  	Klar, da selbiges für $\ord_P$ gilt.
+	  \end{proof}
+	  \item \label{bem:Rechenregeln für Divisoren 3}
+	  Sei $0\neq m\in \Z$. Ist $\const = f^m\in \Kb(E)$, so gilt $f =
+	  \const$.
+	  \begin{proof}
+	  	Wir wenden \cref{prop:div=0 f const} zweimal und \cref{bem:Rechenregeln für
+	  	Divisoren 1} an:
+	  	$$0 \speq= \div(f^m) \speq= m\div(f) \quad\Rightarrow\quad \div(f) \speq=
+	  	0\,.$$
+	  \end{proof}
+	\end{enumerate}
+\end{bem}
+
+\chapter{Die Weil-Paarung}
+\label{chap:weil-paarung}
+
+Zunächst müssen wir zwei kleine Definitionen geben, bevor wir das zentrale Ziel
+dieses Kapitels formulieren können:
+\begin{definition}\label{def:n-Torsionspunkte}
+	Die $n$-Torsionspunkte (oder $n$-Teilungspunkte) einer elliptischen Kurve $E$,
+	sind definiert durch
+	$$E[n] \speq{:=} \{P \in E(\Kb):\ nP = O \} \,.$$
+\end{definition}
+
+\begin{bem}
+	Die $n$-Torsionspunkte sind also gerade der Kern der Abbildung $[n]$.
+\end{bem}
+
+\begin{definition}\label{def:Einheitswurzeln}
+	Die $n$-ten Einheitswurzeln von $K$ seien bezeichnet mit $\mu_n$, also
+	$$\mu_n \speq{:=} \{ a \in \Kb:\ a^n = 1 \} \,.$$
+\end{definition}
+
+Darüber hinaus werden wir ein Resultat über die Struktur der Torsionspunkte
+brauchen.
+
+\begin{lemma} \label{lemma:torsionspunkte}
+	\begin{enumerate}
+	\item Gilt $\charak K = 0$  oder $\charak K \neq 0$ und $\charak K \nmid n$, so
+	folgt $$E[n] \cong \Z_n \oplus \Z_n\,.$$
+	Insbesondere ist hier $\# E[n] = n^2$.
+	\item Ist $\charak K = p > 0$ ist entweder
+		$$E[p^e] \speq= \{O\} $$
+		oder
+		$$E[p^e] \speq= \Z_{p^e}$$
+		für alle $e \in \N^\ast$.
+	\end{enumerate}
+\end{lemma} 
+\begin{proof}
+	\cite[Corollar III.6.4 (b,c)]{silverman2009arithmetic}.
+\end{proof}
+
+Damit möchten wir für $n\in\N^+$, $\ggT(n,\charak(K))=1$ eine Abbildung $e_n:
+E[n]\times E[n] \to \mu_n$ konstruieren, die folgende Eigenschaften erfüllt:
+
+\begin{prop}[Eigenschaften der Weil-Paarung] 
+	\label{prop:Weil-Paarung Eigenschaften}
+	Sei $E/K$ eine elliptische Kurve und $n\in\N^+$ mit $\ggT(n,\charak(K))=1$.
+	Seien weiter $P,Q,R \in E[n]$ beliebig.
+	Dann existiert eine Abbildung $e_n: E[n]\times E[n] \to \mu_n$
+	mit folgenden Eigenschaften:
+	\begin{enumerate}[label=\Roman*.]
+	  \item \textbf{Linear}
+	  	$$e_n(P+Q, R) \speq= e_n(P,R) + e_n(Q,R),$$
+	  	$$e_n(P,Q+R) \speq= e_n(P,Q) + e_n(P,R)\,.$$
+	  \item \textbf{Alternierend}\quad
+	  	$e_n(P,P) = 1$.
+	  \item \textbf{Anti-symmetrisch}\quad $e_n(P,Q) \speq= e_n(Q,P)^{-1}$.
+	  \item \textbf{Nicht entartet in beiden Variablen}\quad 
+	  	$$e_n(P,S) = 1 \ \forall S\in E[n]
+	  		\quad\Leftrightarrow\quad
+	  		P = O$$
+	  	und
+	  	$$e_n(S,P) = 1 \ \forall S\in E[n]
+	  		\quad\Leftrightarrow\quad
+	  		P = O\,.$$
+	  		
+	  \item \textbf{Galois-invariant}\quad Für $\sigma \in \Gal(\Kb/K)$ gilt
+	  $$e_n(P,Q)^\sigma \speq= e_n(P^\sigma,Q^\sigma)\,.$$
+	\end{enumerate}
+\end{prop}
+
+Bevor wir anfangen, diese Abbildung zu konstruieren, wollen wir noch eine
+weitere Eigenschaft zeigen. 
+
+\begin{kor}\label{kor:weil paarung primitive Wurzel}
+	Seien die Voraussetzungen wie oben gegeben. Dann existieren Punkte $S,T \in
+	E[n]$, sodass $e_n(S,T)$ eine primitive $n$-te Einheitswurzel ist. Insbesondere
+	ist $\mu_n \subset K^\ast$, falls $E[n] \subset E(K)$.
+\end{kor}
+\begin{proof}
+	Aus \cref{prop:Weil-Paarung Eigenschaften} wissen wir, dass $\{e_n(S,T):\
+	S,T\in E[n]\} \subset \mu_n$. Weiter ist klar, dass diese Menge eine
+	Untergruppe von $\mu_n$ bildet, sagen wir $\mu_d$. Damit haben wir
+	$$1 \speq= e_n(S,T)^d \speq= e_n(d S, T) \qquad \forall S,T \in E[n]\,.$$
+	Eigenschaft IV der Weil-Paarung impliziert nun, dass $dS = O$. Da $S \in E[n]$
+	beliebig war und wir aus \cref{lemma:torsionspunkte} die Struktur von $E[n]$
+	kennen, folgt sofort $d = n$.
+	
+	Seien schließlich $E[n] \subset E(K)$, $S,T \in E[n]$ und $\sigma \in
+	\Gal(\Kb / K)$, so haben wir $S^\sigma = S$ und $T^\sigma = T$.
+	Damit folgt aber nach Eigenschaft V
+	$$e_n(S,T)^\sigma \speq= e_n(S^\sigma, T^\sigma) \speq= e_n(S,T)$$
+	und damit liegt $e_n(S,T) \in K^\ast$. Da $S,T \in E[n]$ beliebig waren, folgt
+	die Behauptung.
+\end{proof}
+
+
+\section{Konstruktion der Weil-Paarung}\label{sec:Konstruktion der Weil-Paarung}
+Um die Weil-Paarung mit ihren Eigenschaften zu konstruieren, geben wir diese
+Abbildung explizit an, wobei wir uns an \cite[Kapitel 3.1]{nikolayzik2007dipl}
+orientieren.
+
+Wir wollen \cref{lemma:torsionspunkte} nutzen, also wählen wir im Folgenden
+$n \in \N_{\geq 2}$ fest und teilerfremd zur Charakteristik des Körpers $K$.
+
+\begin{lemma} \label{lemma:weil-paarung 1}
+	Sei $T \in E[n]$ und $D := n [T] - n [O]$. Ferner seien $T' \in E[n^2]$ mit
+	$nT' = T$ und
+	$$D' := \sum_{R \in E[n]} ([T' + R] - [R]) \,, $$
+	dann existieren Funktionen $f$ und $g$ auf der elliptischen Kurve mit
+	$\div(f) = D$ und $\div(g) = D'$.
+\end{lemma}
+
+\begin{proof}
+	\begin{description}
+	  \item[Existenz von $T'$] Nach \cref{prop:mult m surjektiv} ist
+	  die Multiplikation mit $n$ surjektiv, insbesondere hat $T$ ein Urbild.
+	  \item[Existenz von $f$] Es ist $\deg(D) = n-n = 0$ und $\summ(D) = n T - nO
+	  = O - O = O$ nach Wahl von $T$. Damit existiert nach \cref{prop:existenz f
+	  bei divisoren} gesuchtes $f$.
+	  \item[Existenz von $g$] Um auch $g$ mit \cref{prop:existenz f
+	  bei divisoren} zu erlangen, rechnet man zunächst $\deg(D') = \sum_{R \in
+	  E[n]} (1-1) = 0$ und
+	  $$\summ D' = \sum_{R\in E[n]} (T' + R - R) = \sum_{R \in E[n]} T' = n^2 T' =
+	  O\,,$$
+	  da nach \cref{lemma:torsionspunkte} $\# E[n] = n^2$ und $n^2 T' = n T =
+	  O$.\qedhere
+	\end{description}
+\end{proof}
+
+Um später Wohldefiniertheit garantieren zu können, sollte $g$ nicht von der Wahl
+des Punktes $T'$ abhängen, was nachstehendes Lemma garantiert.
+
+\begin{lemma} \label{lemma: weil-paarung 2}
+	$g$ wie oben, hängt nicht von der Wahl von $T'$ ab.
+\end{lemma}
+\begin{proof}
+	Sei $T'' \in E[n^2]$ mit $nT'' = nT' = T$, so unterscheiden sich $T''$ und $T'$
+	gerade um ein $S \in E[n]$. 
+\end{proof}
+
+Analog zu \cref{bem:Rechenregeln für Divisoren} \ref{bem:Rechenregeln für
+Divisoren 1} haben wir
+ $$\div(f \comp n) \speq{=} n \left( \sum_{R\in E[n]} [T'
++ R]\right) - n \left( \sum_{R\in E[n]} [R]\right) \speq{=} \div(g^n) \,.$$
+
+Damit ist $f\comp n$ nach \cref{lemma:gleiche divisoren konstantes vielfaches}
+ ein konstantes Vielfaches von $g$ und nach Multiplikation mit
+geeigneten Konstanten können wir annehmen
+$$f\comp n \speq{=} g^n \,.$$
+
+Sei nun $S\in E[n]$ und $P\in E(\Kb)$, so gilt
+\begin{equation}
+	g^n(P+S) = (f\comp n)(P+S) = f(n(P+S)) = f(nP + O) = g^n(P)
+	\label{eq:weil g-f}
+\end{equation}
+und es folgt, dass
+$$\frac{g(P+S)}{g(P)} \speq{\in} \mu_n \,.$$
+
+Damit können wir nun die Weil-Paarung definieren:
+
+\begin{definition}[Weil-Paarung] \label{def:Weil-Paarung}
+	Seien $T \in E[n]$ und $g$ wie oben definiert, so ist die \emph{Weil-Paarung}
+	eine Abbildung
+	$$ e_n:\ \begin{array}[t]{rcl} E[n] \times E[n] &\to& \mu_n \\
+		(S,T) &\mapsto& \dfrac{g(P+S)}{g(P)}\,,		
+		\end{array}$$
+	wobei $P\in E(\Kb)$ beliebig ist.
+\end{definition}
+
+\begin{prop} \label{prop: weil wohldef}
+	Die Weil-Paarung ist wohldefiniert.
+\end{prop}
+\begin{proof}
+	Da wir $P$ als beliebigen Punkt aus $E(\Kb)$ gewählt haben, gilt es zu zeigen,
+	dass diese Wahl auch beliebig ist.
+	Betrachte dazu die Translationsabbildung mit $S$, d.h.
+	$$\tau_S: E(\Kb) \to E(\Kb),\ P \mapsto P + S \,.$$
+	Dann ist 
+	$$(g \comp \tau_S)^n(P) \ =\ g^n(P+S)\ \overbox{=}{\text{\cref{eq:weil g-f}}} \
+	g^n(P)$$
+	und folglich $\div((g \comp \tau_S)^n) = \div(g^n)$, also
+	$\div(g\comp\tau_S) = \div(g)$.
+	Schluss\-end\-lich ist damit
+	$$\div\left(\frac{g\comp\tau_S}{g}\right) = 0$$ und mit \cref{prop:div=0 f
+	const} folgt, dass
+	$\tfrac{g\comp \tau_S}{g}(P)$ konstant als Funktion in $P$ ist.
+\end{proof}
+
+\section{Alternative Definition und Konstruktion der Weil-Paarung}
+Wie wir aber später sehen werden, ist es vom algorithmischen Standpunkt her
+sinnvoller, die Weil-Paarung auf anderem Wege zu definieren. Dazu gehen wir wie
+folgt vor (vergleiche \cite{miller2004WeilPairing}):
+
+\begin{definition}\label{def:Divisor in Funktion}
+	Seien $C$ eine Kurve, $f\in K(C)$ und $D = \sum_{P\in C} n_P [P]$ ein Divisor
+	auf $C$ mit $\supp(D) \cap \supp(\div(f)) = \emptyset$, so können wir definieren:
+	$$f(D) \speq{:=} \prod_{P\in C} f(P)^{n_P}$$  
+\end{definition}
+
+\begin{bem}
+	Betrachten wir beispielsweise 
+	$E: Y^2 = (X-e_1)(X-e_2)(X-e_3)$, $e_i \in K$ und
+	$f = X-e_1$, so wissen wir aus \cref{bsp:ord}, dass
+	$\div(f) = 2[(e_1,0)] - 2 [O]$. Wählen wir dann 
+	$D := [(e_1,0)] + [(e_2,0)]$, so ist die Voraussetzung der 
+	disjunkten Träger in \cref{def:Divisor in Funktion} verletzt.
+	Setzen wir den Divisor dennoch in die Funktion ein, sehen wir,
+	warum diese Voraussetzung Sinn macht:
+	$$f(D) \speq= f((e_1,0))^1\cdot f((e_2,0))^1 \speq= 0\,.$$
+	D.h. für $\supp(D) \cap \supp(\div(f)) \neq \emptyset$ folgte stets 
+	$f(D) = 0$ oder $= \infty$.  
+\end{bem}
+
+
+\begin{definition}[Weil-Paarung durch Divisoren]
+	\label{def:Weil-Paarung durch Divisoren}
+	Seien $n>1$, $E/K$ eine elliptische
+	Kurve und $D_1, D_2$ zwei Divisoren auf ihr mit disjunkten Trägern. Gelte außerdem $nD_i \sim 0$. Dann gibt es nach
+	\cref{prop:existenz f bei divisoren} Funktionen $f_i$ mit 
+	$\div(f_i) = nD_i$ für $i=1,2$. Definiere die \emph{Weil-Paarung} durch:
+	$$e_n(D_1,D_2) \speq{:=} \frac{f_1(D_2)}{f_2(D_1)}\,.$$
+\end{definition}
+
+Um die Wohldefiniertheit dieser Konstruktion zu zeigen, benötigen wir noch eine
+weitere Aussage:
+
+\begin{prop}[Weil-Reziprozität]
+	\label{prop:Weil-Reziprozität}
+	Sei $C$ eine Kurve und $f,g \in K(C)$ mit $f,g\neq 0$ und $\supp(f) \cap
+	\supp(g) =\emptyset$. Dann gilt:
+	$$f(\div(g)) \speq= g(\div(f))\,.$$
+\end{prop}
+\begin{proof}
+	\cite[Excercise 2.11]{silverman2009arithmetic}
+\end{proof}
+
+\begin{prop}\label{prop:Weil-Paarung durch Divisoren wohldefiniert}
+	Die Weil-Paarung aus \cref{def:Weil-Paarung durch Divisoren} hängt nur von der
+	Divisorklasse von $D_1$ bzw. $D_2$ ab.
+\end{prop}
+\begin{proof}
+	Wir zeigen nur die Wohldefiniertheit im ersten Argument; im zweiten folgt sie
+	analog.
+	Sei dazu also $D\sim D_1$, d.h. $D - D_1 \sim 0$. Also existiert $f \in
+	\Kb(E)^\ast$ mit $D = D_1 + \div(f)$ und $\supp(\div(f)) \cap D_2 =
+	\emptyset$.
+	Weiter ist $nD = nD_1 + n\div(f) = \div(f_1\cdot f^n)$ und es folgt:
+	\begin{align*}
+		e_n(D,D_2) &= \frac{f_1(D_2) f^n(D_2)}{f_2(D_1) f_2(\div(f))}\ 
+		\overbox{=}{Weil-Reziprozität \cref{prop:Weil-Reziprozität}}\ 
+			\frac{f_1(D_2)}{f_2(D_1)}\frac{f^n(D_2)}{f(\div(f_2))}\\
+			&= e_n(D_1,D_2)\,.
+	\end{align*}  
+	Letzte Gleichheit erhalten wir für $D_2 = \sum_{P\in E} n_P [P]$ aus 
+	$$f(\div(f_2)) = f(n D_2) = \prod_{P\in E} f(P)^{n n_P} = f^n(D_2)\,.$$
+\end{proof}
+
+Um nun wieder zurück zu einer Weil-Paarung als Abbildung $E[n] \times E[n] \to
+\mu_n$ zu kommen, verwenden wir \cref{prop:Pic0 <-> E} (1), wo wir gezeigt
+haben, dass für jeden Divisor $D$ ein eindeutiger Punkt $P\in E$ existiert mit $D \sim
+\divp P - \divp O$ und können definieren:
+
+\begin{definition}[Weil-Paarung 2] \label{def:Weil-Paarung 2}
+	Sei $E/K$ eine elliptische Kurve und $n>1$. Seien $P,Q\in E[n]$. Die 
+	\emph{Weil-Paarung} ist definiert durch:
+	$$\tilde e_n(P,Q) \speq{:=} e_n([P]-[O], [Q]-[O])\,.$$
+\end{definition}
+
+\section{Verträglichkeit der Definitionen}
+Wir haben auf verschiedenen Wegen zwei Definitionen der Weil-Paarung gesehen und
+möchten diese nun vereinen:
+\begin{satz}\label{satz:Weil-Paarung Gleichheit}
+	Die Weil-Paarungen $e_n$ aus \cref{def:Weil-Paarung} und $\tilde e_n$ aus
+	\cref{def:Weil-Paarung 2} sind reziprok gleich, d.h. für alle $S,T \in E[n]$
+	gilt
+	$$e_n(S,T) \speq= \tilde e_n(S,T)^{-1}\,.$$
+\end{satz}
+\begin{proof} (Vergleiche \cite[Notes on Exercises (3.16)]{silverman2009arithmetic})
+	Sei $E/K$ eine elliptische Kurve, $n>1$ und $P,Q \in E[n]$. Wähle Punkte
+	$P',Q',R \in E$ mit $nP'=P$, $nQ'=Q$, $P'\neq \pm Q'$ und $2R = P'-Q'$. 
+	Die Existenz von $P', Q'$ und $R$ bekommen wir wieder mit \cref{prop:mult m
+	surjektiv}. Weiter definiere Divisoren
+	$D_P$, $D_Q$ und Funktionen $f_P, f_Q, g_P, g_Q \in
+	\Kb(E)$ durch
+	\begin{alignat}{5}
+		D_P &= [P] - [O], &\qquad D_Q &= [Q+nR] - [nR], \label{eq:notes1}\\
+		\div(f_P) &= n D_P, &\qquad \div(f_Q) &= nD_Q, \label{eq:notes2}\\
+		g_P^n &= f_P \comp [n], &\qquad g_Q^n &= f_Q \comp [n] \label{eq:notes3}\,.
+	\end{alignat}
+	Wobei mit $[n]$ die Abbildung $P \mapsto nP$ gemeint ist.
+	Ferner ist die Existenz von $f_P$ und $f_Q$ klar, da $nD_{P,Q} \sim 0$
+	wegen $P,Q\in E[n]$.
+	
+	Betrachte nun
+	$$c_1(X) \speq{:=} \frac{g_P(X+Q'+R) g_Q(X)}{g_P(X+R) g_Q(X+P')}$$
+	und
+	$$c_2(X) \speq{:=} \prod_{i=0}^{n-1} g_Q(X+iQ') \,.$$
+	Wir behaupten nun $c_{1,2} = \const$, was wir durch \cref{prop:div=0 f const}
+	beweisen wollen. Betrachten wir zunächst
+	$$\div(g_P^n) = \div(f_P \circ [n]) = n \sum_{S\in E[n]} ([S + P'] - [S])$$
+	und
+	$$\div(g_Q^n) = \div(f_Q \circ [n]) = n \sum_{S\in E[n]} ([S+Q'+R] -
+	[S+R])\,.$$
+	Also können wir
+	$$\div(g_P) = \sum_{S \in E[n]} ([S+P'] - [S])$$
+	und
+	$$\div(g_Q) = \sum_{S\in E[n]} ([S+Q'+R] -
+	[S+R])$$
+	folgern.
+	Bezeichnen wir wieder mit $\tau_Q:E(K) \to E(K),\ P\mapsto P+Q$
+	die Additionsabbildung, so folgt
+	\begin{equation*}
+		\setlength{\arraycolsep}{1pt}
+		\renewcommand{\arraystretch}{1.255}
+		\everymath{\displaystyle}
+		\begin{array}{rcrl}
+		\div(c_1) &\ =\ \ & \multicolumn{2}{l}{\div(g_P \comp \tau_{Q'+R}) 
+			 + \div(g_Q)
+			 - \div(g_P\comp \tau_R)
+			- \div(g_Q \comp \tau_{P'})}\\
+		&= &\sum_{S\in E[n]} \big( &\divp{S+P' - Q'-R} - \divp{S - Q'-R}\\   
+			&&+&\divp{S+Q'+R} - \divp{S+R} \\
+			&&-& \divp{S+P' -R} + \divp{S -R}\\
+			&&-& \divp{S+Q'+R -P'} + \divp{S+R -P'}\big) \\
+		&\overbox{=}{$Q'+R = P'-R$}&\sum_{S\in E[n]}\big(
+		&\divp{S+P'-(P'-R)}-\divp{S-(P'-R)}\\
+			&&+&\divp{S+P'-R} - \divp{S+R} \\
+			&&-& \divp{S+P' -R} + \divp{S -R}\\
+			&&-& \divp{S+P'-R -P'} + \divp{S+R -P'}\big) \\
+		& = & \multicolumn{2}{l}{0}
+		\end{array}
+	\end{equation*}
+	und 
+	\begin{align*}
+		\div(c_2) &\speq= \sum_{i=0}^{n-1} \div(g_Q\comp \tau_{iQ'}) \speq=
+			\sum_{i=0}^{n-1} \sum_{S\in E[n]}
+			\big( \divp{S+Q'+R - iQ'} - \divp{S+R - iQ'} \big)\\
+		&\speq= \sum_{S\in E[n]} \sum_{i=0}^{n-1}
+			\big(\divp{S+R - (i-1)Q'} - \divp{S+ R -iQ'} \big)\\
+		&\overbox{\speq=}{Teleskopsumme} \sum_{S\in E[n]}
+			\big( \divp{S+R + Q'} - \divp{S+R + Q' - nQ'} \big)\\
+		&\speq= \sum_{S\in E[n]}
+			\divp{S+R + Q'} - \sum_{S\in E[n]} \divp{S+R + Q' - Q}\\
+		&\overbox{\speq=}{$Q \in E[n]$} \sum_{S\in E[n]}
+			\divp{S+R + Q'} - \sum_{T := S-Q \ \in E[n]} \divp{T+R + Q'}\\
+		&\speq= 0\,.
+	\end{align*}
+	Daraus können wir nun die postulierte Verträglichkeit folgern:
+	\begin{align*}
+		\tilde e_n(P,Q) &\speq= \frac{f_P(D_Q)}{f_Q(D_P)}
+		\overbox{\speq=}{\cref{eq:notes1}}
+ 		\frac{f_P(Q+ nR) f_Q(O)}{ f_P(nR) f_Q(P)}\\
+ 			&\overbox{\speq=}{\cref{eq:notes2}}
+ 			\frac{f_P(nQ' + nR)f_Q(nO)}{f_P(nR)	f_Q(nP')}
+ 		\overbox{\speq=}{\cref{eq:notes3}} \left(\frac{g_P(Q'+R) g_Q(O)}{g_P(R)
+ 		g_Q(P')}\right)^n\\
+  		&\overbox{\speq=}{$c_1 = \const$} \prod_{i=0}^{n-1} \frac{g_P(R+ (i+1)Q')
+  			g_Q(iQ')}{g_P(R+iQ') g_Q(P' + iQ')}
+  		\overbox{\speq=}{Teleskopprodukt} \frac{g_P(R+nQ')}{g_P(R)}
+  			\prod_{i=0}^{n-1} \frac{g_Q(iQ')}{g_Q(P'+iQ')}\\
+  		&\overbox{\speq=}{$c_2=\const$} \frac{g_P(R+nQ')}{g_P(R)}
+  		\speq= \frac{g_P(R+Q)}{g_P(R)} \speq= e_n(P,Q)^{-1} \,.
+	\end{align*}
+\end{proof}
+
+\section{Beweis der Eigenschaften der Weil-Paarung}
+Kommen wir also endlich zum Beweis der Eigenschaften der Weil-Paarung, wobei wir
+uns jeweils aussuchen können, welche Definition gerade die "`einfachere"' ist.
+
+\begin{proof}[Beweis von \cref{prop:Weil-Paarung Eigenschaften}]
+\begin{enumerate}[label=\Roman*.]
+  \item \textbf{Linear}\quad Seien $P\neq Q\neq R \in E[n]$ mit $\div(f_P) = 
+  n[P] - n[O]$,  $\div(f_Q) =  n[Q] - n[O]$,  $\div(f_R) =  n[R] - n[O]$ für
+  geeignete $f_P, f_Q, f_R \in \Kb(E)$. Damit ist $\div(f_P\cdot f_Q) = n([P]
+  + [Q]) - n([O] + [O])$ und wir folgern:
+  $$e_n(P+Q,R) = \frac{(f_P\cdot f_Q)([R] - [O])}{f_R([P] + [Q] -
+  2 [O])} = \frac{f_P(R) f_Q(R) f_R(O)^2}{f_R(P) f_R(Q) f_P(O) f_Q(O)} =
+  e_n(P,R)e_n(Q,R)\,.$$
+  Aufgrund der Symmetrie der Konstruktion zeigt sich die Linearität im zweiten
+  Argument analog (was bei ersterer Definition der Weil-Paarung nicht der Fall
+  ist).
+  \item \textbf{Alternierend}\quad Aus I. haben wir
+  	$$e_n(S+T, S+T) \speq= e_n(S,S) e_n(S,T) e_n(T,S) e_n(T,T)\,.$$
+  	Wir müssen also $e_n(T,T) = 1$ $\forall T\in E[n]$ zeigen. Dazu betrachten
+  	wir die Verschiebung um $P$, für ein $P\in E$, d.h. die Abbildung $\tau_P:
+  	E\to E, \ Q \mapsto Q+P$, erhalten aus \cref{lemma:weil-paarung 1} 
+  	Funktionen $f$ mit $\div(f) = n\divp T - n \divp O$ und $g$ mit
+  	$f\comp n = g^n$ und berechnen $$\div\left(\prod_{i=0}^{n-1} f \comp
+  	\tau_{iT} \right) \speq= n \sum_{i=0}^{n-1} \bigg( \divp{(1-i)T} -
+  	\divp{(-i)T} \bigg) \speq=  n[T] - n[(1-n)T] 
+  	\overbox{\speq=}{$T\in E[n]$} 0\,. $$
+  	Nach
+  	\cref{prop:div=0 f const} ist $\prod_{i=0}^{n-1} f\comp \tau_{iT} = \const$.
+  	Wir haben
+  	\begin{align*}
+  		\left(\prod_{i=0}^{n-1} g\comp \tau_{iT'}\right)^n &=
+  			\prod_{i=0}^{n-1} g^n\comp \tau_{iT'} =
+  			\prod_{i=0}^{n-1} f\comp n\comp \tau_{iT'} \\
+  		&= \prod_{i=0}^{n-1} f\comp (n\comp\tau_{iT'})
+  			\overbox{=}{$nT' = T$}
+  			\prod_{i=0}^{n-1} f\comp \tau_{iT}\,,
+  	\end{align*} 
+  	also ist $\left(\prod_{i=0}^{n-1} g\comp \tau_{iT'}\right)^n$ konstant und
+  	analog zu \cref{bem:Rechenregeln für Divisoren}\ref{bem:Rechenregeln für
+  	Divisoren 3} auch $\prod_{i=0}^{n-1} g\comp \tau_{iT'}$.
+  	Damit gilt für beliebiges $X\in E$ 
+  	$$\prod_{i=0}^{n-1} g(X + iT') \speq= \prod_{i=0}^{n-1} g(X + (i+1)T')\,,$$
+  	wobei wir links alles bis auf den Term für $i=0$ und rechts bis auf den Term
+  	für $i=n-1$ alles kürzen können:
+  	$$g(X) \speq= g(X+nT') \speq= g(X+T)\,.$$
+  	Wir haben $f$ und $g$ wie in der Konstruktion der Weil-Paarung gewählt und
+  	erhalten letztlich
+  	$$e_n(T,T) \speq= \frac{g(X+T)}{g(X)} \speq= 1\,.$$
+  \item \textbf{Anti-symmetrisch}\quad 
+  	Aus I. und II. können wir folgern:
+  	$$1 = e_n(P+Q, P+Q) =
+  	e_n(P,P)e_n(P,Q)e_n(Q,P)e_n(Q,Q) = e_n(P,Q) e_n(Q,P) \,.$$
+  \item \textbf{Nicht entartet in beiden Variablen}\quad
+  	Sei $e_n(S,P) = 1 $ für alle $S\in E[n]$. Dann ist $g(X+S) = g(X)$ für $g$
+  	aus der Konstruktion. Aus \cite[Lemma 3.2.1]{nikolayzik2007dipl} können wir
+  	dann folgern, dass $g = h\comp [m]$ für geeignetes $h\in \Kb(E)$.
+  	Damit ist aber für $f$ aus der Konstruktion
+  	$$(h\comp [m])^m \speq= g^m \speq= f \comp [m]\,,$$
+  	also $f = h^m$. Wir erinnern uns, dass $\div(f) = m\divp P - m\divp O$, und
+  	haben damit
+  	$$\div(h) \speq= \divp P - \divp O\,.$$
+  	Nach \cref{prop:existenz f bei divisoren} muss $\summ(\divp P - \divp O) =
+  	O$ gelten, also $P = O$.\\
+  	Mit Eigenschaft III und dem eben Bewiesenen können wir Selbiges für die
+  	erste Variable schnell beweisen:
+  	Sei nämlich $e_n(P,S) = 1$ für alle $S\in E[n]$, so gilt
+  	$$1 = e_n(P,S)^{-1} = e_n(S,P) = 1\ \forall S\in E[n]\,,$$
+  	woraus $S = O$ folgt.
+  \item \textbf{Galois invariant}
+  	Sei $\sigma\in \Gal(\Kb/K)$. Da $\sigma$ Werte aus $K$ und damit die
+  	Koeffizienten von $E$ fest lässt, ist klar, dass für $T\in E(\Kb)$ auch
+  	$T^\sigma \in E(\Kb)$. Für $T\in E[n]$ ist 
+  	$$O = O^\sigma = (nT)^\sigma = (\underbrace{T + \dots +T}_{n \text{
+  	mal}})^\sigma = \underbrace{T^\sigma + \dots +T^\sigma}_{n \text{ mal}} =
+  	nT^\sigma\,.$$
+  	Also ist auch $T^\sigma \in E[n]$. Damit ist klar, dass
+  	$f^\sigma$ und $g^\sigma$ (gemeint ist, $\sigma$ auf die
+  	Koeffizienten von $f$ und $g$ angewandt) Funktionen für
+  	$T^\sigma$ und $S^\sigma$ sind und wir haben
+  	$$e_n(S,T)^\sigma = \left(\frac{g(X+S)}{g(X)}\right)^\sigma
+  	 = \frac{g^\sigma(X^\sigma + S^\sigma)}{g^\sigma(X^\sigma)} =
+  	e_n(S^\sigma,T^\sigma)\,.$$
+\end{enumerate}
+\end{proof}
+
+
+
+\chapter{Elliptische Kurven über $\F_q$}
+\label{chap:elliptische kurven über F_q}
+
+Sei im Folgenden $q = p^m$ mit $p \neq 2,3$ einer Primzahl.
+
+Wir wollen zunächst ein Resultat über die Struktur der additiven Gruppe
+einer elliptischen Kurve über $\F_q$ herleiten. 
+
+
+\begin{prop}\label{prop:Struktur E(F_q)}
+	Sei $E/\F_q$ eine elliptische Kurve über einem endlichen Körper $\F_q$. Dann
+	gilt
+	$$ E(\F_q) \speq\cong \Z_d \qquad\text{oder} \qquad E(\F_q) \speq\cong \Z_{d_1}
+	\oplus \Z_{d_2}$$
+	mit $d,d_1,d_2 \in \N^\ast$ und $d_1\mid d_2$.
+\end{prop}
+\begin{proof}
+	Aus dem Hauptsatz über endlich präsentierte abelsche Gruppen (z.B.
+	\cite[Hauptsatz 6.109]{nieper2012alg}) wissen wir, dass
+	$$E(\F_q) \speq\cong Z_{d_1} \oplus \Z_{d_2} \oplus\dots\oplus \Z_{d_n}$$
+	mit $d_i \in \N^\ast$ $\forall i=1,\dots, n$ und $d_i \mid d_{i+1}$ $\forall
+	i=1,\dots, n-1$. In jeder Gruppe $\Z_{d_i}$ gibt es $d_1$ Elemente, deren
+	Ordnung $d_1$ teilt, also haben wir $d_1^n$ Elemente in $E(\F_q)$ deren Ordnung
+	$d_1$ teilt. Nach \cref{lemma:torsionspunkte} wissen wir aber, dass $\# E[d_1]
+	\leq d_1^2$. Also ist erst recht $\# E(\F_q)[d_1] \leq d_1^2$ und damit $n\leq
+	2$.
+\end{proof}
+
+Das liefert uns jedoch noch keinen Aufschluss über die Größe der additiven
+Gruppe. Wollen wir dazu erst einmal eine kleine Überlegung machen:
+
+Sei also 
+$$E:\ y^2 \speq= x^3 + Ax + B$$
+eine elliptische Kurve über $\F_q$. Dann lässt sich eine triviale Oberschranke
+für $\# E(\F_q)$ wie folgt herleiten: Angenommen, die
+quadratische Gleichung auf der linken Seite obiger Gleichung hat für alle $x\in
+\F_q$ auf der rechten Seite genau zwei Lösungen, so haben wir 
+$$ \# E(\F_q) \leq 2q + 1 \,.$$
+
+
+Mit mehr Theorie kann man folgende Proposition beweisen:
+
+\begin{prop}[Hasse]\label{prop:Hasse}
+	Sei $E/\F_q$ eine elliptische Kurve. Dann gilt
+	$$| \# E(\F_q) - q - 1 | \speq\leq 2\sqrt q\,.$$
+\end{prop}
+\begin{proof}
+	\cite[Theorem V.1.1]{silverman2009arithmetic}\,.
+\end{proof}
+
+\section{Schoofs Idee}
+
+\begin{prop}\label{prop:frob}
+	Sei $q=p^n$ für $p$ prim. Sei $E/\F_q$ eine elliptische Kurve und
+	$$\phi_q:\ E(\overline \F_q) \to E(\overline \F_q), \qquad (x,y) \mapsto (x^q,
+	y^q), \quad O\mapsto O$$
+	der Frobenius-Endomorphismus zu $q$. Dann gilt
+	\begin{enumerate}
+	  \item $\phi_q$ ist in der Tat ein Endomorphismus.
+	  \item $P\in E(\F_q) \quad\Leftrightarrow\quad \phi_q(P) = P \text{ und }
+	  P\in E$.
+	\end{enumerate} 
+\end{prop}
+\begin{proof}
+	Wir gehen von dem Frobenius-Endomorphismus zu $q$ in $\F_q$ aus, wollen aber
+	keinen Unterschied in der Notation machen, also
+	$$\phi_q: \ \overline\F_q \to \overline\F_q, \qquad x\mapsto x^q\,.$$
+	Hier wissen wir (z.B. aus \cite[Theorem C.1 und
+	Proposition C.2]{washington2003elliptic}), dass
+	\begin{enumerate}
+	  \item $\phi_q$ ein Körperendomorphismus ist und
+	  \item $x \in \F_q \quad \Leftrightarrow\quad \phi_q(x) = x$. 
+	\end{enumerate}
+	Kommen wir damit zum eigentlichen Beweis:
+	Sei $E/\F_q$ gegeben durch $y^2 + a_1 xy + a_3 y = x^3 + a_2 x^2 + a_4
+	x + a_6$ mit $a_1, \dots, a_6 \in \F_q$. Nehmen wir  $(x,y) \in E$, so ist
+	\begin{align*}
+		(y^q)^2 + a_1 x^q y^q + a_3 y^q 
+		&\speq= (y^p)^2 + a_1^q x^q y^q + a_3^q y^q
+		\speq= (y^2 + a_1 xy + a_3 y)^q\\
+		&\speq= (x^3 + a_2 x^2 + a_4 x + a_6)^q \speq=
+			(x^3)^q + a_2^q (x^2)^q + a_4^q x^q + a_6^q \\
+		&\speq= (x^q)^3 + a_2 (x^q)^2 + a_4 x^q + a_6^q \,,  
+	\end{align*}
+	also $(x^q, y^q) \in E$.
+	Ganz analog sieht man an den Additionsformeln, dass $\phi_q$ mit der Addition
+	auf $E$ verträglich ist.
+
+	Eigenschaft (2) ist mit Kenntnis der Eigenschaft (2) des
+	Frobenius-Endomorphismus in $\F_q$ ebenfalls klar:
+	\begin{align*}
+	(x,y) \in E(\F_q) &\quad\Leftrightarrow\quad 
+		x,y\in \F_q \speq\land (x,y) \in E\\
+	&\quad\Leftrightarrow\quad 
+		\phi_q(x) = x,\ \phi_q(y) = y \speq\land (x,y) \in E\\ 
+	&\quad\Leftrightarrow\quad \phi_q(x,y) = (x,y) \speq\land (x,y) \in E\,.
+	\end{align*}
+\end{proof}
+
+
+
+\begin{prop} \label{prop:schoof 1}
+	Sei $E/\F_q$ eine elliptische Kurve und
+	$$\# E(\F_q) = q+1 - a_q\,, \qquad \text{mit } |a_q| \leq 2\sqrt q\,.$$
+	Des Weiteren sei $\phi_q$ der Frobenius-Endomorphismus zu $q$.
+	Dann gilt:
+	$$ \phi_q^2 - a_q \phi_q + [q] \speq= 0 \qquad\text{in } \End(E)\,.$$
+\end{prop}
+\begin{proof}
+	\cite[Theorem 2.3.1 (b)]{silverman2009arithmetic}\,.
+\end{proof}
+
+Nehmen wir nun einen Punkt $P=(x,y)\in E[l] \setminus \{O\}$ für ein $l\in
+\N$, so haben wir
+$$(x^{q^2}, y^{q^2}) - a_q (x^q,y^q) + q(x,y) \speq= O\,,$$
+wobei wir nach Wahl von $P$ den mittleren Term der Summe modulo $l$ reduzieren
+können. Es gilt also 
+\begin{equation}\label{eq:schoof1}
+	(x^{q^2}, y^{q^2}) - n_l (x^q,y^q) + q(x,y) = O \qquad
+	\begin{array}[t]{l} \text{mit } n_l \equiv a_l \pmod l \\
+		\text{und  } 0\leq n_l< l\,.\end{array}
+\end{equation}
+Ziel ist es nun, Kongruenzen der Form $a_q \bmod l$ für
+genügend viele (kleine) Primzahlen $l$ zu finden, um dann mit Hilfe des
+Chinesischen Restsatzes $a_q$ eindeutig zu bestimmen. Haben wir für eine Menge
+$S = \{l_1, \dots, l_r\}$, $r\in \N$, an Primzahlen für alle $l\in S$ einen Wert
+$n_l$ in \cref{eq:schoof1} gefunden, so können wir 
+$$\begin{array}{c} 
+	n_{l_1} \equiv a_q \pmod{l_1},\\
+	n_{l_2} \equiv a_q\pmod{l_2},\\
+	\dots\\
+	n_{l_r} \equiv a_q\pmod{l_r}
+\end{array} $$
+mit dem Chinesischen Restsatz eindeutig lösen. Die Bedingung für die
+Eindeutigkeit ergibt aus $|a_q|\leq 2\sqrt{q}$ in \cref{prop:schoof 1}, d.h. wir
+brauchen
+$$ \prod_{l\in S} l \speq > 4\sqrt q\,.$$ 
+
+\begin{bsp}\label{bsp:schoof}
+	\newcommand{\K}{\F_{173}}
+	Nehmen wir $q = 173$ und
+	$$E/\K:\quad y^2 + xy + 3y \speq= x^3 + 2x^2 + 4x + 5\,.$$
+	Man findet heraus, dass
+	$$P_3 = (36,51) \ \in E(\K)[3] \quad\text{und}\quad P_{19} = (35,13) \ \in
+	E(\K)[19]\,.$$
+	In der Tat ist $3\cdot 19 = 57 > 52.6 \approx 4\sqrt q$. 
+	Nun testen wir für alle $i=0,1,2$ ob
+	$$(36^{173^2},51^{173^2}) - i(36^{173},51^{173}) + 173(36,51) \speq= O$$
+	und sehen dabei den Erfolg bereits bei $i = 0$.\\
+	Analog gehen wir bei $P_{19}$ vor und fassen zusammen:
+	$$ \begin{array}{l}
+		0 \equiv a_{173} \pmod 3\,,\\
+		3 \equiv a_{173} \pmod{19}\,.
+		\end{array}$$
+	Wir lösen, erhalten
+	$$a_q \speq\equiv 3 \pmod{57}$$
+	und folgern
+	$$\# E(\F_q) \speq= 173 + 1 - 3 \speq= 171\,.$$
+	Um die Punkte $P_3$ und $P_{19}$ zu finden, benutzt man am besten 
+	ein Computer-Algebra-System, wie \texttt{sage}, indem Primzahl für Primzahl
+	die nicht-trivialen Torsionsgruppen gesucht werden. Der Quelltext findet sich
+	unter \cref{appendix:alg:schoof}.
+\end{bsp}
+
+Die Probleme für eine algorithmische Umsetzung zeigen sich schon deutlich in
+\cref{bsp:schoof}: Wir haben keine effiziente Möglichkeit kennengelernt, um die
+$l$-Torsionsgruppen zu berechnen. Zudem werden diese mit
+Körpererweiterungen von $\F_q$ immer größer. Doch wie wir dies umgehen 
+und mit allen $l$-Torsionspunkten "`gleichzeitig"' arbeiten können, zeigt uns
+der folgende Abschnitt.
+
+\section{Divisions-Polynome}
+
+Der Einfachheit halber nehmen wir weiter an, dass $\charak(\F_q) \neq 2,3$.
+
+\begin{definition}[Divisions-Polynome]\label{def:div-poly}
+	Sei $E/\F_q$ eine elliptische Kurve in Weierstraßscher Normalform, gegeben
+	durch
+	$$y^2 \speq= x^3 + Ax + B\,.$$
+	Die \emph{Divisions-Polynome} $\psi_m \in \Z[x,y,A,B]$ für $m\in \N$ sind
+	gegeben durch
+	\begin{align*}
+		\psi_0 &= 0\,,\\
+		\psi_1 &= 1\,,\\
+		\psi_2 &= 2y\,,\\
+		\psi_3 &= 3x^4 + 6Ax^2 + 12 Bx - A^2\,,\\
+		\psi_4 &= 4y (x^6 + 5Ax^4 + 20Bx^3 - 5A^2x^2 - 4ABx - 8B^2 - A^3)\,,\\
+		\psi_{2m+1} &= \psi_{m+2} \psi_m^3 - \psi_{m-1} \psi_{m+1}^3 \ 
+			\text{falls } m \geq 2\,,\\
+		\psi_{2m} &= (2y)^{-1} \psi_m (\psi_{m+2} \psi_{m-1}^2 - \psi_{m-2}
+		\psi_{m+1}^2) \ \text{falls } m\geq 3\,.
+	\end{align*}
+\end{definition}
+
+Dass durch letzte Rekursion auch wirklich Polynome entstehen, zeigt
+nachstehendes Lemma.
+
+\begin{lemma} \label{lemma:div-poly 1}
+	Es gilt 
+	$$\psi_m \in \begin{cases} \Z[x,y^2,A,B] & \text{falls } m \text{ ungerade,} \\
+		2y \Z[x,y^2,A,B]& \text{falls } m \text{ gerade.} \end{cases}$$
+\end{lemma}
+\begin{proof}
+	Durch Induktion, welche man z.B. in \cite[Lemma 3.3]{washington2003elliptic}
+	findet.
+\end{proof}
+
+
+\begin{definition} \label{def:div-poly 2}
+	Sei $m\in \N_{\geq 2}$. Definiere
+	\begin{align*}
+		\phi_m &= x\,\psi_m^2 - \psi_{m+1}\psi_{m-1}\,,\\
+		\omega_m &= (4y)^{-1} (\psi_{m+2} \psi_{m-1}^2 - \psi_{m-2} \psi_{m+1}^2)\,.
+	\end{align*}
+\end{definition}
+
+Auch hier wollen wir die Wohldefiniertheit zitieren:
+\begin{lemma}\label{lemma:div-poly 2}
+	Es gilt
+	$$\phi_m \in \Z[x,y^2,A,B]$$
+	und
+	$$\omega_m \in \begin{cases} \Z[x,y^2,A,B] &\text{falls } m \text{ gerade,}\\
+		y\Z[x,y^2,A,B] & \text{falls } m \text{ ungerade.}
+	\end{cases}$$
+\end{lemma}
+\begin{proof}
+	\cite[Lemma 3.4]{washington2003elliptic}.
+\end{proof}
+
+Mit Hilfe dieser Polynome können wir nun eine interessante Aussage formulieren,
+welche die Teilungs-Polynome mit den Torsionspunkten verbindet.
+
+\begin{satz}\label{satz:div-poly}
+	Sei $n\in \N^\ast$ und $P=(x,y)\in E$. Dann gilt
+	$$n P \speq= \left(\frac{\phi_n(x,y)}{\psi_n(x,y)^2},
+	\frac{\omega_n(x,y)}{\psi_n(x,y)^3}\right)\,.$$
+\end{satz}
+\begin{proof}
+	Z.B. in \cite[Section 9.5]{washington2003elliptic}. 
+\end{proof}
+
+\begin{lemma}\label{lemma:div-poly 3}
+	Sei $n\in\N^\ast$. Dann haben $\phi_n(x)$ und $\psi_n(x)^2$ als Polynome in $x$
+	keine gemeinsamen Nullstellen.
+\end{lemma}
+\begin{proof}
+	Erster Teil des Beweises zu \cite[Corollary 3.7]{washington2003elliptic}.
+\end{proof}
+
+\begin{kor}\label{kor:div-poly}
+	Sei $n\in \N^\ast$ und $P = (x,y) \in E \setminus\{O\}$. Dann gilt
+	$$ P \in E[n] \quad \Leftrightarrow \quad \psi_n(x,y) = 0\,.$$
+\end{kor}
+\begin{proof}
+	Nehmen wir einen Punkt $P=(x,y) \in E[n] \setminus \{O\}$, so folgt per
+	definitionem $nP = O = (\infty, \infty)$. Da nach \cref{lemma:div-poly 3}
+	$\phi_n(x)$ und $\psi_n(x)^2$
+	teilerfremd sind, folgt $\psi_n(x,y) = 0$.
+	
+	In der anderen Richtung sei $P=(x,y) \in E\setminus\{O\}$ und $\psi_n(x,y) = 0$. 
+	Nach \cref{satz:div-poly} und \cref{lemma:div-poly 3} folgt
+	sofort $nP = O$, also $P\in E[n]$.
+\end{proof}
+
+\begin{bem}
+	Um \cref{lemma:torsionspunkte} (1) zu beweisen, kann man auch von  
+	\cref{satz:div-poly} ausgehen, was man beispielsweise so in
+	\cite[Theorem 3.2 und Section 3.2]{washington2003elliptic} findet.
+\end{bem}
+
+\section{Schoofs Algorithmus}
+Mit Hilfe der Divisionspolynome können wir alle Berechnung im Quotientenring
+$$R_l \speq= \F_q[x,y] \big/ (\psi_l(x,y),\ y^2 - x^3-Ax-B)$$
+durchführen und Schoofs Algorithmus formulieren, welcher auch für
+$\charak(\F_q)=2$ oder $3$ funktioniert:
+
+\begin{algorithmus}
+	\label{alg:schoof}
+	Sei $E/\F_q$ eine elliptische Kurve mit $\charak(\F_q) \neq 2,3$. Dann
+	berechnet sich $\# E(\F_q)$ durch \emph{Schoofs-Algorithmus} in $O((\log
+	q)^8)$.
+\begin{lstlisting}[title=Schoofs Algorithmus,frame=t]
+Output:	$\# E(\F_q)$
+\end{lstlisting}
+\begin{lstlisting}[frame=b, numbers=left]
+$A:= 1$;
+$l := 3$;
+while $A< \sqrt q$ do
+	for $n=0$ to $l-1$ do
+		if $(x^{q^2}, y^{q^2}) + q(x,y) = n (x^q, y^q)$ then
+			break;
+	endfor;
+	$A := l\cdot A$;
+	$n_l := n$;
+	$l := $ nächste Primzahl $> l$;
+endwhile;
+Finde $a$ mit $a\equiv n_l \pmod l$ für alle gespeicherten $n_l$ mit Hilfe des Chinesischen Restsatzes; 
+return $\# E(\F_q) = q+1-a$;
+\end{lstlisting}
+\end{algorithmus}
+\begin{proof}
+	Die Korrektheit des Algorithmus haben wir bereits hergeleitet.
+	Einen ausführlichen Beweis zur Laufzeit findet man in
+	\cite[XI.3.1]{silverman2009arithmetic}.
+\end{proof}
+
+\begin{bem}
+	Wie genau die Berechnung in Schritt \texttt{(5)} von Schoofs-Algorithmus im
+	Ring $R_l$ stattfindet, kann man beispielsweise in \cite[Abschnitt
+	4.5]{washington2003elliptic} nachlesen.
+\end{bem}
+
+\part{Elliptische Kurven -- Anwendungen in der Kryptographie}
+
+
+\chapter{Effiziente Berechnung der Weil-Paarung}
+
+Die Weil-Paarung, wie sie in den \cref{def:Weil-Paarung,def:Weil-Paarung 2}
+konstruiert wurde, gibt zunächst keinen expliziten Aufschluss über das
+Auffinden von Funktionen, deren Divisor einem gegebenen Hauptdivisor entspricht.
+Für $E[2]$ lässt sich dies ohne große Probleme bewerkstelligen, wie das folgende
+Beispiel zeigt:
+
+\begin{bsp}
+	Sei die elliptische Kurve
+	$$E:\ y^2 \speq= (x-e_1)(x-e_2)(x-e_3)$$
+	gegeben. Wir finden sofort die drei Punkte $P_1 = (e_1,0)$, $P_2 = (e_2,0)$ und
+	$P_3 = (e_3,0)$ auf $E$. \\	
+	Man überlegt sich relativ leicht, dass gerade die Punkte $P$ mit $y(P) = 0$
+	(also deren $y$-Koordinate verschwindet) genau die Punkte von Ordnung $2$ sind.
+	Dazu sei $P\in E$ und es folgt:
+	$$P \in E[2] \speq{\Leftrightarrow} P = -P \speq{\Leftrightarrow} y(P) = 0\,,$$
+	wobei man die letzte Folgerung in den Additionsformeln \ref{additionsformeln} findet.\\	
+	Damit können wir also festhalten, dass $P_i \in E[2]$ für $i=1,2,3$. Also
+	suchen wir Funktionen $f_i$, für die $\div(f_i) = 2[P_i] - 2[O]$ gilt. Wie wir
+	bereits in \cref{bsp:ord} gesehen haben, erfüllen $f_i(x,y) = x - e_i$ gerade
+	diese Eigenschaft.
+\end{bsp}
+
+Im Allgemeinen ist dies jedoch nicht so einfach, 
+doch der folgende Algorithmus wird uns diesem Ziel einen wesentlichen Schritt
+näher bringen:
+
+
+\begin{algorithmus}[Miller's Algorithmus] \label{alg:miller}
+Sei $E/K$ eine elliptische Kurve in Weierstraßscher Normalform
+	$$E:\quad y^2 + a_1 xy + a_3 y \speq= x^3 + a_2 x^2 + a_4 x + a_6\,.$$
+Für $P=(x_P,y_P),Q=(x_Q,y_Q) \in E(K) \setminus \{O\}$ sei $y = \lambda x +
+\nu$ die Gerade zwischen $P$ und $Q$ (setze $\lambda = \infty$, falls die Gerade vertikal verläuft).
+Definiere $$ h_{P,Q} \speq{=} \begin{cases}
+	\frac{y - y_P - \lambda(x-x_P)}{x + x_P + x_Q - \lambda^2 - a_1 \lambda + a_2}
+		& \lambda \neq \infty\,, \\
+	x - x_P & \lambda = \infty\,.
+	\end{cases}$$
+Dann ist Miller's Algorithmus gegeben durch:
+
+\begin{lstlisting}[title=Miller's Algorithmus,frame=t]
+Input: 	$P \in E(K)$, $(\varepsilon_1, \dots, \varepsilon_t) \in \{0,1\}^t$ mit
+	$N = \sum_{i=1}^t \varepsilon_i 2^i$ und $\varepsilon_t \neq 0$.
+Output:	$f_P \in K(E)$ mit
+	$\div(f_P) = N \divp{P} - \divp{N P} - (N-1) \divp{O}$.
+\end{lstlisting}
+\begin{lstlisting}[frame=b, numbers=left]
+$T := P$;
+$f_P := 1$;
+for  $i$ from $t-i$ to $0$ do
+	$f_P := f_P^2 \cdot h_{T,T}$;
+	$T := 2T$;
+	if $\varepsilon_i = 1$ then
+		$f_P := f_P \cdot h_{T,P}$;
+		$T := T + P$;
+	endif;
+endfor;
+return $f_P$ ;
+\end{lstlisting}
+\end{algorithmus}
+
+\begin{prop} \label{prop:korrektheit miller}
+In \cref{alg:miller} gilt:
+	\begin{enumerate}
+	  \item $\div(h_{P,Q}) = \divp{P} + \divp{Q} - \divp{P+Q} - \divp{O}$.
+	  \item Am Ende des Algorithmus ist $\div(f_P) = N\divp{P} - \divp{NP} - (N-1)\divp{O}$.
+	  Insbesondere gilt falls $P \in E[N]$, dass $\div(f_P) = N\divp{P} - N\divp{O}$.
+	\end{enumerate}
+\end{prop}
+\begin{proof}
+\begin{enumerate}
+  \item Sei zunächst $\lambda \neq \infty$. Dann hat die Gerade $y = \lambda x +
+  \nu$ drei Schnittpunkte mit $E$, nämlich $P$, $Q$ und $-P-Q$. Damit ist $\nu
+  = y_P - \lambda x_P$ und die Additionsformeln \ref{additionsformeln} lieferen
+  uns $$ x_{P+Q} \speq= \lambda^2 + a_1 \lambda - a_2 - x_P - x_Q \,.$$
+  Es folgt
+  \begin{alignat*}{3}
+  	\div(h_{P+Q}) &\speq= \div(y - y_P - \lambda(x-x_P)) &\speq-& \div(x + x_P
+  		+ x_Q - \lambda^2 - a_1\lambda + a_2) \\
+	&\speq= \div(y - \lambda x - \nu) &\speq-& \div(x
+  		- x_{P+Q}) \\
+  	&\speq= \divp{P} + \divp{Q} + \divp{-P-Q} - 3\divp{O}  &\speq-& \divp{P+Q} + \divp{-P-Q}
+  	- 2\divp{O} \\
+  	&\speq= \divp{P} + \divp{Q} - \divp{P+Q} - \divp{O}\,.
+  \end{alignat*}
+  
+  Ist $\lambda = \infty$, so ist $Q = -P$ und es folgt $\div(h_{P,Q}) =
+  \div(x-x_P) = \divp{P} + \divp{-P} - 2\divp{O}$, was der geforderte Divisor ist.
+  
+  \item Seien mit $T_i^\text{start}, f_i^\text{start}$ bzw. $T_i^\text{end},
+  f_i^\text{end}$ die Werte von $T$ und $f_P$ zu Beginn (Zeile \texttt{3}) bzw.
+  am Ende (Zeile \texttt{10}) eines Durchlaufs der $i$-Schleife bezeichnet.
+  Da $\varepsilon_i \in \{0,1\}$ ergibt sich für $T$
+  \newcommand{\Tstart}{T_i^\text{start}}
+  \newcommand{\Tstartnext}{T_{i-1}^\text{start}}
+  \newcommand{\Tend}{T_i^\text{end}}
+  \newcommand{\fstart}{f_i^\text{start}}
+  \newcommand{\fstartnext}{f_{i-1}^\text{start}}
+  \newcommand{\fend}{f_i^\text{end}}
+  \begin{equation}
+  	\Tend \speq= 2 \Tstart + \varepsilon_i P \label{eq:bew miller T}
+  \end{equation}
+  und für $f_P$
+  \begin{equation}\label{eq:Bew Miller}\fend \speq= (\fstart)^2\
+  h_{\Tstart,\Tstart}\ (h_{2\Tstart, P})^{\varepsilon_i}\,.\end{equation}
+  Damit folgt für den Divisor von $\fend$:
+  \begin{alignat}{3}
+  	\div(\fend) &\speq{\overbox{=}{\cref{eq:Bew Miller}}} 2 \div(\fstart) +
+  		\div(h_{\Tstart, \Tstart}) + \varepsilon_i \div(h_{2\Tstart,P})
+  		\nonumber\\
+  	&\speq{\overbox{=}{\cref{prop:korrektheit miller}}} 2 \div(\fstart) + 
+  		\big(2 \divp{\Tstart} - \divp{2\Tstart} - \divp{O}\big) \nonumber\\
+  		&\qquad + \varepsilon_i\ \big( \divp{2\Tstart} + \divp{P} - \divp{2\Tstart + P} - \divp{O}
+  			\big) \nonumber\\
+  	&\speq{=} 2 \div(\fstart) + 2 \divp{\Tstart} - \divp{2\Tstart + \varepsilon_i P} + 
+  		\varepsilon_i \divp{P} - (1+\varepsilon_i) \divp{O} \label{eq:bew miller div}
+  \end{alignat}
+  Die Schleife läuft von $i = t-1$ bis $i = 0$ und selbstverständlich ist
+  $\Tend = \Tstartnext$ und $\fend = \fstartnext$. Damit können wir \cref{eq:bew
+  miller T} und \cref{eq:bew miller div} geeignet umformen zu
+  \begin{alignat}{2}
+  	\Tstartnext - 2\Tstart &\speq= \varepsilon_i P\,, \label{eq:bew miller T
+  	next}\\
+  	\div(\fstartnext) - 2 \div(\fstart) &\speq= 
+  		2\divp{\Tstart} - \divp{\Tstartnext} + \varepsilon_i \divp{P} - (1+\varepsilon_i) \divp{O}\,, 
+  		 \label{eq:bew miller div next} 
+  \end{alignat}
+  und erhalten schließlich
+  \begin{alignat*}{3}
+  	T_0^\text{end} &\speq{\overbox{=}{\cref{eq:bew miller T}}} \varepsilon_0 P +
+  	2 T_0^\text{start} \speq= \varepsilon_0 P + 2 T_0^\text{start} - 2^2
+  		T_1^\text{start} + 2^2 T_1^\text{start} + \dots - 2^t T_{t-1}^\text{start} + 2^t
+  		T_{t-1}^\text{start}
+  		\\
+  	&\speq= \varepsilon_0 P +
+  		\left[\sum_{i=1}^{t-1} 2^i\ \big( \Tstartnext - 2 \Tstart\big) \right] + 2^t
+  		T_{t-1}^\text{start} 
+  	\speq{\overbox{=}{\cref{eq:bew miller T next}}} \varepsilon_0 P +
+  		\left[\sum_{i=1}^{t-1} 2^i\ \varepsilon_i P \right] + 2^t
+  		T_{t-1}^\text{start} \\
+  	&\speq{\overbox{=}{$\varepsilon_t = 1$, $T_{t-1}^\text{start}=P$}}
+  		\sum_{i=0}^{t} 2^i\ \varepsilon_i P
+  	\ \speq{\overbox{=}{Darstellung von $N$}}\ 
+  		NP\,.\\
+  \end{alignat*}
+  Ganz analog berechnen wir $\div(f_0^\text{end})$ mit derselben Teleskopsumme
+  für $\div(\fstartnext)$ und $\div(\fstart)$. Hier gilt jedoch zu beachten,
+  dass der letzte Term $2^t \div(f_{t-1}^\text{start})$ verschwindet, da
+  $f_{t-1}^\text{start} = 1$.
+  \begin{alignat*}{3}
+  	\div(f_0^\text{end}) &\speq= 2\div(f_0^\text{start}) + 2\divp{T_0^\text{start}}
+  	- \divp{T_0^\text{end}} + \varepsilon_0 \divp{P} - (1+\varepsilon_0) \divp{O}\\
+  	&\speq{\overbox{=}{$T_0^\text{end} = NP$}} \left[\sum_{i=1}^{t-1} 2^i
+  		\big(\div(\fstartnext) - 2 \div(\fstart) \big)\right] +
+  	2\divp{T_0^\text{start}} - \divp{T_0^\text{end}} + \varepsilon_0 \divp{P} - (1+\varepsilon_0) \divp{O} \\
+  	&\speq{\overbox{=}{\cref{eq:bew miller div next}}} \left[\sum_{i=1}^{t-1} 2^i
+  		\big(2\divp{\Tstart} - \divp{\Tstartnext} + \varepsilon_i \divp{P} - (1+\varepsilon_i) \divp{O}
+  		\big)\right] \\
+  	&\qquad+ 2\divp{T_0^\text{start}} - \divp{T_0^\text{end}} + \varepsilon_0 \divp{P}
+  		- (1+\varepsilon_0) \divp{O} \\
+  	&\speq= 2^t \divp{T_{t-1}^\text{start}} + \sum_{i=0}^{t-1} 2^i \varepsilon_i
+  	\divp{P} - \sum_{i=0}^{t-1} 2^i (1+\varepsilon_i) \divp{O} - \divp{NP} \\
+  	&\speq= N \divp{P} - (N-1) \divp{O} - \divp{NP} 
+  \end{alignat*}
+\end{enumerate}
+\end{proof}
+
+Damit lässt sich nun relativ leicht die Weil-Paarung berechnen:
+\begin{prop}
+	\label{prop:weil berechnung 1}
+	Sei $E/K$ eine elliptische Kurve und $P,Q \in E(K)[N]$. 
+	Sei $S \in E(K) \setminus ( P,Q)$ ($( P,Q )$
+	bezeichne dabei die von $P$ und $Q$ erzeugte Untergruppe in $E(K)[N]$), so ist 
+	$$e_N(P,Q) \speq= \frac{f_P(Q+S)}{f_P(S)} \bigg/
+		\frac{f_Q(P-S)}{f_Q(-S)} \,.$$
+\end{prop}
+\begin{proof}
+	Es ist $\divp{Q+S} - \divp S \sim \divp{Q} - \divp O$, $\divp{P-S} - \divp{-S}
+	\sim \divp{P} - \divp O$ und nach Wahl von $S$ ist $\supp(\divp P - \divp O)
+	\cap \supp(\divp{Q+S} - \divp S) = \emptyset$.
+	Da nach \cref{prop:Weil-Paarung durch Divisoren wohldefiniert} die Weil-Paarung
+	aus \cref{def:Weil-Paarung 2} nur von der Divisorklasse abhängt, können wir
+	einsetzen:
+	$$e_N(P,Q) \speq= \frac{f_P(Q+S)}{f_P(S)}\bigg/\frac{f(P)}{f(O)}\,,$$
+	wobei $f \in \Kb(E)^\ast$ mit $\div(f) = N\divp{Q+S} - N\divp{S}$. Des Weiteren
+	gilt $\div(f) = \div(f_Q \comp \tau_{-S})$, also ist $f$ ein konstantes
+	Vielfaches von $f_Q \comp \tau_{-S}$, was sich im Bruch gerade wegkürzt:
+	$$\frac{f_P(Q+S)}{f_P(S)}\bigg/\frac{f(P)}{f(O)} \speq=
+	\frac{f_P(Q+S)}{f_P(S)}
+	\bigg/\frac{(f_Q\comp\tau_{-S})(P)}{(f_Q\comp\tau_{-S})(O)} \speq=
+	\frac{f_P(Q+S)}{f_P(S)} \bigg/ \frac{f_Q(P-S)}{f_Q(-S)}
+	\,.$$
+\end{proof}
+
+Den Fall $P\neq Q$ können wir noch weiter vereinfachen, was wir aber nicht
+beweisen werden.
+
+\begin{prop}\label{prop:weil berechnung 2}
+	Sei $E/K$ eine elliptische Kurve und $P,Q \in E(K)[N]$ mit $P\neq Q$. Dann ist 
+	$$e_N(P,Q) \speq= (-1)^N \frac{f_P(Q)}{f_Q(P)}$$
+\end{prop}
+\begin{proof}
+\cite[Proposition 8]{miller2004WeilPairing}\,.
+\end{proof}
+
+\begin{bem}
+	Der Beweis von \cref{prop:weil berechnung 2} lässt sich für $K=\C$ oder
+	$K=\R$ relativ leicht einsehen. Ausgehend von \cref{prop:weil berechnung 1} ist
+	$$e_N(P,Q) \speq= \frac{f_Q(-S)}{f_P(S)} \frac{f_P(Q+S)}{f_Q(P-S)}\,.$$
+	Betrachten wir für $P\neq Q$ den Grenzwert $S\to O$, so geht der erste Faktor
+	gegen $(-1)^N$ ($f_P$ und $f_Q$ haben nach Konstruktion in $O$ jeweils Pole
+	$N$-ter Ordnung), der zweite geht gegen $\tfrac{f_P(Q)}{f_Q(P)}$.
+\end{bem}
+
+\begin{bsp}
+	\newcommand{\K}{\F_{67}}
+	Sei $E / \K$ die elliptische Kurve 
+	$$y^2 = x^3 + 5x + 18$$
+	und $P = (28,0)$, $Q = (31,22)$ mit $P,Q\in E(\K)$.
+	Man findet heraus, dass $P,Q \in E(\K)[4]$. Wir benutzen wieder \texttt{sage},
+	wo sich wie folgt die obige Kurve erzeugen und $E(\K)[4]$
+	ausgeben lässt:
+	\begin{verbatim}
+		p = 67; N = 4;
+		E = EllipticCurve(GF(p), [5,18]);
+		E(0).division_points(N)
+	\end{verbatim}
+	Wählen wir nun einen Punkt $S\in E(\K)$ mit $S \neq P,Q, P-Q, O$,
+	beispielsweise $S = (4,13) \in E(\K)$.
+	Mit \cref{alg:miller} berechnen wir
+	\begin{verbatim}
+		P = E(28,0); Q = E(31,22); S = E(4,13);
+		P._miller_(Q+S, N)
+		P._miller_(S,N)
+		Q._miller_(P-S,N)
+		Q._miller_(-S,N)
+	\end{verbatim}
+	und erhalten (mit dortiger Notation)
+	$$f_P(Q+S) = 26,\ f_P(S) = 40,\ f_Q(P-S) = 53,\ f_Q(-S) = 37\,.$$
+	Also
+	$$e_N(P,Q) \speq= \frac{26}{40} \bigg/ \frac{53}{37} \speq= 66 \ \in \K\,.$$
+	Auch mit \cref{prop:weil berechnung 2} erhalten wir selbiges Resultat, da
+	$$e_N(P,Q) \speq= (-1)^N \frac{f_P(Q)}{f_Q(P)} \speq= (-1)^4 \frac{9}{58}
+	\speq= 66 \ \in \K\,.$$
+	Zuletzt können wir in der Tat feststellen, dass $66^4 = 1 \in \K$.\\
+	Selbstverständlich bietet \texttt{sage} die Möglichkeit, die Weil-Paarung
+	direkt zu berechnen. Der Algorithmus dort benutzt für $P\neq Q$ genau
+	die Darstellung aus \cref{prop:weil berechnung 2}.
+\end{bsp}
+
+\chapter{Elliptic Curve Cryptography (ECC)}
+\section{Public-Key-Kryptographie}
+Man kann sich in vielen Quellen (z.B. \cite{hoffstein2008introduction}, \cite{menezes1996Handbook})
+sehr ausführlich über die allgemeinen Grundzüge von Public-Key-Kryptographie
+informieren, daher möchten wir diese Grundidee nach Diffie und Hellman nur kurz
+skizzieren:
+
+Gegeben eine Menge $M$ und eine Familie von bijektiven Funktionen $f_K: M \to
+M$, wobei $K$ ein beliebiger Parameter sei, mit folgenden Eigenschaften:
+\begin{description}
+  \item[Eigenschaft 1.] Ist $K$ bekannt, so lässt sich $f_K(x)$ $\forall x\in
+  M$ schnell berechnen.
+  \item[Eigenschaft 2.] Ist $K$ bekannt, so lässt sich $f_K(y)^{-1}$ $\forall
+  y\in M$ nur sehr schwer, d.h. mit schlechter Laufzeit, berechnen.
+  \item[Eigenschaft 3.] Es lassen sich Paare $(K,K')$ konstruieren, so dass
+  	$f_{K'} = f_K^{-1}$, wobei $K'$ allein aus Kenntnis von $K$ nur sehr schwer
+  	zu berechnen ist.
+\end{description}
+
+Möchte nun Alice an Bob eine Nachricht, d.h. $x\in M$, sicher schicken, 
+so gehen beide wie folgt vor:
+\begin{enumerate}
+  \item Alice wählt $f_{K_B}$ und $f_{K_B'}$ mit $f_{K_B'}
+	= f_{K_B}^{-1}$.
+  \item Bob gibt Alice seinen \emph{public key} $f_{K_B}$
+  	 und hält aber seinen \emph{private key} $f_{K_B'}$  geheim.
+  \item Alice berechnet $y = f_{K_B}(x)$ und schickt $y$ (über einen
+  	möglicherweise unsicheren Kommunikationsweg) an Bob.
+  \item Bob berechnet $x = f_{K_B'}(y)$.
+\end{enumerate}
+Es sollte klar sein, dass für einen beiderseitigen Nachrichtenaustausch Alice
+analog Funktionen wählen muss.
+
+\section{ECC}
+Am Spezialfall der ECC wollen wir nun die am häufigsten
+verwendeten Realisierungen der Grundidee der Public-Key-Kryptographie
+vorstellen. Eine kurze aber gute Übersicht findet man in \cite[Chapter
+XI]{silverman2009arithmetic}, an welcher wir uns im Folgenden auch orientieren
+werden. Darüber hinaus kann man dies sehr ausführlich in \cite[Kapitel 2 und
+5]{hoffstein2008introduction} oder \cite{washington2003elliptic} nachlesen.
+
+\begin{plainthm}{ElGamal Public Key Kryptosystem}
+	\newcommand{\K}{\F_q}
+	Auf folgendem Weg kann Alice sicher eine Nachricht an Bob senden:
+	\vspace{-2\parskip}
+	\begin{center}
+	\renewcommand{\arraystretch}{1.5}
+	\begin{tabular}{|r|p{0.45\textwidth}|p{0.45\textwidth}|}
+	\hline
+	&\sffamily\bfseries Alice & \sffamily\bfseries Bob \\\hline
+	  (1)&\multicolumn{2}{p{0.9\linewidth}|}{Alice und Bob einigen sich
+	  auf einen endlichen Körper $\K$, eine elliptische Kurve $E/\K$ und einen Punkt $P\in E(\K)$.} \\
+	  (2)&&Bob wählt (zufällig) eine ganze Zahl $b\in \Z^\ast$ und berechnet 
+	  	$B = b P \in E(\K)$. \\
+	  (3)&&Bob veröffentlicht seinen \emph{public key} $B$. $b$ ist Bobs
+	  	\emph{private key}. \\
+	  (4)&Alice wandelt ihre Nachricht in einen Punkt auf $E(\K)$ um, d.h. ihr
+	  	\emph{plaintext} sei $M \in E(\K)$. Sie wählt (zufällig) eine ganze Zahl
+	  	$k\in \Z^\ast$ und berechnet
+	  	$$\begin{array} {rcll} A_1 &=& kP &\in E(\K)\,,\\
+	  	A_2 &=& M + k B &\in E(\K)\,. \end{array}$$ &\\ 
+	  (5)&Alice sendet Bob den \emph{ciphertext} $(A_1, A_2)$ (über eine nicht
+	  	zwingend sichere Leitung).&\\
+	  (6)&&Bob berechnet mit Hilfe seines private keys
+	  	$$A_2 - b A_1 \ \in E(\K)\,.$$
+	  	Dies entspricht Alice' Nachricht $M$.\\
+	  \hline
+	\end{tabular}
+	\end{center}
+\end{plainthm}
+
+\begin{proof}[Beweis der Korrektheit des ElGamal Public Key Kryptosystems]
+	Es ist
+	$$A_2 - b A_1 \speq= M + kB - b(kP) \speq= M + k b P - b k P \speq= M\,.$$
+\end{proof}
+
+Will Eve (ein Angreifer) den plaintext $M$ ohne Kenntnis der zufällig gewählten
+Zahl $k$ berechnen, muss sie das folgende Problem lösen:
+
+\begin{plainthm}{Elliptic Curve Diffie-Hellman Problem (\probn{ECDHP})}
+	\newcommand{\K}{\F_q}
+	Sei $E/\K$ eine elliptische Kurve und seien $P, aP, bP \in E(\K)$ für gewisse
+	(unbekannte) $a,b \in \Z$. Berechne $abP \in E(\K)$.
+\end{plainthm}
+
+Zum jetzigen Zeitpunkt ist kein Verfahren bekannt, um dieses Problem zu lösen,
+ohne eine der ganzen Zahlen $a$ oder $b$ (es reicht offensichtlich eine) zu
+berechnen (\cite[Remark XI.4.3.4.]{silverman2009arithmetic}). Dieses Problem
+hat ebenfalls einen eigenen Namen:
+
+\begin{plainthm}{Diskretes-Logarithmus-Problem auf elliptischen Kurven
+(\probn{ECDLP})} Sei $E/K$ eine elliptische Kurve und seien $P, aP\in E(K)$
+für eine (unbekannte) ganze Zahl $a \in \Z$. Berechne $a$.
+\end{plainthm}
+
+Oder in seiner allgemeinen Form:
+
+\begin{plainthm}{Diskretes-Logarithmus-Problem (\probn{DLP})}
+	Gegeben eine Gruppe $G$ und $x, y\in G$. Berechne $m\in \Z$, sodass $x^m = y$. 
+\end{plainthm}
+
+\begin{bem}
+	Nach \cite[Kapitel 2.3]{hoffstein2008introduction} ist kein Verfahren bekannt,
+	das \probn{ECDLP} polynomiell auf \probn{ECDHP} reduziert, d.h. das bei
+	bekannter Lösung von \probn{ECDHP} auch \probn{ECDLP} löst.
+\end{bem}
+
+\chapter{Algorithmen für das (\probn{EC})\probn{DLP} und deren Komplexität}
+\label{chap:algorithmen}
+
+\begin{algorithmus}[Naiver Algorithmus] \label{alg:DLP naiv}
+	Sei $G$ eine Gruppe der Ordnung $N$. Dann ist ein \emph{naiver Algorithmus} für
+	das \probn{DLP} durch "`Probieren"' gegeben, d.h. durch das Berechnen von $x,
+	x^2, x^3, \dots$, solange bis $m$ gefunden wird mit $x^m = y$.\\
+	Die Komplexität der Berechnungen liegt bei $\O(N)$ und der benötigte
+	Speicherplatz bei $\O(1)$.
+\end{algorithmus}
+
+\begin{bem}
+	Wir wollen hier nicht näher auf die $\O$-Notation eingehen. Eine kurze
+	Einführung findet sich beispielsweise in \cite[Kapitel
+	2.6]{charlap1988elementary}.
+\end{bem}
+
+\begin{bem}
+	Im Folgenden werden wir oft von der Komplexität von \emph{Berechnungen} und
+	\emph{Speicherplatz} sprechen. Eine Berechnung bezieht sich auf eine
+	Gruppenoperation und eine "`Einheit"' Speicherplatz bezieht sich auf ein
+	Gruppenelement.
+\end{bem}
+
+
+\section{Pollards $\rho$-Algorithmus}
+Es gibt, wie wir im Folgenden sehen werden, bedeutend effizientere Algorithmen
+als den naiven.
+Einer davon ist Pollards $\rho$-Algorithmus \cite{pollard1978MonteCarlo}. Seine
+Laufzeit liegt nach \cite{kim2008OptimalBound} bei $\O(\sqrt N)$, wobei $N$ die
+Gruppenordnung bezeichne. Dies ist auch schon die zur Zeit beste bekannte
+Laufzeit für das \probn{DLP} in einer allgemeinen Gruppe, insbesondere auch für
+das \probn{ECDLP}.
+Wir wollen diesen Algorithmus lediglich vorstellen, falls die Gruppenordnung
+prim ist, da dies in kryptographischen Anwendungen in der Regel immer erfüllt ist.
+
+
+% \begin{prop}\label{prop:Pollard}
+% 	Sei $S$ eine Menge mit $\#S = N$ und sei $f:S\to S$ eine Abbildung. Sei
+% 	$x_0\in S$, so definieren wir eine Folge von Punkten $x_0,x_1,x_2,\dots$ durch
+% 	$$x_i \speq= f(x_{i-1}) \speq= \underbrace{f\comp \dots\comp f}_{i \text{-mal}}(x_0)\,.$$
+% 	Sei 
+% 	$$T := \max\{k\mid x_k \neq x_l\ \forall l > k\}-1\ \in \N \,,$$
+% 	d.h. $T$ ist der größte Index, sodass alle $x_0, \dots, x_{T-1}$ in
+% 	$(x_i)_{i\geq 0}$ nur ein einziges mal auftauchen.\\
+% 	Ferner sei
+% 	$$L := \min\{k>T \mid x_k = x_T\}\ \in \N\,,$$
+% 	d.h. $L$ ist die Länge der "`Schleife"' (vgl. \cref{fig:Pollards rho}).
+% 	Dann gilt:
+% 	\begin{enumerate}
+% 	  \item Es existiert ein Index $1\leq i< T+L$ mit $x_{2i} = x_i$.
+% 	  \item Falls $f$ (und seine Iterationen) die Elemente von $S$ "`genügend gut
+% 	  	mischt"', so ist $T+L$ ungefähr $\sqrt{\pi N/2}$.
+% 	\end{enumerate}
+% \end{prop}
+% \begin{proof}
+% 	Die Existenz der Indizes ist klar, da $S$ endlich ist.
+% 	\begin{enumerate}
+% 	  \item Es gilt offenbar
+% 	  	$$x_i = x_j \qquad \Leftrightarrow \qquad i,j \geq T\text{ und } i \equiv j
+% 	  	\pmod L$$
+% 	  	und folglich
+% 	  	$$x_i = x_{2i} \quad \Leftrightarrow\quad i \geq T\text{ und } i \equiv 2i
+% 	  	\pmod L \quad \Leftrightarrow\quad i \geq T \text{ und } i \equiv 0 \pmod
+% 	  	L\,.$$
+% 	  	Dies ist aber für ein $i$ mit $T \leq i < T+L$ erfüllt. Um dies
+% 	  	ausführlicher darzustellen machen wir folgende Fallunterscheindung:
+% 	  	\begin{description}
+% 	  	  \item[Fall $T \leq L$.] Hier findet sich $i=L$ offensichtlich zwischen $T$
+% 	  	  und $T+L-1$. Da $T\geq 1$ ist auch wirklich $L < T+L$.
+% 	  	  \item[Fall $T > L$.] Sei $T = j*L+k$ für $j>0, k\geq 0$. Dann teilt $L$
+% 	  	  zum ersten mal $i$ für $i=T$, falls $k=0$, oder für $i = (j+1)L = T +
+% 	  	  (L-k)$, falls $k\neq 0$. Also für ein $i$ mit $T \leq i < T+L$.
+% 	  	 \end{description}
+% 	  \item Diesen Ausflug in die Wahrscheinlichkeitstheorie wollen wir nur
+% 	  zitieren: \cite[Theorem XI.5.3]{silverman2009arithmetic}.\qedhere
+% 	\end{enumerate}
+% \end{proof}
+
+
+\begin{algorithmus}[Pollards $\rho$-Algorithmus] \label{alg:Pollard Rho}
+	Sei $G$ eine Gruppe der Ordnung $p$, $p$ prim.  
+\begin{lstlisting}[title=Pollards $\rho$-Algorithmus, frame=t]
+Input:	$1 \neq x,y \in G$.
+Output:	$m\in \N$ mit $x^m = y$.
+\end{lstlisting}
+\begin{lstlisting}[frame=b, numbers=left]
+Teile $G$ in drei disjunkte, etwa gleich große Teilmengen $A,B,C$;
+$z := 1$;
+$w := 1$;
+do
+	if $z \in A$ then
+		$\alpha := \alpha +1 \mod p$;
+		$z := x  z$;
+	else if $z \in B$ then
+		$\alpha := 2\alpha \mod p$;
+		$\beta := 2\beta \mod p$;
+		$z := z^2$;
+	else if $z \in C$ then
+		$\beta := \beta +1 \mod p$;
+		$z := y z$;
+	endif;
+	
+	for $i$ from $0$ to $1$ do
+		if $w \in A$ then
+			$\gamma := \gamma +1 \mod p$;
+			$w := x w$;
+		else if $w \in B$ then
+			$\gamma := 2 \gamma \mod p$;
+			$\delta := 2 \delta \mod p$;
+			$w := w^2$;
+		else if $w \in C$ then
+			$\delta := \delta +1 \mod p$;
+			$w := y w$;
+		endif;
+	endfor; 
+while $z \neq w$;
+
+$r := \alpha - \gamma$;
+$s := \delta - \beta$;
+$d := \ggT(s, p)$;
+if $d = 1$ then
+	$m := r s^{-1} \mod p$;
+	return $m$;
+else 
+	//Algorithmus hat fehlgeschlagen
+	Teile $G$ erneut in andere $A,B,C$ auf;
+	Gehe zu Zeile 2;
+endif;
+\end{lstlisting}
+% 	$\alpha := \begin{cases}
+% 			\alpha+1 & z\in A,\\
+% 			2\alpha & z \in B,\\
+% 			\alpha & z \in C
+% 			\end{cases} \pmod p$;
+% 		$\beta := \begin{cases}
+% 			\beta & z \in A,\\
+% 			2 \beta & z\in B,\\
+% 			\beta +1 & z \in C
+% 		\end{cases} \pmod p$;
+% 		$z := x^\alpha y^\beta$;
+% 		for $i = 0$ to $1$ do
+% 			$\gamma := \begin{cases}
+% 				\gamma+1 & w \in A,\\
+% 				2\gamma & w \in B,\\
+% 				\gamma & w \in C
+% 				\end{cases} \pmod p$;
+% 			$\delta := \begin{cases}
+% 				\delta & w \in A,\\
+% 				2 \delta & w \in B,\\
+% 				\delta +1 & w \in C
+% 			\end{cases} \pmod p$;
+% 			w := 
+\end{algorithmus}
+
+\begin{bem}
+	Der Algorithmus basiert auf folgender Tatsache:
+	Sei $S$ eine endliche Menge mit $\#S = N$ und $f: S \to S$ eine Abbildung.
+	Weiter sei $x_0 \in S$ und wir nehmen an, dass $f^i$ (also die $i$-fache
+	Hintereinanderausführung von $f$) für $i\geq 0$ die Elemente von $S$
+	"`gut durchmischt"'. Dann erhalten wir für die Folge $(f^i(x_0))_{i\geq 0}$
+	zunächst verschiedene Werte, die sich nie mehr wiederholen, und ab einer
+	gewissen Iteration eine Schleife bestimmter Länge. Stellt man dies graphisch
+	dar, so erkennt man sofort, wie Pollards Algorithmus zu dem Beinamen $\rho$
+	gekommen ist.
+\end{bem}
+
+\begin{bem}
+	Sei die Notation wie in \cref{alg:Pollard Rho}.
+	Pollard schlug in \cite{pollard1978MonteCarlo} vor, $G$ in drei disjunkte
+	Mengen $A,B,C$ aufzuteilen und als Misch-Funktion die folgende zu verwenden:
+	$$f(z) \speq{:=} \begin{cases} x z & z\in A,\\ z^2 & z\in B,\\ yz & z\in
+	C.\end{cases}$$
+	Wir starten mit $z_0 = 1$ und betrachten die Folge $(z_i, w_i)$, wobei
+	$z_i = f(z_{i-1})$ und $w_i = z_{2i}$. Des Weiteren speichern wir jeweils die
+	Exponten, d.h.
+	$z_i = x^{\alpha_i} y^{\beta_i}$. Diese lassen sich mit folgender Rekursion
+	berechnen:
+	\begin{equation}\label{eq:Pollard Rho bem}
+	\alpha_{i+1} = \begin{cases} \alpha_i
+	+ 1 \mod p& z\in A,\\
+	2\alpha_i \mod p& z \in B,\\
+		\alpha_i & z\in C,\end{cases}
+		\qquad\qquad
+		\beta_{i+1} = \begin{cases} \beta_i & z\in A,\\ 2\beta_i \mod p& z \in B,\\
+		\beta_i + 1 \mod p& z\in C,\end{cases}\end{equation}
+	Genauso können wir die Indizes $\gamma_i$ und $\delta_i$ für $w_i =
+	x^{\gamma_i}y^{\delta_i}$ berechnen, indem wir die Formel aus
+	\cref{eq:Pollard Rho bem} einmal für $w_i$ benutzen und ein zweites mal für
+	$w_{i+1}$.
+\end{bem}
+
+
+Um wieder zurück zum eigentlichen Thema zu kommen, adaptieren wir Pollards
+$\rho$-Algorithmus an einem Beispiel auf eine elliptische Kurve.
+
+\begin{bsp}\label{bsp:Pollard rho}
+	\newcommand{\K}{\F_{79}}
+	Sei $E/\K$ gegeben durch:
+	$$y^2 \speq= x^3+x+3\,.$$
+	Wir nehmen zwei Punkte $P = (26,64)$, $Q = (65,57)$ aus $E(\K)[7]$. Weiter
+	finden wir heraus, dass $\#E(\K)[7] = 7$. Wir erinnern uns kurz daran, dass die
+	Torsionspunkte einer bestimmten Ordnung immer eine Untergruppe der additiven
+	Gruppe der elliptischen Kurve sind und so können wir problemlos Pollards
+	Algorithmus anwenden.\\
+	In der Praxis bietet es sich an, die Unterteilung der Gruppe in drei disjunkte
+	Teilmengen durch 
+	$$x(P) \operatorname{mod} 3 \speq\in \{0,1,2\}$$
+	für einen Punkt $P \in E(K)[N]$ zu vollziehen. Wie man sich vorstellen kann,
+	lässt sich dies auf eine Unterteilung in beliebig viele disjunkte Teilmengen
+	erweitern, was man beispielsweise in \cite[Abschnitt
+	5.2.2]{washington2003elliptic} nachlesen kann.\\
+	Umformuliert auf die additive Gruppe einer elliptischen Kurve suchen wir also
+	$m\in \N^\ast$ mit
+	$$mP \speq= Q\,.$$
+	Wir benutzen wieder \texttt{sage} mit \cref{appendix:alg:Polard rho} und
+	erhalten:
+	\begin{verbatim}
+Finde Lösung des ECDLP m*x = y für x = (26 : 64 : 1) , y = (65 : 57 : 1)
+Iteration  0
+z =  (26 : 64 : 1)  with [a,b] =  [1, 0]
+w =  (26 : 15 : 1)  with [c,d] =  [1, 1]
+Iteration  1
+z =  (26 : 15 : 1)  with [a,b] =  [1, 1]
+w =  (26 : 64 : 1)  with [c,d] =  [2, 4]
+Iteration  2
+z =  (13 : 78 : 1)  with [a,b] =  [1, 2]
+w =  (13 : 78 : 1)  with [c,d] =  [2, 6]
+Kollision gefunden!
+ggT(d-b,n) =  1
+Lösung gefunden: m =  5
+\end{verbatim}
+	In der Tat ist $5 P = Q$ und wir haben die Lösung nach $3 = \lceil \sqrt{7}\rceil$
+	Schritten gefunden.
+\end{bsp}
+
+\section{Die Index-Calculus Methode}
+\label{sec:index-calc}
+Die Index-Calculus Methode ist zur Zeit die beste bekannte Möglichkeit, um das
+\probn{DLP} zu lösen. Wie wir sehen werden, hat die Index-Calculus Methode eine
+subexponentielle Laufzeit. Ihr Nachteil ist jedoch, dass sie nicht auf beliebige
+Gruppen adaptierbar ist. Die Grundidee basiert darauf, dass "`ein großer Teil"'
+aller Gruppenelemente durch Produkte (für eine multiplikativ geschriebene
+Gruppe) von Elementen einer kleinen Menge geschrieben werden können. In
+$\F_p^\ast = \Z_p^\ast$ für $p$ prim, sind dies gerade diejenigen Elemente, in
+deren Primfaktorzerlegung nur Primzahlen bis zu einer gewissen Größe vorkommen. 
+
+Verständlicherweise lässt sich dies nicht auf alle Gruppen übertragen. In der
+multiplikativen Gruppe von endlichen Körpern jedoch finden wir derartige
+Zerlegungen (vgl. \cref{bem:index calc in F_q}).
+Wir wollen dies hier aber nur für $\F_p^\ast$, $p$ prim vorstellen.
+
+Sei $p>2$ eine Primzahl. Ein wesentlicher Unterschied zwischen
+einer beliebigen Gruppe und $\F_p^\ast = \Z_p^\ast$ ist die Tatsache, dass wir
+in $\F_p^\ast$ jede Zahl als Produkt ihrer Primfaktoren schreiben können.
+
+
+Bevor wir den Algorithmus vorstellen, eine kleine Vokabel:
+\begin{definition}[$B$-glatt]\label{def:B-glatt}
+	Eine Zahl $n \in \Z$ heißt \emph{$B$-glatt}, für $B\in \N$ falls in ihrer
+	Primfaktorzerlegung $$n = \prod_{i=0}^l p_i^{k_i}$$
+	nur Primfaktoren $\leq B$ vorkommen, also gilt:
+	$$p_i \leq B\quad \forall i=0,\dots,l\,.$$
+\end{definition} 
+
+\begin{algorithmus}[Die Index-Calculus-Methode]\label{alg:Index-Calculus}
+\newcommand{\K}{\F_p^\ast}
+	Seien $p>2$ eine Primzahl und $g\in \K$ eine primitive Wurzel modulo $p$, d.h.
+	ein Erzeuger von $\K$. Gesucht ist $m$ mit $g^m \equiv h \pmod p$. Wir wollen
+	im Folgenden auch schreiben $m = \log_g(h)$. Darüber hinaus bezeichne $\pi(B)$
+	die Anzahl der Primzahlen $\leq B$.
+\begin{lstlisting}[frame=t,title=Die Index-Calculus Methode]
+Input:	$p,g,h$, $p>2$ prim und $g$ eine primitive Wurzel modulo $p$.
+Output:	$m\in \N$ mit $g^m = h$.
+\end{lstlisting}
+\begin{lstlisting}[frame=b, numbers=left]
+number_of_relations$:=0$;
+GL $:=$ leeres Gleichungsystem über $\Z_{p-1}$ mit Unbekannten $\log_g(l)$ für $l\leq B$ prim; 
+while number_of_relations $\leq$ $\pi(B)$ do
+	Wähle $i$ zufällig aus $1 \leq i \leq p-1$;
+	$g_i :\equiv g^i \pmod p$;
+	if $g_i$ is $B$-glatt then
+		Zerlege $g_i$ in Primfaktoren: $g_i = \prod_{l\leq B} l^{u_l}$;
+		if $i \equiv \sum_{l\leq B} u_l \log_g(l) \pmod{p-1}$ ist kein Vielfaches anderer Gleichungen in GL then 
+			GL $:=$ GL $\cup$ $i \equiv \sum_{l\leq B} u_l \log_g(l) \pmod{p-1}$.
+		endif;
+	endif;
+endwhile;
+
+Löse GL;
+//Ab jetzt sind alle $\log_g(l)$ für $l\leq B$ prim bekannt!
+
+$k := 1$;
+while true do
+	if $h g^{-k}$ is $B$-glatt then
+		Zerlege $h g^{-k}$ in Primfaktoren: $hg^{-k} = \prod_{l\leq B} l^{e_l}$;
+		return $k + \sum_{l\leq B} e_l \log_g(l)$
+	endif
+	$k := k+1$;
+endif;
+\end{lstlisting}
+\end{algorithmus}
+
+\begin{prop}
+	Sei $p>2$ prim und $g \in \F_p$. Dann berechnet die Index-Calculus Methode in
+	\cref{alg:Index-Calculus} korrekt den diskreten Logarithmus $\log_g(h)$ für
+	$h\in \F_p$ mit einer probabilistisch subexponentiellen Laufzeit von $\O(\exp(c
+	\sqrt{(\ln p)(\ln \ln p)}))$, wobei $c > 0$ eine Konstante ist, falls $B$
+	"`sinnvoll"' gewählt wird (vgl. \cref{bem:Index Calculus B sinnvoll}).
+\end{prop}
+\begin{proof}
+	\begin{description}
+	\item[Zur Laufzeit.] Die Laufzeitanalyse basiert auf dem
+		Auffinden von $B$-glatten Relationen, was hier
+		wiederum nicht ausführen werden soll -- stattdessen soll auf \cite[Note
+		3.71]{menezes1996Handbook} verwiesen sein. Eine Übersicht über verschiedene
+		Varianten und deren Laufzeiten findet man mit weiteren Referenzen in
+		\cite[\S~3.12 Abschnitt "`\S~3.6"']{menezes1996Handbook}.
+	\item[Zur Korrektheit.] 
+		Die Grundidee der Index-Calculus-Methode besteht darin, $\log_g(l)$ für
+		kleine Primzahlen $l$ zu berechnen. Denn findet man $k\in \N$, sodass
+		$h g^{-k}$ $B$-glatt ist, also
+		$$h g^{-k} \speq\equiv \prod_{l\leq B\atop l\text{ prim}} l^{e_l} \pmod p,$$
+		so haben wir
+		$$\log_g(h) \speq\equiv k + \sum_{l\leq B\atop l\text{ prim}} e_l \log_g(l)
+		\pmod{p-1}\,.$$
+		Wie man sich leicht überlegt, werden -- genau wie bei seinem kontinuierlichen
+		Pendant über $\R$ oder $\C$ -- aus Produkten im Argument des diskreten
+		Logarithmus Summen von diskreten Logarithmen. Darüber hinaus muss man
+		beachten, dass $\log_g: \F_p^\ast \to \Z_{p-1}$, da $\ord(g) = p-1$. 
+		
+		Nun gilt es also nur noch $\log_g(l)$ für $l\leq B$, $l$ prim zu berechnen.
+		Dazu betreiben wir, wie in \cref{alg:Index-Calculus} beschrieben, lineare
+		Algebra und suchen $B$-glatte $g_i$s der Form
+		$$g_i \speq\equiv g^i \speq\equiv \prod_{l\leq B\atop l\text{ prim}}
+		l^{u_{l_i}}\pmod p\,.$$
+		Dann ist
+		$$i \speq\equiv \sum_{l\leq B\atop l\text{ prim}}
+		u_{l_i} \log_g(l) \pmod{p-1}\,.$$
+		Haben wir genügend gefunden, d.h. mehr als $\pi(B)$ Stück, können wir das
+		Gleichungssystem über $\Z_{p-1}$, durch elementare Zeilenumformungen lösen.
+		Alternativ können wir mit Hilfe des Chinesischen Restsatzes das
+		Gleichungssystem in (Anzahl der Primfaktoren von $p-1$ ohne
+		Vielfachheit)-viele Gleichungssysteme zerlegen, diese mit dem Gaußschen
+		Eliminationsverfahren auf Stufenform bringen, lösen und die Lösungen
+		kombinieren. \cite[Remark 3.56]{hoffstein2008introduction} beschreibt dies
+		etwas genauer.
+		\qedhere
+	\end{description}
+\end{proof}
+
+\begin{bem}
+	Man nennt die Primzahlen $\{2,3,\dots, p_i\}$ mit $p_i \leq B$ auch
+	\emph{Faktorbasis} für die Index-Calculus Methode.
+\end{bem}
+
+\begin{bsp}
+	Seien $p=733$ und $g = 7$. $7$ ist in der Tat eine primitive Wurzel modulo
+	$733$.
+	Wir wollen $\log_7(20)$ berechnen und wählen dazu zunächst $B=5$. Wir finden
+	ein paar (wir brauchen mindestens $3 = \pi(5)$) $B$-glatte Relationen:
+	\begin{alignat*}{5}
+		7^{107} &\speq\equiv& 2^{1}\, &3^{2}\, &5^{2}\qquad&\pmod{733}\,,\\
+		7^{322} &\speq\equiv& \, &3^{1}\, &5^{2}\qquad&\pmod{733}\,,\\
+		7^{531} &\speq\equiv& & &5^{1}\qquad&\pmod{733}\,.
+	\end{alignat*}
+	Damit bekommen wir ein Gleichungssystem, das wir in Matrixform auf Stufenform
+	bringen:
+	$$\begin{pmatrix}
+		1 & 2 & 2 & 107\\
+		0 & 1 & 2 & 322\\
+		0 & 0 & 1 & 531	
+	\end{pmatrix} \speq\sim
+	\begin{pmatrix}
+		1 & 2 & 2 & 107\\
+		0 & 1 & 1 & 523\\
+		0 & 0 & 1 & 531\\
+	\end{pmatrix} \speq\sim 
+	\begin{pmatrix}
+		1 & 0 & 0 & 525\\
+		0 & 1 & 0 & 724\\
+		0 & 0 & 1 & 531\\
+	\end{pmatrix} \,.$$
+	Damit können wir folgern, dass $\log_7(2) = 525$, $\log_7(3) = 724$,
+	$\log_7(5) = 531$.\\
+	Wir finden auch
+	$$20 \cdot 7^{-2} \speq\equiv 150 \speq= 2^1\,3^1\,5^2 \pmod{733}$$
+	und können damit das Ergebnis berechnen:
+	$$\log_7(20) \speq\equiv 2 + \bigg( 1\log_7(2) + 1 \log_7(3) + 2\log_7(3)
+	\bigg) \speq\equiv 117 \pmod{732}\,.$$
+	In der Tat können wir überprüfen, dass $7^{117} \equiv 20 \pmod{733}$. 
+\end{bsp}
+
+\begin{bem}\label{bem:Index Calculus B sinnvoll}
+	Natürlich hängt das Auffinden der Relation von der Verteilung
+	$B$-glatter Zahlen im Intervall $[1,p-1]$ ab. Klar ist jedoch: Wählt man $B$
+	zu klein, finden sich nur wenige; wählt man $B$ zu groß, muss man umso mehr
+	Gleichungen erzeugen. Daher benutzt man heutzutage eher eine Variante, das
+	sog. Zahlkörpersieb, welches eine etwas bessere Laufzeit hat.
+\end{bem}
+
+\begin{bem}\label{bem:index calc in F_q}
+	Wie eingangs erwähnt, kann man dieses Verfahren auf $\F_{p^n}$ für $p$ prim und
+	$n\in \N$ erweitern, indem man
+	$$\F_{p^n} \speq\cong \F_p[X] \big/ (f)$$
+	mit $f\in \F_p[X]$ irreduzibel, $\deg f = n$ benutzt und sich eine Menge aus
+	irreduziblen Polynomen kleinen Grades als Faktorbasis wählt.
+	Verglichen mit Pollards
+	$\rho$-Algorithmus ist dies ungleich besser, aber nicht erweiterbar auf das
+	\probn{ECDLP}. Dies lässt das \probn{DLP} in $\F_{p^n}$ verglichen mit dem
+	\probn{ECDLP} "`leichter"' erscheinen, was auch des Pudels Kern des
+	MOV-Algorithmus im nächsten Kapitel sein wird.
+\end{bem}
+
+\chapter{Der MOV-Angriff}
+\label{chap:mov angriff}
+
+\section{Reduktion des \probn{ECDLP} auf das \probn{DLP} in einem endlichen
+Körper}
+
+\citeauthor*{MOV1993} \cite{MOV1993} veröffentlichten \citeyear{MOV1993}
+einen Artikel, wie man mit Hilfe der Weil-Paarung das \probn{ECDLP} auf ein
+-- möglicherweise einfacheres -- \probn{DLP} in einem endlichen Körper
+zurückführen kann. Dies möchten wir im Folgenden nachvollziehen, wobei wir uns
+erneut an \cite[Abschnitt XI.6]{silverman2009arithmetic} orientieren.
+
+\begin{definition}[Einbettungsgrad]
+	Sei $\F_q$ ein endlicher Körper und $N \in \N^\ast$. Der \emph{Einbettungsgrad
+	von $N$ in $\F_q$} ist die kleinste ganze Zahl $d\geq 1$, sodass
+	$$\mu_N \subset \F_{q^d}^\ast\,.$$
+	
+	Da $\F_{q^d}^\ast$ eine zyklische Gruppe der Ordnung $q^d-1$ ist, lässt sich
+	äquivalent fordern, dass $d$ die kleinste ganze Zahl mit
+	$$q^d \speq\equiv 1 \pmod N$$
+	ist.
+\end{definition}
+
+\begin{lemma} \label{lem:E[N] in F_q^d}
+	Sei $E/\F_q$ eine elliptische Kurve und $N \in \N^\ast$ mit $\ggT(q-1,N) = 1$.
+	Sei weiter $d$ der Einbettungsgrad von $N$ in $\F_q$ und angenommen es gibt
+	einen Punkt in $E(\F_q)$ der Ordnung $N$. Dann ist
+	$$E[N] \subset E(\F_{q^d})\,.$$
+\end{lemma}
+\begin{proof}
+	\newcommand{\frob}{{\phi_q}}
+	Sei $P \in E(\F_q)$ mit $\ord P = N$ und $\phi_q \in \Gal(\bar \F_{q}/\F_q)$
+	der Frobenius-Endomorphismus zu $q$. Sei weiter $T \in E[N]$, sodass $E[N]
+	= \langle T,P \rangle$.
+	Dann haben wir $$P^\frob  = P, \qquad T^\frob = aP + bT\,,$$
+	für geeignete $a,b\in \Z_N$.
+	Mit den Eigenschaften der Weil-Paarung (\cref{prop:Weil-Paarung Eigenschaften})
+	haben wir
+	$$e_N(P,T)^q = e_N(P,T)^\frob = e_N(P^\frob,T^\frob) = e_N(P,aP+bT) =
+	e_N(P,P)^a e_N(P,T)^b = e_N(P,T)^b\,.$$
+	Da $P,T$ Erzeuger von $E[N]$ sind, ist $e_N(P,T)$ eine primitive $N$-te
+	Einheitswurzel (vgl. \cref{kor:weil paarung primitive Wurzel}), es folgt 
+	$$b \speq\equiv q \mod N$$ 
+	und wir können schreiben $T^\frob = aP + qT$.
+	Betrachten wir nun
+	$$T^{\frob^d} \speq= \big(a (1+ q + q^2 + \dots + q^{d-1})\big) P + q^d T.$$
+	Da $T\in E[N]$ und nach Definition des Einbettungsgrades $q^d\equiv 1 \pmod N$,
+	ist $q^d T = T$. Ferner gilt
+	$$\sum_{i=0}^{d-1} q^i \speq\equiv 0 \pmod N\,,$$
+	da $\ggT(q-1, N) = 1$ ist, 
+	und wir haben schließlich
+	$T^{\frob^d} \speq= 0 P +  T \speq= T\,,$
+	was $T \in E(\F_{q^d})$ zeigt.
+\end{proof}
+
+\begin{algorithmus}[Der MOV-Algorithmus]
+\label{alg:MOV}
+	\newcommand{\K}{\F_q}
+	Sei $E/\K$ eine elliptische Kurve.
+\begin{lstlisting}[title=MOV-Algorithmus, frame=t]
+Input:	$P,Q \in E(\K)$ von Ordnung $N$, $N$ prim, mit $\ggT(q-1,N) = 1$ und
+			$d$, den Einbettungsgrad von $N$ in $\K$.
+Output:	Ein DLP $\alpha = \beta^m$ in $\F_{q^d}^\ast$, sodass $Q = \log_\beta(\alpha) \, P$.
+\end{lstlisting}
+\begin{lstlisting}[frame=b, numbers=left]
+Finde $T\in E[N] \subset E(\F_{q^d})$, sodass $E[N] = \langle T,P \rangle$;
+Berechne $\alpha := e_N(Q,T)$;
+Berechne $\beta := e_N(P,T)$;
+return das DLP $\alpha = \beta^m$ in $\F_{q^d}^\ast$;
+\end{lstlisting}
+\end{algorithmus}
+
+\begin{prop}\label{prop:mov alg korrekt}
+	Der MOV-Algorithmus reduziert das \probn{ECDLP} für $P$ und $Q$ in
+	probabilistisch polynomialer Zeit auf ein \probn{DLP} in $\F_{q^d}^\ast$.
+\end{prop}
+\begin{proof}
+	\begin{description}
+	\item[Zur Korrektheit.] Seien $m\in \Z$ mit $Q = mP$ und 
+	$T\in E[N]$, sodass $T$ und $P$ $E[N]$ erzeugen.
+	Dann ist nach \cref{kor:weil paarung primitive Wurzel} $e_N(T,P)$ eine
+	primitive $N$-te Einheitswurzel, also in $\F_{q^d}$ und es gilt
+	$$e_N(Q,T) \speq= e_N(mP,T) \speq= e_N(P,T)^m\,.$$
+	Ist also $m = \log_{e_N(Q,T)}(e_N(P,T))$, so haben wir das \probn{ECDLP} $Q =
+	mP$ gelöst.
+	\item[Zur Laufzeit.] Die Berechnung der Weil-Paarung in den Schritten
+	\texttt{2} und \texttt{3} lässt sich mit Millers Algorithmus
+	(\cref{alg:miller}) und \cref{prop:weil berechnung 2} in Linearzeit bewältigen.
+	Einzig das Auffinden eines zweiten Erzeugers könnte Schwierigkeiten bereiten.
+	Dazu berechnen wir zunächst $n= \# E(\F_{q^d})$ mit \cref{alg:schoof} in
+	Polynomialzeit. Da $$E[N] \cong \Z_N \times \Z_N \subset \Z_{n_1} \times
+	\Z_{n_2} \cong E(\F_{q^d})\,,$$ 
+	Da $N$ in der Regel eine große Primzahl ist, gibt es nur wenige Elemente deren
+	Ordnung $N$ nicht als Primfaktor enthält. Nehmen wir ein $g \in \Z_{n_i}$ mit
+	$N \mid \ord(g)$, so hat $\tfrac{n_i}{N} g$ gerade Ordnung $N$.
+	Damit haben wir gute Chancen, dass
+	$$T = \tfrac{n}{N^2} S$$ Ordnung $N$ hat für
+	beliebiges $S\in E(\F_{q^d})$. In der Tat lässt sich beweisen, dass nach polynomial vielen
+	Versuchen ein Punkt der Ordnung $N$ zu erwarten ist. \qedhere
+	\end{description}
+\end{proof}
+
+
+
+
+\begin{bsp}\label{bsp:mov1}
+	Sei $q = p = 113$ und 
+	$$E/\F_q:\ y^2 + xy \speq= x^3 + 18x + 2\,.$$
+	Des Weiteren seien $P = (38,34)$ und $Q  = (67,38)$ zwei Punkte der Ordnung
+	$N = 11$. Um die Punkte zu finden, habe ich die \texttt{sage}-Methode
+	\texttt{randPointsOfOrder} (\cref{appendix:alg:randPointsOfOrder}) geschrieben.
+	
+	Da wir bisher keine Möglichkeit kennen gelernt haben, den Einbettungsgrad
+	effizient zu berechnen, probieren wir
+	$d=1,2,\dots$ bis $113^d \equiv 1
+	\pmod{11}$ (\cref{appendix:alg:embeddingDegree} zeigt die
+	\texttt{sage}-Umsetzung).
+	Wir finden $d = 5$.
+	
+	Nun können wir die bisherigen Ergebnisse in den MOV-Algorithmus
+	(\cref{alg:MOV}) geben, wobei wir -- wie im Beweis zu \cref{prop:mov alg
+	korrekt} angemerkt -- zufällig Punkte aus $E(\F_{113^5})$ wählen, um einen
+	zweiten Erzeuger für $E[N]$ zu finden.
+	Wir berechnen z.B. mit Schoofs Algorithmus (\cref{alg:schoof}) 
+	$$n \speq= \# E(\F_{113^5}) \speq= 18424131550\,.$$
+	Sei $\F_{113^5}$ erzeugt von $a$, so wählen wir 
+	$$S \speq= (59a^4 + 52a^3 + 98a^2 + 92a + 110, 34a^4 + 86a^3 + 59a^2 +
+	6a + 74,) \ \in E(\F_{113^5})$$ 
+	zufällig aus und berechnen
+	$$ T \speq= \tfrac{18424131550}{121} S \speq= (59a^4 + 52a^3 + 37a^2 + 64a + 8, 
+		42a^4 + 48a^3 + 65a^2 + 47a + 75)\,.$$
+	Weiter berechnen wir die Weil-Paarungen
+	\begin{alignat*}{3}
+		\alpha &\speq= e_N(Q,T) \speq= 112a^4 + 18a^3 + 102a^2 + 9a +19 
+			\quad&\in\F_{113^5} \\
+		\beta &\speq= e_N(P,T) \speq= 59a^4 + 12a^3 + 54a^2 + 19a + 57
+			\quad&\in\F_{113^5} 
+	\end{alignat*}  
+	und lösen letztlich das \probn{DLP} $\alpha=\beta^m$ in $\F_{113^5}^\ast$,
+	beispielsweise mit Pollards $\rho$-Algorithmus (\cref{alg:Pollard Rho}).
+	Dies ergibt
+	$$m = 7\,.$$
+	In der Tat können wir verifizieren, dass $7 P = Q$.
+	Wiederum wurden alle Berechnungen in \texttt{sage} umgesetzt:
+	\cref{appendix:alg:mov alg 1}. Zur Vereinfachung löst diese Methode bereits das
+	\probn{DLP} in $\F_{q^d}^\ast$, was im eigentlichen MOV-Algorithmus ja nicht
+	der Fall ist.
+\end{bsp}
+
+
+\begin{bem}
+	In der Regel wächst der Einbettungsgrad $d$ proportional zu $N$, also
+	exponentiell in $\ln q$, d.h.
+	ein
+	\probn{DLP} in $\F_{q^d}$ lässt sich zwar schneller lösen als ein \probn{ECDLP}
+	für eine elliptische Kurve über $\F_{q^d}$, doch müssen wir ja das
+	\probn{ECDLP} "`nur"' für eine elliptische Kurve über $\F_q$ lösen! Das
+	bedeutet, dass der MOV-Algorithmus in der Regel das Problem eher schwieriger
+	macht, als leichter (siehe \cite[Remark XI.6.3]{silverman2009arithmetic} für
+	Referenzen zu einem Beweis des exponentiellen Wachstums).
+\end{bem}
+
+
+\section{Anwendung auf supersinguläre elliptische Kurven}
+Es gibt jedoch für gewisse elliptische Kurven einen Ausweg, der den MOV-Angriff
+interessant werden lässt.
+
+Wiederum sei im Folgenden stets $q = p^n$ für eine Primzahl $p$ und eine
+natürliche Zahl $n$.
+
+\begin{definition}[supersingulär]\label{def:supersingular}
+	Eine elliptische Kurve $E/\F_q$ 
+	heißt \emph{supersingulär}, falls gilt
+	$$E[p] \speq= \{O\}\,.$$
+\end{definition}
+
+\begin{prop}\label{prop:eq supersingular}
+	Sei $E/\F_q$ eine elliptische Kurve und $\#E(\F_q) = q+1-a_q$ wie in
+	\cref{prop:schoof 1}. $E$ ist supersingulär nach \cref{def:supersingular} genau
+	dann, wenn
+	$$a_q \speq\equiv 0 \pmod p\,.$$
+\end{prop}
+\begin{proof}
+	\cite[Proposition 4.31]{washington2003elliptic}.
+\end{proof}
+
+
+% \begin{kor}\label{kor:supersingular}
+% 	Sei $p\geq 5$ eine Primzahl und $E/\F_p$ eine
+% 	elliptische Kurve.
+% 	Dann ist $E$ genau dann supersingulär, falls gilt
+% 	$$\# E(\F_p) \speq= p+1\,,$$
+% 	mit anderen Worten genau dann, falls $a_p = 0$.
+% \end{kor}
+% \begin{proof}
+% 	Ist $a_p = 0$, dann ist $E$ nach \cref{prop:eq supersingular} supersingulär.\\
+% 	Nehmen wir an, $a_p \neq 0$ mit $a_p \equiv 0 \pmod p$. Damit ist $|a_p| \geq
+% 	p$ und nach Hasse (\cref{prop:Hasse}) gilt $|a_q| \leq 2\sqrt q$. Wir haben also
+% 	$$p \leq a_q \leq |a_p| \leq 2\sqrt p\,.$$
+% 	Ergo $p \leq 4$.
+% \end{proof}
+
+
+\begin{prop}\label{prop:supersingular embedding degree}
+	Sei $E/\F_q$ eine elliptische Kurve und $a_q = q+1-\# E(\F_q) = 0$. Sei weiter
+	$N\in\N^\ast$. Falls ein Punkt $P\in E(\F_q)$ existiert mit $\ord P = N$, so
+	gilt
+	$$E[N] \subseteq E(\F_{q^2})\,.$$ 
+\end{prop}
+\begin{proof}
+	Wir haben $\# E(\F_q) = q+1$. Die Existenz eines Punktes der Ordnung $N$
+	impliziert somit $N\mid q+1$, also $-q \equiv 1 \pmod N$. Nach
+	\cref{prop:schoof 1} gilt für den Frobenius-Endomorphismus $\phi_q$ zu $q$
+	$$\phi_q^2 - a_q \phi_q + q = 0\,.$$
+	In unserem Fall vereinfacht sich dies zu
+	$\phi_q^2 = -q\,.$
+	Sei nun $S\in E[N]$, so gilt
+	$$\phi_q^2(S) \speq= -q S \speq= S\,.$$
+	$\phi_q^2$ können wir aber auch als $\phi_{q^2}$ auffassen und haben dann mit 
+	\cref{prop:frob} $S\in E(\F_{q^2})$.
+\end{proof}
+
+\begin{bem}
+	Für eine supersinguläre elliptische Kurve mit $a_q \neq 0$ ist der
+	Einbettungsgrad gegebenenfalls größer, aber immernoch akzeptabel. Ausführlich
+	wird dies in \cite{MOV1993} diskutiert, wo man auch eine
+	Übersicht über alle auftretenden Möglichkeiten findet. Wir beschränken uns hier
+	aber auf die einfache Variante.
+\end{bem}
+
+\begin{algorithmus}[Der MOV-Algorithmus für supersinguläre Kurven.]
+\label{alg:MOV supersingular}
+\newcommand{\K}{\F_q}
+Sei $E/\K$ eine supersinguläre elliptische Kurve mit $q = p^l$, $p$ prim und
+$l\in \N^\ast$.
+\begin{lstlisting}[title=MOV-Algorithmus-Supersingulär, frame=t]
+Input:	$P,Q \in E(\K)$ von Ordnung $N$, $N$ prim, mit $\ggT(q-1,N) = 1$
+Output:	Ein DLP $\alpha = \beta^m$ in $\F_{q^2}^\ast$, sodass $Q =
+\log_\beta(\alpha) \, P$.
+\end{lstlisting}
+\begin{lstlisting}[frame=b, numbers=left]
+while true do
+	Berechne $n = \# E(\F_{q^2})$;
+	Wähle $S$ zufällig aus $E(\F_{q^2})$;
+	$T := \frac{n}{N^2} S$; 
+	Berechne $\alpha := e_N(Q,T)$;
+	Berechne $\beta := e_N(P,T)$;
+	if $\alpha \neq 1$ and $\beta \neq 1$ then
+		return das DLP $\alpha = \beta^m$ in $\F_{q^2}^\ast$;
+	endif;
+endwhile;
+\end{lstlisting}
+\end{algorithmus}
+
+\begin{satz}\label{MOV supersingular korrekt}
+	\cref{alg:MOV supersingular} reduziert das \probn{ECDLP} einer
+	supersingulären elliptischen Kurve über $\F_{q}$ korrekt in
+	probabilistisch polynomialer Zeit auf ein \probn{DLP} in $\F_{q^2}^\ast$.
+\end{satz}
+\begin{proof}
+	Nach \cref{prop:supersingular embedding degree}
+	kennen wir den Einbettungsgrad für gegebene Bedingungen. Alles Weitere wurde schon in
+	\cref{prop:mov alg korrekt} gezeigt.
+\end{proof}
+
+\begin{bsp}
+	Betrachten wir
+	$$E/\F_{19}:\ y^2 \speq= x^3 + 9x\,,$$
+	$N = 5$ und zwei Punkte 
+	$$P= (11,9), \quad Q = (4,10) \ \in E(\F_{19})[5]\,.$$
+	Wir wählen wieder $a$ als Erzeuger von $\F_{19^2}$ und versuchen unser Glück
+	mit
+	$$T \speq= \tfrac{400}{25}  (10a + 1, 4a + 11) \speq= (18a + 10, 7a + 16)\,.$$
+	Mit Millers Algorithmus (\cref{alg:miller}) berechnen wir
+	\begin{alignat*}{3}
+		\alpha &\speq= e_5 (Q,T) &\speq=& 15a + 9 \quad & \in \F_{19^2}\,,\\
+		\beta &\speq= e_5 (P,T) &\speq=& a + 11 \quad & \in \F_{19^2}\,.
+	\end{alignat*}
+	Schließlich lösen wir $\log_\alpha(\beta) = 3$ in subexponentieller Laufzeit
+	mit der Index-Calculus Methode aus \cref{sec:index-calc} und können in der
+	Tat feststellen, dass $Q = 3 P$.
+\end{bsp}
+
+\begin{bem}
+	Man könnte in \cref{alg:MOV supersingular} die Suche nach dem Punkt $T$
+	vereinfachen. Nach \cite[Table 1]{MOV1993} ist 
+	$$E(\F_{q^2}) \cong \Z_{q+1} \times \Z_{q+1}\,,$$ 
+	falls $\# E(\F_q) = q+1$. So bräuchte man nicht erst die Kardinalität von
+	$E(\F_{q^2})$ berechnen und könnte Zeile \texttt{4} umschreiben zu
+	$$T \speq{:=} \frac{q+1}{N} S\,.$$
+\end{bem}
+
+
+\chapter{Fazit / Ausblicke}
+Resümieren wir einmal kurz den Inhalt der Arbeit: Wir haben begonnen den Begriff
+elliptische Kurve auf ein algebraisch untermauertes Fundament zu stellen, wozu
+wir ein paar Begriffe aus der algebraischen Geometrie brauchten. Anschließend
+führten wir das Konzept der Divisoren ein, um mit ihrer Hilfe die Verbindung zu
+schlagen zwischen dem geometrischen Konzept der Addition von Punkten auf
+elliptischen Kurven und der algebraischen Addition, welche durch die spezielle
+Darstellungsmöglichkeit von Divisoren auf elliptischen Kurven daherkommt.
+
+Danach
+haben wir den Kern dieser Arbeit kennen gelernt: Die Weil-Paarung. Die Idee, mit
+ihrer Hilfe das \probn{ECDLP} auf ein \probn{DLP} über einem endlichen Körper
+zurückzuführen, sollte die weiteren Abschnitte motivieren: Spezielle
+Eigenschaften elliptischer Kurven über endlichen Körpern, die konkrete
+Berechnung der Weil-Paarung nach Miller, ein Ausflug in die Elliptic Curve
+Cryptography und schließlich Algorithmen zum \probn{(EC)DLP}, wo wir klar
+gesehen haben, dass die diskrete Logarithmenberechnung in endlichen Körpern
+weitaus effektiver gestaltet werden kann.
+
+Mit diesem Wissen haben wir abschließend den MOV-Algorithmus besprochen, um eben
+gerade diesen Vorteil für das \probn{ECDLP} nutzbar zu machen -- was
+supersinguläre elliptische Kurven unbrauchbar für die Kryptographie macht. Eine
+Tatsache, die man vor 1993 sicherlich noch nicht berücksichtigt hätte.
+
+Ein Aspekt von Paarungen, den wir hier nicht angesprochen haben, ist die
+Konstruktion von Kryptosystemen, mit deren Hilfe man zwischen \emph{drei}
+Parteien Daten sicher austauschen kann. Dies findet man beispielsweise in
+\cite[Section 9.6]{washington2003elliptic}. Ebenso lassen sich Dokumente mit
+Hilfe der Weil-Paarung signieren, was z.B. kurz in \cite[Theorem
+XI.7.4]{silverman2009arithmetic} beschrieben wird.
+
+Die Weil-Paarung ist jedoch nicht die einzige Paarung, welche interessante
+Eigenschaften hat. Neben ihr bietet die \emph{Tate-Lichtenbaum-Paarung} (welche
+über die Weil-Paarung definiert wird) eine Möglichkeit, unter anderen
+Voraussetzungen -- insbesondere kann man auf die Supersingularität verzichten --
+das \probn{ECDLP} in ein \probn{DLP} über einem endlichen Körper zu
+transferieren. Dies ist unter dem Namen \emph{Frey-Rück-Angriff} bekannt und
+z.B. in \cite[Section 5.3.2]{washington2003elliptic} beschrieben.
+
+Darüber hinaus gibt es bis heute keine Algorithmen subexponentieller Laufzeit,
+um das \probn{ECDLP} im allgemeinen Fall zu lösen, wobei die Forschungen dazu
+noch nicht aufgegeben wurden (siehe z.B. \cite[Section
+5.5]{washington2003elliptic} für einen kurzen Überblick).
+Dies macht elliptische Kurven in der kryptographischen Anwendung
+immernoch attraktiv. Beispielsweise dauerte das Lösen eines
+\probn{ECDLP}s über $\F_p$ mit $p$ einer 112-bit Primzahl in einem Versuch
+2009 etwa 3.5 Monate (siehe \cite{recplaystationecdlp}). In $\F_q^\ast$ mit $q =
+2^{613}$ dagegen löste man 2005 ein \probn{DLP} in 17 Tagen
+(siehe \cite{recdlp}). Die beiden Berechnungen wurden zwar nicht auf
+vergleichbaren Systemen durchgeführt, zeigen aber klar, dass es in Zukunft
+weiter nach effizienteren Algorithmen zur Berechnung von diskreten Logarithmen auf
+elliptischen Kurven zu suchen gilt.
+
+\appendix
+\lstset{
+	mathescape = true,
+	basicstyle = \small\normalfont\ttfamily,
+	frame = none,
+%	framexleftmargin = 10pt,
+	numbers = left,
+	numberstyle = \tiny,
+%	numbersep = 5pt,
+	breaklines = true,
+	xleftmargin = 15pt,
+	xrightmargin = 0\linewidth,
+	tabsize=3,
+	columns=fixed
+	language=Python
+}
+\chapter{Quellcodes}
+\begin{algorithmus}[Pollards $\rho$-Algorithmus für \cref{bsp:Pollard rho}]
+\label{appendix:alg:Polard rho}
+\makebox{\\} \begin{lstlisting}
+def pollard(x,y):
+	print "Finde Lösung des ECDLP m*x = y für x =",x,", y =",y
+	n = x.order();
+	a=0;
+	b=0;
+	z=E[0];
+	c=0;
+	d=0;
+	w=E[0];
+	for i in range(0,50):
+	    print "Iteration ",i
+	    [a,b] = nextIndices(z,a,b,n);
+	    z = f(z,x,y);
+	    print "z = ",z," with [a,b] = ",[a,b]
+	    
+	    [c,d] = nextIndices(w,c,d,n);
+	    w = f(w,x,y);
+	    [c,d] = nextIndices(w,c,d,n);
+	    w = f(w,x,y);
+	    
+	    print "w = ",w," with [c,d] = ",[c,d]
+	    
+	    if z == w:
+	        print "Kollision gefunden!"
+	        ggT = gcd(Integer(d-b),n);
+	        print "ggT(d-b,n) = ", ggT
+	        if ggT == n:
+	            print "ERROR!"
+	        else:
+	            print "m = ", Mod((a-c)/(d-b),n)
+	        break;
+
+def f(P,x,y):
+    m  = Integer(P[0])%3;
+    if m == 0:
+        return P+x;
+    if m == 1:
+        return 2*P;
+    if m == 2:
+        return P+y;
+def nextIndices(P,a,b,n):
+    m  = Integer(P[0])%3;
+    if m == 0:
+        return [(a+1)%n,b%n];
+    if m == 1:
+        return [(2*a)%n,(2*b)%n];
+    if m == 2:
+        return [a%n,(b+1)%n];
+\end{lstlisting}
+\end{algorithmus}
+
+
+\begin{algorithmus}[Idee zu Schoofs-Algorithmus für \cref{bsp:schoof}]
+\label{appendix:alg:schoof}
+\makebox{\\} \begin{lstlisting}
+def schoof(E,q):
+    l = 0;
+    A = 1;
+    while A < 4*sqrt(q):
+        l = next_prime(l);
+        lTorsionPoints = E(0).division_points(l);
+        torsionCount = len(lTorsionPoints);
+        if torsionCount == 1: continue;
+        A = A*l;
+        found = false;
+        for j in range(1,torsionCount):
+            if found: break;
+            P = lTorsionPoints[j];
+            for i in range(l-1):
+                if found: break;
+                tmp = E(P[0]^(q^2), P[1]^(q^2)) - i*E(P[0]^q, P[1]^q) + q*P;
+                if tmp == E(0):
+                    print "prime l=",l, " n_l = ",i, " P = ",P;
+                    found = true;
+\end{lstlisting}
+\end{algorithmus}
+
+\begin{algorithmus}[Algorithmus zum Auffinden
+ von Punkten gegebener Ordnung. Vgl. \cref{bsp:mov1}]
+\label{appendix:alg:embeddingDegree}
+\makebox{\\}
+\begin{lstlisting}
+# finds random points P,Q with order N (N prime) on Ecurve
+# Q is a multiple of P
+def randPointsOfOrder(Ecurve, N):
+    gens = Ecurve.gens();
+    P = gens[0];
+    n = P.order()
+    if n >= N: P = int(n/gcd(n,N))*P;
+    else:
+        Q = gens[1];
+        n = Q.order();
+        P = int(n/gcd(n,N))*Q;
+    return P, randint(1,N-1)*P
+\end{lstlisting}
+\end{algorithmus}
+
+\begin{algorithmus}[Algorithmus zum Auffinden des Einbettungsgrades.
+Vgl. \cref{bsp:mov1}]
+\label{appendix:alg:randPointsOfOrder}
+\makebox{\\}
+\begin{lstlisting}
+def embeddingDegree(N,q):
+    for d in range(1,N+1):
+        if Mod(q^d,N) == 1:
+            return d;
+    print "embedding degree not found for N=",N, " , q = ",q
+    raise ValueError;
+\end{lstlisting}
+\end{algorithmus}
+
+\pagebreak
+
+\begin{algorithmus}[MOV-Algorithmus.
+Vgl. \cref{bsp:mov1}]
+\label{appendix:alg:mov alg 1}
+\makebox{\\}
+\begin{lstlisting}
+def mov_alg(Ecurve, q, P, Q, N, d, info=False):
+    #trivial cases
+    if Q.is_zero(): 
+        if info: print "trivial case: Q == O";
+        return 0;
+    if P == Q: 
+        if info: print "trivial case: Q == P";
+        return 1;
+    #x(P) = x(Q) iff P = -Q
+    if P[0] == Q[0]: 
+        if info: print "trivial case: Q == -P";
+        return N-1;
+    #change Field
+    Ecurve_changed = Ecurve.change_ring(GF(q^d,'a'));
+    n = Ecurve_changed.cardinality();
+    if info: print "Ecurve_changed has cardinality n = ", n
+    while True:
+        #find other point of order N
+        S = Ecurve_changed.random_point();
+        T = int(n/N^2)*S;
+        if info: print "try point T = ", T, ", which is ",n,"/",N^2,"*",S;
+        #compute weil-pairings
+        alpha = Ecurve_changed(Q).weil_pairing(T,N);
+        beta = Ecurve_changed(P).weil_pairing(T,N);
+        if info: print "weil-pairings computed: e_N(Q,T) = ", alpha, " e_N(P,T) = ", beta;
+        #compute log in F_(q^d)
+        k = alpha.log(beta);
+        if info: print "alpha.log(beta) = ", k;
+        #check if all is good. If not, T had order less than N, so try again.
+        if Q == k*P: return k;
+\end{lstlisting}
+\end{algorithmus}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \pagebreak
+% \pagestyle{empty}
+% 
+% \chapter*{Fragen 2012-06-19}
+% 
+% \paragraph{Rechenregeln $\div()$. $\checkmark$}
+% Hauptsächlich betreffend Konstruktion der Weil-Paarung,
+% \cite[S.93]{silverman2009arithmetic} und \cite[S. 44]{nikolayzik2007dipl}
+% $$\div(f \comp n) \speq{=} n \left( \sum_{R\in E[n]} [T' + R]\right) - n \left(
+% 	\sum_{R\in E[n]} [R]\right) \speq{=} \div(g^n) \,.$$
+% Also insbesondere:
+% \begin{itemize}
+%   \item $\div(g^n) = n \div(g)$
+%   \item $\div(f \comp g) = ?$
+% \end{itemize}
+% 
+% \paragraph{Zusammenhang zwischen Nullstellen-/Polordnung und
+% $\ord_P(f)$. $\checkmark$} Dazu
+% \begin{itemize}
+%   \item \cite[Example 1.8]{silverman2009arithmetic} $X^3 \in M_P^2$
+%   \item \cite[Examples 3.2, 3.3]{silverman2009arithmetic}
+% \end{itemize}
+% 
+% \chapter*{Fragen 2012-08-28}
+% \paragraph{Zu \cref{prop:Weil-Paarung durch Divisoren wohldefiniert}}
+% 	$f^n$ im Gegensatz zu $f$ in \cite[Proposition 5]{miller2004WeilPairing}.
+% 
+% \paragraph{Zu \cref{satz:Weil-Paarung Gleichheit}}
+% 	\begin{align*}
+% 		\div(c_1) &= \div(g_P \comp \tau_{Q'+R}) + \div(g_Q) -
+% 			\div(g_P\comp \tau_R) - \div(g_Q \comp \tau_{P'}) \\
+% 			&= \sum_{S\in E[n]} ( \divp{S+P'-Q'-R} - \divp{S - Q'-R}  \\
+% 				&\quad+ \divp{S+Q'+R} - \divp{S+R}\\
+% 				&\quad- \divp{S+P'-R} + \divp{S - R}\\
+% 				&\quad- \divp{S+Q'+R - P'} + \divp{S+R - P'})\\
+% 			&\neq 0
+% 	\end{align*}
+% 	
+% 	Analog $\div(c_2)$.
+
+
+
+
+\nocite{*}
+\bibliographystyle{dinat}
+\bibliography{bib}
+
+\end{document}
